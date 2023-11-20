@@ -1,0 +1,26 @@
+{
+	"Button": {
+	  "prefix": "btn",
+	  "body": [
+		"<a",
+		"  class=\"inline-flex gap-2 items-center transition-all rounded-lg border border-${1|primary,secondary,accent,card,background,error,success,warning|}  bg-${1:primary} ${2|btn-xs,btn-sm,btn-base,btn-lg,btn-xl|} font-medium text-${3|card,text|} hover:bg-transparent hover:text-${1:primary} focus:outline-none focus:ring active:text-${1:primary}\"",
+		"  href=\"#\"",
+		">",
+		"   ${4|Button Text,<i class='fa-solid fa-heart'></i>Text|}",
+		"</a>"
+	  ],
+	  "description": "Create a button with a choice of color from the color palette"
+	},
+	"Button outline": {
+		"prefix": "btnOutline",
+		"body": [
+			"<a",
+		"	class=\"inline-flex gap-2 items-center rounded-lg border transition-all border-${1|primary,secondary,accent,card,background,error,success,warning|}  ${2|btn-xs,btn-sm,btn-base,btn-lg,btn-xl|} font-medium text-${1:primary} hover:bg-${1:primary} hover:text-${3|card,text|} focus:outline-none focus:ring active:${1:primary}\"",
+		"href=\"#\"",
+		  ">",
+		  	"${4|Button Text,<i class='fa-solid fa-heart'></i>Text|}",
+		  "</a>"
+		],
+		"description": "Create a button with a choice of color from the color palette"
+	  }
+  }
