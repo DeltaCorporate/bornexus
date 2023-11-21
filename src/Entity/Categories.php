@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoriesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,9 +22,19 @@ class Categories
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?int $company_id = null;
+    #[ORM\ManyToOne(inversedBy: 'categories')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Companies $company = null;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Products::class)]
+    private Collection $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
+    #[ORM\Column]
     public function getId(): ?int
     {
         return $this->id;
@@ -52,15 +64,46 @@ class Categories
         return $this;
     }
 
-    public function getCompanyId(): ?int
+    public function getCompany(): ?Companies
     {
-        return $this->company_id;
+        return $this->company;
     }
 
-    public function setCompanyId(int $company_id): static
+    public function setCompany(?Companies $company): static
     {
-        $this->company_id = $company_id;
+        $this->company = $company;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Products>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Products $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Products $product): static
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
