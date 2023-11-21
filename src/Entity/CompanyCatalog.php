@@ -63,4 +63,5 @@ class CompanyCatalog
 
         return $this;
     }
+
 }
