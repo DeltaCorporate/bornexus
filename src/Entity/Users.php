@@ -44,8 +44,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $zip = null;
 
-    #[ORM\Column]
-    private ?int $company_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $verification_token = null;
@@ -58,6 +56,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Companies $company = null;
 
     public function getId(): ?int
     {
@@ -189,17 +191,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCompanyId(): ?int
-    {
-        return $this->company_id;
-    }
-
-    public function setCompanyId(int $company_id): static
-    {
-        $this->company_id = $company_id;
-
-        return $this;
-    }
 
     public function getVerificationToken(): ?string
     {
@@ -261,5 +252,17 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function setUpdatedAtAuto(): void {
         $this->setUpdatedAt(new \DateTimeImmutable());
+    }
+
+    public function getCompany(): ?Companies
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Companies $company): static
+    {
+        $this->company = $company;
+
+        return $this;
     }
 }

@@ -14,42 +14,20 @@ class BillingsCompanyCatalog
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $billing_id = null;
-
-    #[ORM\Column]
-    private ?int $company_catalog_id = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
     private ?string $discount = null;
+
+    #[ORM\ManyToOne(inversedBy: 'billingsCompanyCatalogs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Billings $billing = null;
+
+    #[ORM\ManyToOne(inversedBy: 'billingsCompanyCatalogs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CompanyCatalog $company_catalog = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getBillingId(): ?int
-    {
-        return $this->billing_id;
-    }
-
-    public function setBillingId(int $billing_id): static
-    {
-        $this->billing_id = $billing_id;
-
-        return $this;
-    }
-
-    public function getCompanyCatalogId(): ?int
-    {
-        return $this->company_catalog_id;
-    }
-
-    public function setCompanyCatalogId(int $company_catalog_id): static
-    {
-        $this->company_catalog_id = $company_catalog_id;
-
-        return $this;
     }
 
     public function getDiscount(): ?string
@@ -60,6 +38,30 @@ class BillingsCompanyCatalog
     public function setDiscount(string $discount): static
     {
         $this->discount = $discount;
+
+        return $this;
+    }
+
+    public function getBilling(): ?Billings
+    {
+        return $this->billing;
+    }
+
+    public function setBilling(?Billings $billing): static
+    {
+        $this->billing = $billing;
+
+        return $this;
+    }
+
+    public function getCompanyCatalog(): ?CompanyCatalog
+    {
+        return $this->company_catalog;
+    }
+
+    public function setCompanyCatalog(?CompanyCatalog $company_catalog): static
+    {
+        $this->company_catalog = $company_catalog;
 
         return $this;
     }

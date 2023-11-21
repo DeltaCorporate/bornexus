@@ -21,12 +21,6 @@ class Products
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?int $category_id = null;
-
-    #[ORM\Column]
-    private ?int $supplier_id = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
     private ?int $price = null;
 
@@ -44,6 +38,19 @@ class Products
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categories $category = null;
+
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Companies $company = null;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Suppliers $supplier = null;
 
     public function getId(): ?int
     {
@@ -70,30 +77,6 @@ class Products
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCategoryId(): ?int
-    {
-        return $this->category_id;
-    }
-
-    public function setCategoryId(int $category_id): static
-    {
-        $this->category_id = $category_id;
-
-        return $this;
-    }
-
-    public function getSupplierId(): ?int
-    {
-        return $this->supplier_id;
-    }
-
-    public function setSupplierId(int $supplier_id): static
-    {
-        $this->supplier_id = $supplier_id;
 
         return $this;
     }
@@ -182,5 +165,42 @@ class Products
      */
     public function setUpdatedAtAuto(): void {
         $this->setUpdatedAt(new \DateTimeImmutable());
+    }
+
+    public function getCategory(): ?Categories
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Categories $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+
+    public function getCompany(): ?Companies
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Companies $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getSupplier(): ?Suppliers
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Suppliers $supplier): static
+    {
+        $this->supplier = $supplier;
+
+        return $this;
     }
 }

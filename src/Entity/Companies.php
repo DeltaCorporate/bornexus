@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompaniesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -56,6 +58,34 @@ class Companies
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Users::class)]
+    private Collection $users;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Suppliers::class)]
+    private Collection $suppliers;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Categories::class)]
+    private Collection $categories;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyCatalog::class)]
+    private Collection $companyCatalogs;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Products::class)]
+    private Collection $products;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Billings::class)]
+    private Collection $billings;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->suppliers = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->companyCatalogs = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->billings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -242,5 +272,185 @@ class Companies
      */
     public function setUpdatedAtAuto(): void {
         $this->setUpdatedAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(Users $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Users $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCompany() === $this) {
+                $user->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Suppliers>
+     */
+    public function getSuppliers(): Collection
+    {
+        return $this->suppliers;
+    }
+
+    public function addSupplier(Suppliers $supplier): static
+    {
+        if (!$this->suppliers->contains($supplier)) {
+            $this->suppliers->add($supplier);
+            $supplier->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupplier(Suppliers $supplier): static
+    {
+        if ($this->suppliers->removeElement($supplier)) {
+            // set the owning side to null (unless already changed)
+            if ($supplier->getCompany() === $this) {
+                $supplier->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Categories>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categories $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getCompany() === $this) {
+                $category->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompanyCatalog>
+     */
+    public function getCompanyCatalogs(): Collection
+    {
+        return $this->companyCatalogs;
+    }
+
+    public function addCompanyCatalog(CompanyCatalog $companyCatalog): static
+    {
+        if (!$this->companyCatalogs->contains($companyCatalog)) {
+            $this->companyCatalogs->add($companyCatalog);
+            $companyCatalog->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyCatalog(CompanyCatalog $companyCatalog): static
+    {
+        if ($this->companyCatalogs->removeElement($companyCatalog)) {
+            // set the owning side to null (unless already changed)
+            if ($companyCatalog->getCompany() === $this) {
+                $companyCatalog->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Products>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Products $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Products $product): static
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getCompany() === $this) {
+                $product->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Billings>
+     */
+    public function getBillings(): Collection
+    {
+        return $this->billings;
+    }
+
+    public function addBilling(Billings $billing): static
+    {
+        if (!$this->billings->contains($billing)) {
+            $this->billings->add($billing);
+            $billing->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilling(Billings $billing): static
+    {
+        if ($this->billings->removeElement($billing)) {
+            // set the owning side to null (unless already changed)
+            if ($billing->getCompany() === $this) {
+                $billing->setCompany(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BillingsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,12 +19,6 @@ class Billings
 
     #[ORM\Column(length: 25)]
     private ?string $status = null;
-
-    #[ORM\Column]
-    private ?int $user_id = null;
-
-    #[ORM\Column]
-    private ?int $company_id = null;
 
     #[ORM\Column(length: 25)]
     private ?string $type = null;
@@ -42,6 +38,22 @@ class Billings
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'billings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Companies $company = null;
+
+    #[ORM\OneToMany(mappedBy: 'billing', targetEntity: BillingsCompanyCatalog::class)]
+    private Collection $billingsCompanyCatalogs;
+
+    #[ORM\ManyToOne(inversedBy: 'billings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
+
+    public function __construct()
+    {
+        $this->billingsCompanyCatalogs = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,30 +67,6 @@ class Billings
     public function setStatus(string $status): static
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
-    public function getCompanyId(): ?int
-    {
-        return $this->company_id;
-    }
-
-    public function setCompanyId(int $company_id): static
-    {
-        $this->company_id = $company_id;
 
         return $this;
     }
@@ -167,5 +155,59 @@ class Billings
      */
     public function setUpdatedAtAuto(): void {
         $this->setUpdatedAt(new \DateTimeImmutable());
+    }
+
+    public function getCompany(): ?Companies
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Companies $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BillingsCompanyCatalog>
+     */
+    public function getBillingsCompanyCatalogs(): Collection
+    {
+        return $this->billingsCompanyCatalogs;
+    }
+
+    public function addBillingsCompanyCatalog(BillingsCompanyCatalog $billingsCompanyCatalog): static
+    {
+        if (!$this->billingsCompanyCatalogs->contains($billingsCompanyCatalog)) {
+            $this->billingsCompanyCatalogs->add($billingsCompanyCatalog);
+            $billingsCompanyCatalog->setBilling($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBillingsCompanyCatalog(BillingsCompanyCatalog $billingsCompanyCatalog): static
+    {
+        if ($this->billingsCompanyCatalogs->removeElement($billingsCompanyCatalog)) {
+            // set the owning side to null (unless already changed)
+            if ($billingsCompanyCatalog->getBilling() === $this) {
+                $billingsCompanyCatalog->setBilling(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
+
+        return $this;
     }
 }
