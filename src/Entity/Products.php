@@ -6,6 +6,7 @@ use App\Repository\ProductsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Products
 {
@@ -167,5 +168,19 @@ class Products
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+     /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtAuto(): void {
+        $this->setCreatedAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtAuto(): void {
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 }

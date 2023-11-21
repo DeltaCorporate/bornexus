@@ -6,6 +6,7 @@ use App\Repository\CompaniesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CompaniesRepository::class)]
 class Companies
 {
@@ -51,7 +52,7 @@ class Companies
     private ?string $tva_reason = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdÃ_at = null;
+    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
@@ -205,14 +206,14 @@ class Companies
         return $this;
     }
 
-    public function getCreatedÃAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->createdÃ_at;
+        return $this->created_at;
     }
 
-    public function setCreatedÃAt(\DateTimeImmutable $createdÃ_at): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->createdÃ_at = $createdÃ_at;
+        $this->created_at = $created_at;
 
         return $this;
     }
@@ -227,5 +228,19 @@ class Companies
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+     /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtAuto(): void {
+        $this->setCreatedAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtAuto(): void {
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 }

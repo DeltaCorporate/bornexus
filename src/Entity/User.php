@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -29,32 +29,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 45, nullable: true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 45, nullable: true)]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 5,nullable: true)]
-    private ?string $zip = null;
-
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 2)]
     private ?string $country = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $zip = null;
 
     #[ORM\Column]
     private ?int $company_id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(length: 255)]
     private ?string $verification_token = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $verified_at = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $verified_at = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
@@ -165,18 +165,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getZip(): ?int
-    {
-        return $this->zip;
-    }
-
-    public function setZip(?int $zip): static
-    {
-        $this->zip = $zip;
-
-        return $this;
-    }
-
     public function getCountry(): ?string
     {
         return $this->country;
@@ -185,6 +173,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCountry(string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getZip(): ?string
+    {
+        return $this->zip;
+    }
+
+    public function setZip(?string $zip): static
+    {
+        $this->zip = $zip;
 
         return $this;
     }
@@ -206,9 +206,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->verification_token;
     }
 
-    public function setVerificationToken(?string $verification_token): static
+    public function setVerificationToken(string $verification_token): static
     {
         $this->verification_token = $verification_token;
+
+        return $this;
+    }
+
+    public function getVerifiedAt(): ?\DateTimeImmutable
+    {
+        return $this->verified_at;
+    }
+
+    public function setVerifiedAt(?\DateTimeImmutable $verified_at): static
+    {
+        $this->verified_at = $verified_at;
 
         return $this;
     }
@@ -225,18 +237,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getVerifiedAt(): ?\DateTimeImmutable
-    {
-        return $this->verified_at;
-    }
-
-    public function setVerifiedAt(\DateTimeImmutable $verified_at): static
-    {
-        $this->verified_at = $verified_at;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updated_at;
@@ -249,5 +249,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-  
+        /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtAuto(): void {
+        $this->setCreatedAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtAuto(): void {
+        $this->setUpdatedAt(new \DateTimeImmutable());
+    }
 }

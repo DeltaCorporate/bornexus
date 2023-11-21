@@ -6,6 +6,7 @@ use App\Repository\BillingsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BillingsRepository::class)]
 class Billings
 {
@@ -152,5 +153,19 @@ class Billings
         $this->created_at = $created_at;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtAuto(): void {
+        $this->setCreatedAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtAuto(): void {
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 }
