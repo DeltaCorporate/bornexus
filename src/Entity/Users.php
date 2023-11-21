@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -60,6 +62,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Companies $company = null;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Billings::class)]
+    private Collection $billings;
+
+    public function __construct()
+    {
+        $this->billings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -262,6 +272,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCompany(?Companies $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Billings>
+     */
+    public function getBillings(): Collection
+    {
+        return $this->billings;
+    }
+
+    public function addBilling(Billings $billing): static
+    {
+        if (!$this->billings->contains($billing)) {
+            $this->billings->add($billing);
+            $billing->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilling(Billings $billing): static
+    {
+        if ($this->billings->removeElement($billing)) {
+            // set the owning side to null (unless already changed)
+            if ($billing->getUsers() === $this) {
+                $billing->setUsers(null);
+            }
+        }
 
         return $this;
     }

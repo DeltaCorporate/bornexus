@@ -47,7 +47,7 @@ class Billings
 
     #[ORM\ManyToOne(inversedBy: 'billings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Client $client = null;
+    private ?Users $users = null;
 
     public function __construct()
     {
@@ -199,15 +199,17 @@ class Billings
         return $this;
     }
 
-    public function getClient(): ?Client
+    public function getUsers(): ?Users
     {
-        return $this->client;
+        return $this->users;
     }
 
-    public function setClient(?Client $client): static
+    public function setUsers(?Users $users): static
     {
-        $this->client = $client;
+        $this->users = $users;
 
         return $this;
     }
+
+    
 }
