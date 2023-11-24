@@ -26,6 +26,10 @@ class CompanyCatalog
     #[ORM\OneToMany(mappedBy: 'company_catalog', targetEntity: BillingsCompanyCatalog::class)]
     private Collection $billingsCompanyCatalogs;
 
+    #[ORM\ManyToOne(inversedBy: 'companyCatalogs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Products $product = null;
+
     public function __construct()
     {
         $this->billingsCompanyCatalogs = new ArrayCollection();
@@ -86,6 +90,18 @@ class CompanyCatalog
                 $billingsCompanyCatalog->setCompanyCatalog(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProduct(): ?Products
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Products $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }
