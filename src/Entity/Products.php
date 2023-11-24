@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -51,6 +53,14 @@ class Products
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Suppliers $supplier = null;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
+    private Collection $companyCatalogs;
+
+    public function __construct()
+    {
+        $this->companyCatalogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -200,6 +210,36 @@ class Products
     public function setSupplier(?Suppliers $supplier): static
     {
         $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompanyCatalog>
+     */
+    public function getCompanyCatalogs(): Collection
+    {
+        return $this->companyCatalogs;
+    }
+
+    public function addCompanyCatalog(CompanyCatalog $companyCatalog): static
+    {
+        if (!$this->companyCatalogs->contains($companyCatalog)) {
+            $this->companyCatalogs->add($companyCatalog);
+            $companyCatalog->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyCatalog(CompanyCatalog $companyCatalog): static
+    {
+        if ($this->companyCatalogs->removeElement($companyCatalog)) {
+            // set the owning side to null (unless already changed)
+            if ($companyCatalog->getProduct() === $this) {
+                $companyCatalog->setProduct(null);
+            }
+        }
 
         return $this;
     }
