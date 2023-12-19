@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoriesRepository;
+use App\Repository\SuppliersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoriesRepository::class)]
-class Categories
+#[ORM\Entity(repositoryClass: SuppliersRepository::class)]
+class Supplier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,22 +18,22 @@ class Categories
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
+    #[ORM\Column(length: 2048, nullable: true)]
+    private ?string $website = null;
 
-    #[ORM\ManyToOne(inversedBy: 'categories')]
+    #[ORM\ManyToOne(inversedBy: 'suppliers')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Companies $company = null;
+    private ?Company $company = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Products::class)]
+    #[ORM\OneToMany(mappedBy: 'supplier', targetEntity: Product::class)]
     private Collection $products;
+
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
     }
 
-    #[ORM\Column]
     public function getId(): ?int
     {
         return $this->id;
@@ -52,24 +51,24 @@ class Categories
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getWebsite(): ?string
     {
-        return $this->description;
+        return $this->website;
     }
 
-    public function setDescription(?string $description): static
+    public function setWebsite(?string $website): static
     {
-        $this->description = $description;
+        $this->website = $website;
 
         return $this;
     }
 
-    public function getCompany(): ?Companies
+    public function getCompany(): ?Company
     {
         return $this->company;
     }
 
-    public function setCompany(?Companies $company): static
+    public function setCompany(?Company $company): static
     {
         $this->company = $company;
 
@@ -77,33 +76,35 @@ class Categories
     }
 
     /**
-     * @return Collection<int, Products>
+     * @return Collection<int, Product>
      */
     public function getProducts(): Collection
     {
         return $this->products;
     }
 
-    public function addProduct(Products $product): static
+    public function addProduct(Product $product): static
     {
         if (!$this->products->contains($product)) {
             $this->products->add($product);
-            $product->setCategory($this);
+            $product->setSupplier($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Products $product): static
+    public function removeProduct(Product $product): static
     {
         if ($this->products->removeElement($product)) {
             // set the owning side to null (unless already changed)
-            if ($product->getCategory() === $this) {
-                $product->setCategory(null);
+            if ($product->getSupplier() === $this) {
+                $product->setSupplier(null);
             }
         }
 
         return $this;
     }
+
+
 
 }

@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Billings;
+use App\Entity\Billing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Billings>
+ * @extends ServiceEntityRepository<Billing>
  *
- * @method Billings|null find($id, $lockMode = null, $lockVersion = null)
- * @method Billings|null findOneBy(array $criteria, array $orderBy = null)
- * @method Billings[]    findAll()
- * @method Billings[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Billing|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Billing|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Billing[]    findAll()
+ * @method Billing[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class BillingsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Billings::class);
+        parent::__construct($registry, Billing::class);
     }
 
 //    /**

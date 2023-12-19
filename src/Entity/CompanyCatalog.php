@@ -21,14 +21,14 @@ class CompanyCatalog
 
     #[ORM\ManyToOne(inversedBy: 'companyCatalogs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Companies $company = null;
+    private ?Company $company = null;
 
-    #[ORM\OneToMany(mappedBy: 'company_catalog', targetEntity: BillingsCompanyCatalog::class)]
+    #[ORM\OneToMany(mappedBy: 'company_catalog', targetEntity: BillingCompanyCatalog::class)]
     private Collection $billingsCompanyCatalogs;
 
     #[ORM\ManyToOne(inversedBy: 'companyCatalogs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Products $product = null;
+    private ?Product $product = null;
 
     public function __construct()
     {
@@ -52,12 +52,12 @@ class CompanyCatalog
         return $this;
     }
 
-    public function getCompany(): ?Companies
+    public function getCompany(): ?Company
     {
         return $this->company;
     }
 
-    public function setCompany(?Companies $company): static
+    public function setCompany(?Company $company): static
     {
         $this->company = $company;
 
@@ -65,14 +65,14 @@ class CompanyCatalog
     }
 
     /**
-     * @return Collection<int, BillingsCompanyCatalog>
+     * @return Collection<int, BillingCompanyCatalog>
      */
     public function getBillingsCompanyCatalogs(): Collection
     {
         return $this->billingsCompanyCatalogs;
     }
 
-    public function addBillingsCompanyCatalog(BillingsCompanyCatalog $billingsCompanyCatalog): static
+    public function addBillingsCompanyCatalog(BillingCompanyCatalog $billingsCompanyCatalog): static
     {
         if (!$this->billingsCompanyCatalogs->contains($billingsCompanyCatalog)) {
             $this->billingsCompanyCatalogs->add($billingsCompanyCatalog);
@@ -82,7 +82,7 @@ class CompanyCatalog
         return $this;
     }
 
-    public function removeBillingsCompanyCatalog(BillingsCompanyCatalog $billingsCompanyCatalog): static
+    public function removeBillingsCompanyCatalog(BillingCompanyCatalog $billingsCompanyCatalog): static
     {
         if ($this->billingsCompanyCatalogs->removeElement($billingsCompanyCatalog)) {
             // set the owning side to null (unless already changed)
@@ -94,12 +94,12 @@ class CompanyCatalog
         return $this;
     }
 
-    public function getProduct(): ?Products
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(?Products $product): static
+    public function setProduct(?Product $product): static
     {
         $this->product = $product;
 

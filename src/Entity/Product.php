@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
-class Products
+class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,16 +43,16 @@ class Products
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Categories $category = null;
+    private ?Category $category = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Companies $company = null;
+    private ?Company $company = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Suppliers $supplier = null;
+    private ?Supplier $supplier = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
     private Collection $companyCatalogs;
@@ -177,12 +177,12 @@ class Products
         $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
-    public function getCategory(): ?Categories
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Categories $category): static
+    public function setCategory(?Category $category): static
     {
         $this->category = $category;
 
@@ -190,24 +190,24 @@ class Products
     }
 
 
-    public function getCompany(): ?Companies
+    public function getCompany(): ?Company
     {
         return $this->company;
     }
 
-    public function setCompany(?Companies $company): static
+    public function setCompany(?Company $company): static
     {
         $this->company = $company;
 
         return $this;
     }
 
-    public function getSupplier(): ?Suppliers
+    public function getSupplier(): ?Supplier
     {
         return $this->supplier;
     }
 
-    public function setSupplier(?Suppliers $supplier): static
+    public function setSupplier(?Supplier $supplier): static
     {
         $this->supplier = $supplier;
 

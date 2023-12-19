@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BillingsRepository::class)]
-class Billings
+class Billing
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -40,14 +40,14 @@ class Billings
 
     #[ORM\ManyToOne(inversedBy: 'billings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Companies $company = null;
+    private ?Company $company = null;
 
-    #[ORM\OneToMany(mappedBy: 'billing', targetEntity: BillingsCompanyCatalog::class)]
+    #[ORM\OneToMany(mappedBy: 'billing', targetEntity: BillingCompanyCatalog::class)]
     private Collection $billingsCompanyCatalogs;
 
     #[ORM\ManyToOne(inversedBy: 'billings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
+    private ?User $users = null;
 
     public function __construct()
     {
@@ -157,12 +157,12 @@ class Billings
         $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
-    public function getCompany(): ?Companies
+    public function getCompany(): ?Company
     {
         return $this->company;
     }
 
-    public function setCompany(?Companies $company): static
+    public function setCompany(?Company $company): static
     {
         $this->company = $company;
 
@@ -170,14 +170,14 @@ class Billings
     }
 
     /**
-     * @return Collection<int, BillingsCompanyCatalog>
+     * @return Collection<int, BillingCompanyCatalog>
      */
     public function getBillingsCompanyCatalogs(): Collection
     {
         return $this->billingsCompanyCatalogs;
     }
 
-    public function addBillingsCompanyCatalog(BillingsCompanyCatalog $billingsCompanyCatalog): static
+    public function addBillingsCompanyCatalog(BillingCompanyCatalog $billingsCompanyCatalog): static
     {
         if (!$this->billingsCompanyCatalogs->contains($billingsCompanyCatalog)) {
             $this->billingsCompanyCatalogs->add($billingsCompanyCatalog);
@@ -187,7 +187,7 @@ class Billings
         return $this;
     }
 
-    public function removeBillingsCompanyCatalog(BillingsCompanyCatalog $billingsCompanyCatalog): static
+    public function removeBillingsCompanyCatalog(BillingCompanyCatalog $billingsCompanyCatalog): static
     {
         if ($this->billingsCompanyCatalogs->removeElement($billingsCompanyCatalog)) {
             // set the owning side to null (unless already changed)
@@ -199,12 +199,12 @@ class Billings
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUsers(): ?User
     {
         return $this->users;
     }
 
-    public function setUsers(?Users $users): static
+    public function setUsers(?User $users): static
     {
         $this->users = $users;
 
