@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class Users implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -47,7 +47,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $zip = null;
 
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $verification_token = null;
 
     #[ORM\Column(nullable: true)]
@@ -60,10 +60,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Companies $company = null;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Company $company = null;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Billings::class)]
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Billing::class)]
     private Collection $billings;
 
     public function __construct()
@@ -264,12 +264,12 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
-    public function getCompany(): ?Companies
+    public function getCompany(): ?Company
     {
         return $this->company;
     }
 
-    public function setCompany(?Companies $company): static
+    public function setCompany(?Company $company): static
     {
         $this->company = $company;
 
@@ -277,14 +277,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Billings>
+     * @return Collection<int, Billing>
      */
     public function getBillings(): Collection
     {
         return $this->billings;
     }
 
-    public function addBilling(Billings $billing): static
+    public function addBilling(Billing $billing): static
     {
         if (!$this->billings->contains($billing)) {
             $this->billings->add($billing);
@@ -294,7 +294,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeBilling(Billings $billing): static
+    public function removeBilling(Billing $billing): static
     {
         if ($this->billings->removeElement($billing)) {
             // set the owning side to null (unless already changed)

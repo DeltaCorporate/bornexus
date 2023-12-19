@@ -1,8 +1,8 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\Users;
-use App\Entity\Companies;
+use App\Entity\User;
+use App\Entity\Company;
 use App\DataFixtures\CompaniesFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -23,11 +23,11 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $faker = \Faker\Factory::create('fr_FR');
 
         // Get all companies
-        $companies = $manager->getRepository(Companies::class)->findAll();
+        $companies = $manager->getRepository(Company::class)->findAll();
 
         foreach ($companies as $company) {
             for ($i = 0; $i < 4; $i++) {
-                $user = new Users();
+                $user = new User();
                 $user->setEmail($faker->email);
                 $user->setRoles(['ROLE_USER']);
                 $user->setPassword($this->passwordHasher->hashPassword(

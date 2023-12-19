@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CompaniesRepository::class)]
-class Companies
+class Company
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -59,22 +59,22 @@ class Companies
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Users::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Suppliers::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Supplier::class)]
     private Collection $suppliers;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Categories::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Category::class)]
     private Collection $categories;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyCatalog::class)]
     private Collection $companyCatalogs;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Products::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Product::class)]
     private Collection $products;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Billings::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Billing::class)]
     private Collection $billings;
 
     public function __construct()
@@ -275,14 +275,14 @@ class Companies
     }
 
     /**
-     * @return Collection<int, Users>
+     * @return Collection<int, User>
      */
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function addUser(Users $user): static
+    public function addUser(User $user): static
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -292,7 +292,7 @@ class Companies
         return $this;
     }
 
-    public function removeUser(Users $user): static
+    public function removeUser(User $user): static
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
@@ -305,14 +305,14 @@ class Companies
     }
 
     /**
-     * @return Collection<int, Suppliers>
+     * @return Collection<int, Supplier>
      */
     public function getSuppliers(): Collection
     {
         return $this->suppliers;
     }
 
-    public function addSupplier(Suppliers $supplier): static
+    public function addSupplier(Supplier $supplier): static
     {
         if (!$this->suppliers->contains($supplier)) {
             $this->suppliers->add($supplier);
@@ -322,7 +322,7 @@ class Companies
         return $this;
     }
 
-    public function removeSupplier(Suppliers $supplier): static
+    public function removeSupplier(Supplier $supplier): static
     {
         if ($this->suppliers->removeElement($supplier)) {
             // set the owning side to null (unless already changed)
@@ -335,14 +335,14 @@ class Companies
     }
 
     /**
-     * @return Collection<int, Categories>
+     * @return Collection<int, Category>
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function addCategory(Categories $category): static
+    public function addCategory(Category $category): static
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
@@ -352,7 +352,7 @@ class Companies
         return $this;
     }
 
-    public function removeCategory(Categories $category): static
+    public function removeCategory(Category $category): static
     {
         if ($this->categories->removeElement($category)) {
             // set the owning side to null (unless already changed)
@@ -395,14 +395,14 @@ class Companies
     }
 
     /**
-     * @return Collection<int, Products>
+     * @return Collection<int, Product>
      */
     public function getProducts(): Collection
     {
         return $this->products;
     }
 
-    public function addProduct(Products $product): static
+    public function addProduct(Product $product): static
     {
         if (!$this->products->contains($product)) {
             $this->products->add($product);
@@ -412,7 +412,7 @@ class Companies
         return $this;
     }
 
-    public function removeProduct(Products $product): static
+    public function removeProduct(Product $product): static
     {
         if ($this->products->removeElement($product)) {
             // set the owning side to null (unless already changed)
@@ -425,14 +425,14 @@ class Companies
     }
 
     /**
-     * @return Collection<int, Billings>
+     * @return Collection<int, Billing>
      */
     public function getBillings(): Collection
     {
         return $this->billings;
     }
 
-    public function addBilling(Billings $billing): static
+    public function addBilling(Billing $billing): static
     {
         if (!$this->billings->contains($billing)) {
             $this->billings->add($billing);
@@ -442,7 +442,7 @@ class Companies
         return $this;
     }
 
-    public function removeBilling(Billings $billing): static
+    public function removeBilling(Billing $billing): static
     {
         if ($this->billings->removeElement($billing)) {
             // set the owning side to null (unless already changed)

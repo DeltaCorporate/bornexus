@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\BillingsCompanyCatalog;
+use App\Entity\BillingCompanyCatalog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<BillingsCompanyCatalog>
+ * @extends ServiceEntityRepository<BillingCompanyCatalog>
  *
- * @method BillingsCompanyCatalog|null find($id, $lockMode = null, $lockVersion = null)
- * @method BillingsCompanyCatalog|null findOneBy(array $criteria, array $orderBy = null)
- * @method BillingsCompanyCatalog[]    findAll()
- * @method BillingsCompanyCatalog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BillingCompanyCatalog|null find($id, $lockMode = null, $lockVersion = null)
+ * @method BillingCompanyCatalog|null findOneBy(array $criteria, array $orderBy = null)
+ * @method BillingCompanyCatalog[]    findAll()
+ * @method BillingCompanyCatalog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class BillingsCompanyCatalogRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, BillingsCompanyCatalog::class);
+        parent::__construct($registry, BillingCompanyCatalog::class);
     }
 
 //    /**
