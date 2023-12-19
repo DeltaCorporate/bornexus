@@ -3,8 +3,8 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\Products;
-use App\Entity\Companies;
+use App\Entity\Product;
+use App\Entity\Company;
 use App\Entity\CompanyCatalog;
 use App\DataFixtures\ProductsFixtures;
 use App\DataFixtures\CompaniesFixtures;
@@ -19,11 +19,11 @@ class CompanyCatalogFixtures extends Fixture implements DependentFixtureInterfac
         $faker = Factory::create('fr_FR');
 
         // Supposons que vous ayez déjà des fixtures pour Company et Products
-        $companies = $manager->getRepository(Companies::class)->findAll();
+        $companies = $manager->getRepository(Company::class)->findAll();
 
         foreach ($companies as $company) {
             // Récupérer tous les produits associés à l'entreprise
-            $products = $manager->getRepository(Products::class)->findBy(['company' => $company]);
+            $products = $manager->getRepository(Product::class)->findBy(['company' => $company]);
 
 
             for ($j = 0; $j < 3; $j++) {

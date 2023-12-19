@@ -3,10 +3,10 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\Products;
-use App\Entity\Companies;
-use App\Entity\Suppliers;
-use App\Entity\Categories;
+use App\Entity\Product;
+use App\Entity\Company;
+use App\Entity\Supplier;
+use App\Entity\Category;
 use App\DataFixtures\CompaniesFixtures;
 use App\DataFixtures\SuppliersFixtures;
 use Doctrine\Persistence\ObjectManager;
@@ -20,15 +20,15 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR'); // Utilisez 'fr_FR' pour les données en français
 
-        $companies = $manager->getRepository(Companies::class)->findAll();
-        $categories = $manager->getRepository(Categories::class)->findAll();
-        $suppliers = $manager->getRepository(Suppliers::class)->findAll();
+        $companies = $manager->getRepository(Company::class)->findAll();
+        $categories = $manager->getRepository(Category::class)->findAll();
+        $suppliers = $manager->getRepository(Supplier::class)->findAll();
 
         foreach ($companies as $company) {
             foreach ($categories as $category) {
                 foreach ($suppliers as $supplier) {
                     for ($i = 0; $i < 3; $i++) {
-                        $product = new Products();
+                        $product = new Product();
                         $product->setName($faker->word);
                         $product->setDescription($faker->sentence);
                         $product->setPrice($faker->randomNumber(2));

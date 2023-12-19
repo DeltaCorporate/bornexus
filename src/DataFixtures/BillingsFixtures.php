@@ -3,9 +3,9 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\Users;
-use App\Entity\Billings;
-use App\Entity\Companies;
+use App\Entity\User;
+use App\Entity\Billing;
+use App\Entity\Company;
 use App\DataFixtures\UsersFixtures;
 use App\DataFixtures\CompaniesFixtures;
 use Doctrine\Persistence\ObjectManager;
@@ -19,15 +19,15 @@ class BillingsFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         // Supposons que vous ayez déjà des fixtures pour Company et Users
-        $companies = $manager->getRepository(Companies::class)->findAll();
+        $companies = $manager->getRepository(Company::class)->findAll();
 
         foreach ($companies as $company) {
             // Récupérer tous les utilisateurs associés à l'entreprise
-            $users = $manager->getRepository(Users::class)->findBy(['company' => $company]);
+            $users = $manager->getRepository(User::class)->findBy(['company' => $company]);
 
             for ($i = 0; $i < 4; $i++) {
                 if (isset($users[$i])) {
-                    $billing = new Billings();
+                    $billing = new Billing();
                     $billing->setStatus($faker->randomElement(['paid', 'unpaid', 'pending']));
                     $billing->setType($faker->randomElement(['invoice', 'quote']));
                     $billing->setEmitedAt(new \DateTimeImmutable($faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s')));

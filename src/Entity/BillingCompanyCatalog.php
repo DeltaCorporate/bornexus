@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BillingsCompanyCatalogRepository::class)]
-class BillingsCompanyCatalog
+class BillingCompanyCatalog
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,7 +19,7 @@ class BillingsCompanyCatalog
 
     #[ORM\ManyToOne(inversedBy: 'billingsCompanyCatalogs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Billings $billing = null;
+    private ?Billing $billing = null;
 
     #[ORM\ManyToOne(inversedBy: 'billingsCompanyCatalogs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -42,12 +42,12 @@ class BillingsCompanyCatalog
         return $this;
     }
 
-    public function getBilling(): ?Billings
+    public function getBilling(): ?Billing
     {
         return $this->billing;
     }
 
-    public function setBilling(?Billings $billing): static
+    public function setBilling(?Billing $billing): static
     {
         $this->billing = $billing;
 
