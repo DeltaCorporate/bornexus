@@ -17,7 +17,7 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
+./public/tmp.css
 ###> MacOs gitignore ###
 .DS_Store
 .AppleDouble

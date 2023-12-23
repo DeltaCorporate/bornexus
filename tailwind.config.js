@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   content: [
@@ -8,7 +7,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['"Poppins"', 'sans-serif']
+      sans: ['"Inter"', 'sans-serif']
     },
     extend: {
       colors: {
@@ -28,31 +27,29 @@ module.exports = {
 
         /* LIGHT THEME */
 
-        'primary': "#3546AB", // ROSE
+        'primary': "#A8EB74", // ROSE
 
-        'secondary': '#0C145A', // NOIR
+        'secondary': '#7EB0FA', // NOIR
 
-        'accent': "#8084A9",
-        'text': '#0C145A',
-        'background': '#F6F8FD', // BLANC
+        'accent': "rgba(33, 33, 33, 0.70);",
+        'text': '#212121',
+        'base': '#FFF', // BLANC
         
-        'card': '#FFFFFF', // CARD
+        'neutral': '#F6F7FA', // CARD
         
-        'error': '#F1714F', // ORANGE
+        'error': '#ED714A', // ORANGE
         'success': '#2EC4B6', // VERT
-        'warning': '#FF9F1C', // JAUNE
+        'warning': '#ECEE84', // JAUNE
       }
       
       },
+   
   },
-  
-  plugins: [plugin(({ addBase, theme }) => {
-    addBase({
-      html: {
-        color: theme("colors.text"),
-        fontSize: theme("fontSize.base"),
-      },
-    });
-  }), 
-  require('@tailwindcss/forms')]
+  safelist: [
+    {pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning)/},
+    
+
+  ],
+
+  plugins: [ require('@tailwindcss/forms')]
 }
