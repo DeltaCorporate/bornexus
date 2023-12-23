@@ -1,62 +1,70 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.btn-xs {
-    @apply px-3 py-2 text-xs;
-}
-.btn-sm {
-    @apply px-3 py-2 text-sm;
-}
-.btn-base {
-    @apply px-5 py-2.5 text-sm;
-}
-.btn-lg {
-    @apply px-5 py-3 text-base;
-}
-.btn-xl {
-    @apply px-6 py-3.5 text-base;
+@layer base{
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
+    .size-xs {
+        @apply px-3 py-2 text-xs;
+    }
+    .size-sm {
+        @apply px-3 py-2 text-sm;
+    }
+    .size-base {
+        @apply px-5 py-2.5 text-sm;
+    }
+    .size-lg {
+        @apply px-5 py-3 text-base;
+    }
+    .size-xl {
+        @apply px-6 py-3.5 text-base;
+    }
+    
+    .h1 {
+        @apply text-2xl font-bold;
+    }
+    .h2 {
+        @apply text-2xl font-bold;
+    }
+    .h3 {
+        @apply text-xl font-semibold;
+    }
+    .h4 {
+        @apply text-lg font-semibold;
+    }
+    .h5 {
+        @apply text-base font-bold;
+    }
+    .h6 {
+        @apply text-sm font-bold;
+    }
+    
+    .pg {
+        @apply text-base;
+    }
+    .small {
+        @apply text-sm;
+    }
+    
+    
+    .dropdown-bg {
+        @apply bg-base;
+    }
+    
+    .dropdown-bg li a:hover {
+        @apply bg-neutral;
+    }
+    
+    .dropdown-neutral {
+        @apply bg-neutral;
+    }
+    
+    .dropdown-neutral li a:hover {
+        @apply bg-base;
+    }
+    
 }
 
-.h1 {
-    @apply text-2xl font-bold;
-}
-.h2 {
-    @apply text-2xl font-bold;
-}
-.h3 {
-    @apply text-xl font-semibold;
-}
-.h4 {
-    @apply text-lg font-semibold;
-}
-.h5 {
-    @apply text-base font-bold;
-}
-.h6 {
-    @apply text-sm font-bold;
-}
-
-.pg {
-    @apply text-base;
-}
-.small {
-    @apply text-sm;
-}
 
 
-.dropdown-bg {
-    @apply bg-background;
-}
-
-.dropdown-bg li a:hover {
-    @apply bg-card;
-}
-
-.dropdown-card {
-    @apply bg-card;
-}
-
-.dropdown-card li a:hover {
-    @apply bg-background;
-}

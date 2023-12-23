@@ -3,6 +3,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "jawad": "vite & npx tailwindcss -i ./assets/styles/app.css -o ./public/tmp.css --watch",
         "build": "vite build"
     },
     "devDependencies": {
