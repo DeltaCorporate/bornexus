@@ -12,18 +12,15 @@ class Sidebar
 {
     
     public string $textColor;
-    
     public string $textColorDropdown;
-
     public string $backgroundColor;
     public string $hoverColor;
     public string $companyName;
-    
-    public string $appTitle;
-    public string $appLogo;
-    
+    public string $title;
+    public float $logoSizeRem;
+
+    public string $logo;
     private $menuItems;
-    
     private $twig;
     
     public function __construct(KernelInterface $kernel, Environment $twig){

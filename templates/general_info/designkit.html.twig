@@ -5,7 +5,6 @@
         <title>{% block title %}OPEN{% endblock %}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="{{ asset('tmp.css') }}" />
-"
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `m  symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -19,12 +18,13 @@
     <body class="bg-base">
         <main class="flex flex-row max-w-full">
           <twig:Sidebar 
-            appTitle="BorneNexus"
+            title="BorneNexus"
             textColor="text"
             textColorDropdown="accent"
             backgroundColor="neutral"
             hoverColor="primary"
-            appLogo="{{ asset('images/logo.svg') }}"
+            logoSizeRem="2.75"
+            logo="{{ asset('images/logo.png') }}"
             companyName="BorneNexus Inc."
           />
             <section class="block w-full p-3 h-screen overflow-auto">
@@ -40,34 +40,54 @@
             <h1 class="text-lg font-semibold">Titre de niveau 4</h1>
             <h1 class="text-md font-bold">Titre de niveau 5</h1>
             <h1 class="text-sm font-bold">Titre de niveau 6</h1>
-            <p class="text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+            <p class="text-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
             <small class="text-sm">Petit texte</small>
           </section>
           
           <section class="flex gap-2 flex-col">
             <h1 class="text-5xl font-bold">Color</h1>
             <div class="flex gap-2 flex-wrap">
-              <div class="bg-primary border-2 border-text text-neutral px-6 py-4 text-2xl rounded-full">Primary</div>
-              <div class="bg-secondary border-2 border-text text-neutral px-6 py-4 text-2xl rounded-full">Secondary</div>
+              <div class="bg-primary border-2 border-text px-6 py-4 text-2xl rounded-full">Primary</div>
+              <div class="bg-secondary border-2 border-text px-6 py-4 text-2xl rounded-full">Secondary</div>
               <div class="bg-accent border-2 border-text text-neutral px-6 py-4 text-2xl rounded-full">Accent</div>
-              <div class="bg-base border-2 border-text text-text px-6 py-4 text-2xl rounded-full">Background</div>
-              <div class="bg-neutral border-2 border-text text-text px-6 py-4 text-2xl rounded-full">Card</div>
+              <div class="bg-base border-2 border-text px-6 py-4 text-2xl rounded-full">Background</div>
+              <div class="bg-neutral border-2 border-text px-6 py-4 text-2xl rounded-full">Card</div>
               
-              <div class="bg-error border-2 border-secondary px-6 py-4 text-2xl rounded-full">Error</div>
-              <div class="bg-success border-2 border-secondary px-6 py-4 text-2xl rounded-full">Success</div>
-              <div class="bg-warning border-2 border-secondary px-6 py-4 text-2xl rounded-full">Warning</div>
+              <div class="bg-error border-2 border-text px-6 py-4 text-2xl rounded-full">Error</div>
+              <div class="bg-success border-2 border-text px-6 py-4 text-2xl rounded-full">Success</div>
+              <div class="bg-warning border-2 border-text px-6 py-4 text-2xl rounded-full">Warning</div>
             </div>
           </section>
         
           <section class="flex gap-2 flex-col items-start">
             <h1 class="text-5xl font-bold"> Boutons</h1>
-            <div class="block gap-5">
+            <div class="flex flex-row flex-wrap items-start gap-5">
+              {% for color in colors  %}
+                {% for variant in btnVariants %}
+                  <twig:Button 
+                    text="Button {{ color }}"
+                    color="{{ color }}"
+                    radius="rounded-full"
+                    size="base"
+                    variant="{{ variant }}"
+                    balise="a"
+                    icon="fa fa-gear"
+                  />
+                {% endfor %}
+              {% endfor %}
+              <h2 class="h2 w-full"> Size </h2><br/>
+
+              {% for size in sizes %}
                 <twig:Button 
                   text="Button"
-                  size="lg"
+                  size="{{ size }}"
                   balise="a"
+                  variant="solid"
                   icon="fa fa-gear"
                 />
+              {% endfor %}
+              
+  
             </div>
           </section>
           <section class="flex flex-col gap-2">
@@ -88,6 +108,13 @@
           <section class="flex flex-col gap-2 ">
             <h1 class="text-5xl font-bold"> Alert</h1>
             <div class="flex flex-row justify-center gap-5 flex-wrap items-start">
+                 {% for color in colors  %}
+                  <twig:Alert 
+                    text="It's an Alert with color {{ color }}"
+                    color="{{ color }}"
+                    size="base"
+                    icon="fa fa-gear" />
+              {% endfor %}
             </div>
           </section>
 

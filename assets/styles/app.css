@@ -1,26 +1,24 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
     .size-xs {
-        @apply px-3 py-2 text-xs;
+        @apply px-1.5 py-0.5;
     }
     .size-sm {
-        @apply px-3 py-2 text-sm;
+        @apply px-2 py-1;
     }
     .size-base {
-        @apply px-5 py-2.5 text-sm;
+        @apply px-2.5 py-1.5;
     }
     .size-lg {
-        @apply px-5 py-3 text-base;
+        @apply px-3 py-2;
     }
     .size-xl {
-        @apply px-6 py-3.5 text-base;
+        @apply px-3.5 py-2.5;
     }
-    
+
     .h1 {
         @apply text-2xl font-bold;
     }
@@ -39,32 +37,29 @@
     .h6 {
         @apply text-sm font-bold;
     }
-    
+
     .pg {
         @apply text-base;
     }
     .small {
         @apply text-sm;
     }
-    
-    
+
+
     .dropdown-bg {
         @apply bg-base;
     }
-    
+
     .dropdown-bg li a:hover {
         @apply bg-neutral;
     }
-    
+
     .dropdown-neutral {
         @apply bg-neutral;
     }
-    
+
     .dropdown-neutral li a:hover {
         @apply bg-base;
     }
-    
-}
-
 
 
