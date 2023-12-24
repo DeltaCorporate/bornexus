@@ -1,0 +1,20 @@
+{% if variant == 'solid' %}
+  {% set bgColor = color %}
+  {% set hoverEffect = 'brightness-75' %}
+{% elseif variant == 'outline' %}
+  {% set bgColor = 'transparent' %}
+  {% set hoverEffect = 'bg-' ~ color %}
+{% endif %}
+
+
+
+<{{ balise }}
+  class="inline-flex w-auto gap-2 items-center {{ radius }} justify-center transition-all border border-{{ color }} border-{{ borderWidth }} cursor-pointer bg-{{ bgColor }} text-{{ fontSize }} size-{{ size }} {{ weight }} text-text hover:{{ hoverEffect }} {{ textColor }} focus:outline-none focus:ring"
+  {{ attributes|attribute2String }}
+>
+
+{% if icon is not empty %}
+   <i class='{{ icon }}'></i>
+{% endif %}
+{{ text }}
+</{{ balise }}>

@@ -4,6 +4,7 @@ module.exports = {
   content: [
     "./assets/**/*.js",
     "./templates/**/*.html.twig",
+    "./src/Twig/**/*.php",
   ],
   theme: {
     fontFamily: {
@@ -38,7 +39,7 @@ module.exports = {
         'neutral': '#F6F7FA', // CARD
         
         'error': '#ED714A', // ORANGE
-        'success': '#2EC4B6', // VERT
+        'success': '#92DB4B', // VERT
         'warning': '#ECEE84', // JAUNE
       }
       
@@ -46,9 +47,12 @@ module.exports = {
    
   },
   safelist: [
-    {pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning)/},
-    
+    {
+      pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning)/,
+      variants: ['hover']
+    },
 
+    'hover:brightness-75',
   ],
 
   plugins: [ require('@tailwindcss/forms')]

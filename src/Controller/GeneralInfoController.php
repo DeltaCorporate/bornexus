@@ -13,6 +13,27 @@ class GeneralInfoController extends AbstractController
     {
         return $this->render('general_info/designkit.html.twig', [
             'controller_name' => 'GeneralInfoController',
+            'colors' => [
+                'primary',
+                'secondary',
+                'accent',
+                'base',
+                'neutral',
+                'warning',
+                'error',
+                'success'
+            ],
+            'sizes' => [
+                'xs',
+                'sm',
+                'base',
+                'lg',
+                'xl'
+            ],
+            'btnVariants' => [
+                'solid',
+                'outline'
+            ]
         ]);
     }
 }

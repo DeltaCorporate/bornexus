@@ -1,0 +1,71 @@
+[
+    {
+        "route": "",
+        "title": "Général",
+        "icon": "fa fa-cog"
+    },
+    {
+        "route": "",
+        "title": "Facturation",
+        "icon": "fa fa-calculator",
+        "subMenu": [
+            {
+                "route": "",
+                "title": "Devis",
+                "icon": "fa fa-gear"
+            },
+            {
+                "route": "",
+                "title": "Factures",
+                "icon": "fa fa-gear"
+                
+            }
+            
+        ]
+    },
+    {
+        "route": "",
+        "title": "Comptabilité",
+        "icon": "fa fa-calculator"
+    },
+    {
+        "route": "",
+        "title": "Gestion",
+        "icon": "fa fa-cog",
+        "subMenu": [
+            {
+                "route": "",
+                "title": "Clients",
+                "icon": "fa fa-gear"
+            },
+            {
+                "route": "",
+                "title": "Fournisseurs",
+                "icon": "fa fa-gear"
+            }   
+        ]
+    },
+    {
+        "route": "",
+        "title": "Produits",
+        "icon": "fa fa-cog",
+        "subMenu": [
+            {
+                "route": "",
+                "title": "Produits",
+                "icon": "fa fa-gear"
+            },
+            {
+                "route": "",
+                "title": "Catégories",
+                "icon": "fa fa-gear"
+            }   
+        ]
+    },
+    {
+        "route": "",
+        "title": "Paramètres",
+        "icon": "fa fa-gear"
+    }
+
+]
