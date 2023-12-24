@@ -76,7 +76,6 @@
                 {% endfor %}
               {% endfor %}
               <h2 class="h2 w-full"> Size </h2><br/>
-
               {% for size in sizes %}
                 <twig:Button 
                   text="Button"
@@ -90,10 +89,18 @@
   
             </div>
           </section>
-          <section class="flex flex-col gap-2">
+          <section class="flex flex-col gap-2 bg-neutral">
             <h1 class="text-5xl font-bold"> Inputs</h1>
             <div class="flex flex-row flex-wrap items-start gap-5">
+                 {% for size in sizes  %}
+                  <twig:Forms:Input 
+                    size="{{ size }}"
+                    placeholder="Input {{ size }}"
+                  >
 
+
+                  </twig:Forms:Input>
+          {% endfor %}
             </div>
           </section>
 
@@ -117,10 +124,39 @@
               {% endfor %}
             </div>
           </section>
+   <section class="flex flex-col gap-2 ">
+            <h1 class="text-5xl font-bold"> Badge</h1>
+            <div class="flex flex-row justify-center gap-5 flex-wrap items-start">
+                 {% for color in colors  %}
+                  <twig:Badge 
+                    text="{{ color }}"
+                    color="{{ color }}"
+                    size="base"
+                    icon="fa fa-gear" />
+              {% endfor %}
 
+
+            </div>
+          </section>
+                
           <section class="flex flex-col gap-2 ">
             <h1 class="text-5xl font-bold"> Dropdwn</h1>
             <div class="flex flex-row justify-center gap-5 flex-wrap items-start">
+                 {% for color in colors  %}
+                  <twig:Dropdown 
+                    text="{{ color }}"
+                    color="{{ color }}"
+                    size="base"
+                    icon="fa fa-gear">
+
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                    </ul>
+
+                  </twig:Dropdown>
+              {% endfor %}
+
             </div>
           </section>
                 
