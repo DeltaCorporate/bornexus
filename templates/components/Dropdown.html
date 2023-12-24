@@ -2,19 +2,10 @@
 <summary class="flex cursor-pointer items-center gap-3 justify-between rounded-lg px-4 py-2 text-text bg-primary hover:opacity-90 transition-all hover:text-accent">
 <span class="text-sm font-medium flex gap-2 items-center">Dropdown</span>
 <span class="shrink-0 transition duration-300 group-open:-rotate-180">
-<i class="fa-solid fa-chevron-up"></i>
+<i class="fa-solid fa-chevron-down"></i>
 </span>
 </summary>
 <ul class="mt-2 flex flex-col gap-2 dropdown-neutral rounded-md absolute w-auto space-y-1 p-2">
-<li class="w-auto">
-<a href="" class="block rounded-lg px-4 py-2 text-sm whitespace-nowrap font-medium text-accent">
-Dropdown1ddsffdsfdsdsffdsdsf
-</a>
-</li>
-<li>
-<a href="" class="block rounded-lg px-4 py-2 text-sm whitespace-nowrap font-medium text-accent">
-Dropdown1dsfsdsfdfsdfsdsfd
-</a>
-</li>
+    {% block content %}{% endblock %}
 </ul>
 </details>

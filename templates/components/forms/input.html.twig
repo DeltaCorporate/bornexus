@@ -1,0 +1,11 @@
+<div class="relative">
+{% block label %}{% endblock %}
+<input type="{{ type }}" id="{{ id }}" value="{{ value }}" placeholder="{{ placeholder }}" class="block w-full size-{{ size }} {{ textColor }} {{ weight }} border-{{ color }} border-0 {{ radius }} bg-{{color}} text-{{ fontSize }} focus:ring-{{ color }} focus:border-{{color}}" 
+  {{ attributes|attribute2String }}
+/>
+
+
+{% if icon is not empty %}
+    <i class="fa {{icon}} absolute right-2 cursor pointer top-1/2 translate-y-[-50%] text-{{fontSize}}"   {{ iconAttributes|attribute2String }}></i>
+{% endif %}
+</div>

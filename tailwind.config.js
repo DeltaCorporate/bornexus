@@ -41,6 +41,9 @@ module.exports = {
         'error': '#ED714A', // ORANGE
         'success': '#92DB4B', // VERT
         'warning': '#ECEE84', // JAUNE
+      },
+      translate: {
+        '-1/2': '-50%',
       }
       
       },

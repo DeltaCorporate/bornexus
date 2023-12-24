@@ -3,20 +3,18 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent(template: 'components/button.html.twig')]
-class Button
+#[AsTwigComponent(template: 'components/badge.html.twig')]
+class Badge
 {
     
     public function __construct(
         public string $text = '',
-        public string $icon = '',
         public string $color = 'primary',
         public string $textColor = 'text-text',
         public string $size = 'base',
-        public string $borderWidth = '2',
         public string $fontSize = 'md',
         public string $weight = 'font-medium',
-        public string $radius = 'rounded-md',
+        public string $radius = 'rounded-full',
         public string $balise = 'button',
         /**
          * @var 'solid' | 'outline'
