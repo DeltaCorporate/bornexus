@@ -3,9 +3,20 @@
 {% block title %}New Company{% endblock %}
 
 {% block body %}
-    <h1>Create new Company</h1>
 
-    {{ include('company/_form.html.twig') }}
+<div class="flex items-center h-screen justify-center">
+    <div class="w-3/4 h-5/6 p-10 bg-neutral overflow-auto">
+        <h1>Create new Company</h1>
+        
+        {{ form(form) }}
 
-    <a href="{{ path('app_company_index') }}">back to list</a>
+    <twig:Button href="{{ path('app_company_index') }}"
+                 text="Back to list"
+                 color="0"
+                 borderWidth="0"
+                 icon="fa fa-solid fa-arrow-left"
+    />
+
+    </div>
+</div>
 {% endblock %}

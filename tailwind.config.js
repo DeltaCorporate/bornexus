@@ -38,7 +38,7 @@ module.exports = {
         
         'neutral': '#F6F7FA', // CARD
         
-        'error': '#ED714A', // ORANGE
+        'error': '#E14A3B', // ORANGE
         'success': '#92DB4B', // VERT
         'warning': '#ECEE84', // JAUNE
       },
