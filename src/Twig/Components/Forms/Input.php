@@ -6,7 +6,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent(template: 'components/forms/input.html.twig')]
 class Input
 {
-    
+        
     public function __construct(
     
         public string $type = 'text',

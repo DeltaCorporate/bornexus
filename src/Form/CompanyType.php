@@ -3,9 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Company;
+use Faker\Provider\ar_EG\Text;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CompanyType extends AbstractType
 {
@@ -13,7 +17,10 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', TextareaType::class, ['attr' =>
+             [
+                'placeholder' => 'Description de votre entreprise'
+             ]])
             ->add('siret')
             ->add('zip')
             ->add('address')
@@ -22,10 +29,14 @@ class CompanyType extends AbstractType
             ->add('paypal_id')
             ->add('stripe_id')
             ->add('iban')
-            ->add('tva')
-            ->add('tva_reason')
+            ->add('tva', PercentType::class, ['attr' =>
+             [
+                'placeholder' => '20'
+             ]])
+                ->add('tva_reason')
             ->add('created_at')
             ->add('updated_at')
+            ->add('save', SubmitType::class, ['label' => 'Envoyer'])
         ;
     }
 
