@@ -1,0 +1,77 @@
+{% use 'form_div_layout.html.twig' %}
+
+
+{%- block form_widget_compound -%}
+    <div class="grid grid-cols-12 gap-6" {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
+{%- block form_row -%}
+    {%- set row_attr = row_attr|merge({ class: row_attr.class|default(row_class|default('relative flex flex-col col-span-6')) }) -%}
+    {{- parent() -}}
+{%- endblock form_row -%}
+
+
+{%- block widget_attributes -%}
+    {%- set attr = attr|merge({ class: attr.class|default(widget_class|default('bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg')) ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
+    {{- parent() -}}
+{%- endblock widget_attributes -%}
+
+
+{%- block percent_widget -%}
+    {%- set type = type|default('text') -%}
+    {{ block('form_widget_simple') }}
+    <span class="absolute right-2 top-1/2 text-md">%</span>
+{%- endblock percent_widget -%}
+
+{%- block form_label -%}
+    {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default('block text-text')) }) -%}
+    {{- parent() -}}
+{%- endblock form_label -%}
+
+{%- block form_errors -%}
+  
+    {%- if errors|length > 0 -%}
+        <ul>
+            {%- for error in errors -%}
+                <li class="{{ error_item_class|default('text-error text-sm font-medium') }}">{{ error.message }}</li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+
+{%- block widget_container_attributes -%}
+    {%- if id is not empty %} class="flex flex-row items-center gap-2" id="{{ id }}"{% endif -%}
+    {{ block('attributes') }}
+{%- endblock widget_container_attributes -%}
+
+
+
+
+     
+        {% block submit_widget %}
+        
+            <twig:Button
+                    type="submit"
+                    color="primary"
+                    variant="solid"
+                    radius="rounded-full"
+                    text="
+                    {{ label }}
+                    "
+                />
+        {% endblock submit_widget %}
+
+
+
+{% block password_widget %}
+    {%- set type = type|default('password') -%}
+    {{ block('form_widget_simple') }}
+    <i onclick="togglePassword(this)" class="absolute right-2 top-1/2 cursor-pointer fa fa-eye text-lg"></i>
+{% endblock password_widget %}
