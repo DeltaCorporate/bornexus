@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Billing{% endblock %}
+
+{% block body %}
+    <h1>Billing</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ billing.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ billing.status }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ billing.type }}</td>
+            </tr>
+            <tr>
+                <th>Emited_at</th>
+                <td>{{ billing.emitedAt ? billing.emitedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Payment_method</th>
+                <td>{{ billing.paymentMethod }}</td>
+            </tr>
+            <tr>
+                <th>Discount</th>
+                <td>{{ billing.discount }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ billing.updatedAt ? billing.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ billing.createdAt ? billing.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_billing_index') }}">back to list</a>
+
+    <a href="{{ path('app_billing_edit', {'id': billing.id}) }}">edit</a>
+
+    {{ include('billing/_delete_form.html.twig') }}
+{% endblock %}
