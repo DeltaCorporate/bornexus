@@ -115,24 +115,24 @@
             <h1 class="text-5xl font-bold"> Alert</h1>
             <div class="flex flex-row justify-center gap-5 flex-wrap items-start">
                  {% for color in colors  %}
-                  <twig:Alert 
-                    text="It's an Alert with color {{ color }}"
-                    color="{{ color }}"
-                    size="base"
-                    icon="fa fa-gear" />
-              {% endfor %}
+                    <twig:Alert 
+                      text="It's an Alert with color {{ color }}"
+                      color="{{ color }}"
+                      size="base"
+                      icon="fa fa-gear" />
+                  {% endfor %}
             </div>
           </section>
    <section class="flex flex-col gap-2 ">
             <h1 class="text-5xl font-bold"> Badge</h1>
             <div class="flex flex-row justify-center gap-5 flex-wrap items-start">
                  {% for color in colors  %}
-                  <twig:Badge 
-                    text="{{ color }}"
-                    color="{{ color }}"
-                    size="base"
-                    icon="fa fa-gear" />
-              {% endfor %}
+                    <twig:Badge 
+                      text="{{ color }}"
+                      color="{{ color }}"
+                      size="base"
+                      icon="fa fa-gear" />
+                 {% endfor %}
 
 
             </div>
