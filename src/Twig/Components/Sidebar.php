@@ -34,7 +34,7 @@ class Sidebar
         
             foreach($menuItems as $menuItem){
                 $menuItem = (array)$menuItem;
-                
+            
             if(isset($menuItem['subMenu'])){
                 $menuItem['sidebar'] = $this;
                 echo $this->twig->render('components/Sidebar/menuDropdown.html.twig',$menuItem); 
