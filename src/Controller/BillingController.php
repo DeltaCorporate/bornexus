@@ -17,6 +17,7 @@ class BillingController extends AbstractController
     #[Route('/', name: 'app_billing_index', methods: ['GET'])]
     public function index(BillingsRepository $billingsRepository): Response
     {
+        
         return $this->render('billing/index.html.twig', [
             'billings' => $billingsRepository->findAll(),
         ]);

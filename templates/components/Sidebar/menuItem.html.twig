@@ -1,10 +1,10 @@
    <li class="text-md w-full flex text-{{ textColor }}">
           <a
-            href=""
+            href="{{path(route|default('app_login'),route_args) }}"
             class="rounded-full flex items-center gap-5 p-2 hover:bg-{{ hoverColor }} transition-all w-full"
           >
+
             <i class="{{icon}}"></i>
                 {{title}}
-                
             </a>
         </li>
