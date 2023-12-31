@@ -37,7 +37,8 @@ module.exports = {
         'base': '#FFF', // BLANC
         
         'neutral': '#F6F7FA', // CARD
-        
+        'darkgrey': '#D9D9D9',
+
         'error': '#E14A3B', // ORANGE
         'success': '#92DB4B', // VERT
         'warning': '#ECEE84', // JAUNE
@@ -51,10 +52,12 @@ module.exports = {
   },
   safelist: [
     {
-      pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning)/,
+      pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning|darkgrey)/,
       variants: ['hover']
     },
-
+    {
+      pattern: /(w|h)-(100|[1-9][0-9]?)/,
+    },
     'hover:brightness-75',
   ],
 
