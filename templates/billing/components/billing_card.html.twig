@@ -1,0 +1,14 @@
+<twig:Card>
+<section>
+        <div class="flex justify-between">
+         <p>{{ title }}</p>
+            <twig:RoundedIcon
+                icon="fa fa-plus"
+            />   
+        </div>
+        <p>{{ description }}</p>
+    </section>
+    <section>
+        {{block(outerBlocks.content)}}
+    </section>
+</twig:Card>
