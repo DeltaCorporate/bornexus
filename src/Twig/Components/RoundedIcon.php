@@ -12,8 +12,10 @@ class RoundedIcon
        public string $bgColor = 'base',
        public string $color = 'neutral',
        public string $size = '12',
-       public string $fontSize = '2xl'
+       public string $fontSize = '2xl',
+       public string $route = 'app_general_info_designkit'
     ) {
+        
     }
 
    
