@@ -50,5 +50,6 @@ ehthumbs_vista.db
 ###> pentatrion/vite-bundle ###
 /node_modules/
 ###< pentatrion/vite-bundle ###
-
+.htaccess
+public/.htaccess
 .env
