@@ -53,3 +53,5 @@ ehthumbs_vista.db
 .htaccess
 public/.htaccess
 .env
+composer.lock
+package-lock.json
