@@ -67,13 +67,15 @@ RUN set -eux; \
 	apk del .build-deps
 
 ###> recipes ###
-###> doctrine/doctrine-bundle ###
-RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
-	docker-php-ext-install -j$(nproc) pdo_pgsql; \
-	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
-	apk del .pgsql-deps
-###< doctrine/doctrine-bundle ###
+###> doctrine/dbal ###
+# Installation de l'extension MySQL
+RUN apk add --no-cache --virtual .mysql-deps mariadb-dev; \
+    docker-php-ext-install -j$(nproc) pdo_mysql; \
+    apk add --no-cache --virtual .mysql-rundeps so:libmysqlclient.so.21; \
+    apk del .mysql-deps
+###< doctrine/dbal ###
 ###< recipes ###
+
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
