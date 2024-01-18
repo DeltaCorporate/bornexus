@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-        - .:/var/www/:rw
+        - .:/var/www:rw
     command: ["symfony","server:start"]
 
   database:

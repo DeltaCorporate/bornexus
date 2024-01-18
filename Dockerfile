@@ -22,11 +22,6 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 # Définition du répertoire de travail
 WORKDIR /var/www
 
-# Copie du code source de l'application dans le conteneur
-COPY . .
-
-# Installation des dépendances Composer
-RUN composer install --no-interaction
 
 RUN symfony server:ca:install
 
