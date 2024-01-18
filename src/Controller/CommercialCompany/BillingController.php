@@ -19,7 +19,6 @@ class BillingController extends AbstractController
     {
 
         $billings = $billingsRepository->findAll();
-        
         return $this->render('billing/index.html.twig', [
             'billings' => $billingsRepository->findAll(),
         ]);

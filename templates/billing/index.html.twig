@@ -22,7 +22,17 @@
             <th></th>
         </thead>
         <tbody>
- 
+        {% for billing in billings %}
+            <tr>
+                <td></td>
+                <td>{{ billing.status }}</td>
+                <td>{{ billing.emitedAt|format_datetime('full', 'none', locale='fr') }}</td>
+                <td>{{ billing.discount }}%</td>
+                <td>{{ billing.priceVat }}€</td>
+                <td>{{ billing.priceHt }}€</td>
+                <td>{{ billing.priceTtc }}€ </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 
