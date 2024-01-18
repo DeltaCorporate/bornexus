@@ -50,7 +50,10 @@ class Billing
 
     private float $priceDiscount = 0;
 
+    private float $priceHt = 0;
     private float $priceTtc = 0;
+
+
     public function __construct()
     {
         $this->billingsCompanyCatalogs = new ArrayCollection();
@@ -183,6 +186,7 @@ class Billing
         foreach($billingsCompanyCatalogs as $billingCompanyCatalog){
             $this->priceVat += $billingCompanyCatalog->getPriceVat();
             $this->priceDiscount += $billingCompanyCatalog->getPriceDiscount();
+            $this->priceHt += $billingCompanyCatalog->getPriceHt();
             $this->priceTtc += $billingCompanyCatalog->getPriceTtc();
         }   
         return $this;
@@ -192,7 +196,7 @@ class Billing
     /**
      * Get the value of priceVat
      */ 
-    public function getPriceVat()
+    public function getPriceVat(): float
     {
         return $this->priceVat;
     }
@@ -212,7 +216,7 @@ class Billing
     /**
      * Get the value of priceDiscount
      */ 
-    public function getPriceDiscount()
+    public function getPriceDiscount(): float 
     {
         return $this->priceDiscount;
     }
@@ -232,7 +236,7 @@ class Billing
     /**
      * Get the value of priceTtc
      */ 
-    public function getPriceTtc()
+    public function getPriceTtc(): float
     {
         return $this->priceTtc;
     }
@@ -245,6 +249,26 @@ class Billing
     public function setPriceTtc($priceTtc)
     {
         $this->priceTtc = $priceTtc;
+
+        return $this;
+    }
+
+      /**
+     * Get the value of priceTtc
+     */ 
+    public function getPriceHt(): float
+    {
+        return $this->priceHt;
+    }
+
+    /**
+     * Set the value of priceTtc
+     *
+     * @return  self
+     */ 
+    public function setPriceHt($priceHt)
+    {
+        $this->priceHt = $priceHt;
 
         return $this;
     }
