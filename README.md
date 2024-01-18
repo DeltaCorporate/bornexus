@@ -35,6 +35,10 @@
     ```bash
     npm run dev
     ```
+10. Lancer le terminal du container
+    ```bash
+    docker compose exec -it php bash
+    ```
 
 ## Accès
 - Front : https://localhost:8000 (accessible en https)
