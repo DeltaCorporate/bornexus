@@ -10,8 +10,7 @@ class BillingCard
     public function __construct(
         public string $title = '',
         public string $description = '',
-        public string $actionBtnIcon = '',
-        public string $actionBtnRoute = ''
+        public string $routeIcon = ''
     ) {
     }
 

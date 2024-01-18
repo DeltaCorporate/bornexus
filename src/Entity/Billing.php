@@ -48,7 +48,12 @@ class Billing
     #[ORM\ManyToOne(inversedBy: 'billings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $users = null;
+    
+    private float $priceVat = 0;
 
+    private float $priceDiscount = 0;
+
+    private float $priceTtc = 0;
     public function __construct()
     {
         $this->billingsCompanyCatalogs = new ArrayCollection();
@@ -210,8 +215,78 @@ class Billing
 
         return $this;
     }
-
     
 
-    
+    public function calculTotalPrices(): Billing 
+    {
+        $billingsCompanyCatalogs = $this->getBillingsCompanyCatalogs();
+        
+        foreach($billingsCompanyCatalogs as $billingCompanyCatalog){
+            $this->priceVat += $billingCompanyCatalog->getPriceVat();
+            $this->priceDiscount += $billingCompanyCatalog->getPriceDiscount();
+            $this->priceTtc += $billingCompanyCatalog->getPriceTtc();
+        }   
+        return $this;
+    }
+
+
+    /**
+     * Get the value of priceVat
+     */ 
+    public function getPriceVat()
+    {
+        return $this->priceVat;
+    }
+
+    /**
+     * Set the value of priceVat
+     *
+     * @return  self
+     */ 
+    public function setPriceVat($priceVat)
+    {
+        $this->priceVat = $priceVat;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of priceDiscount
+     */ 
+    public function getPriceDiscount()
+    {
+        return $this->priceDiscount;
+    }
+
+    /**
+     * Set the value of priceDiscount
+     *
+     * @return  self
+     */ 
+    public function setPriceDiscount($priceDiscount)
+    {
+        $this->priceDiscount = $priceDiscount;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of priceTtc
+     */ 
+    public function getPriceTtc()
+    {
+        return $this->priceTtc;
+    }
+
+    /**
+     * Set the value of priceTtc
+     *
+     * @return  self
+     */ 
+    public function setPriceTtc($priceTtc)
+    {
+        $this->priceTtc = $priceTtc;
+
+        return $this;
+    }
 }

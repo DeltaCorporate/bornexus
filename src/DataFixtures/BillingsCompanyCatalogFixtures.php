@@ -28,7 +28,9 @@ class BillingsCompanyCatalogFixtures extends Fixture implements DependentFixture
             foreach($companyCatalogs as $companyCatalog){
                 $billingsCompanyCatalog = new BillingCompanyCatalog();
                 $billingsCompanyCatalog->setDiscount($faker->randomFloat(2, 0, 1)); // Génère un float aléatoire entre 0 et 1 avec une précision de 2 chiffres après la virgule
+                $billingsCompanyCatalog->setQuantity(\rand(1,10)); 
                 $billingsCompanyCatalog->setBilling($faker->randomElement($billings)); // Sélectionne un élément aléatoire dans le tableau des Billings
+                
                 $billingsCompanyCatalog->setCompanyCatalog($companyCatalog);
                 $manager->persist($billingsCompanyCatalog);
             }

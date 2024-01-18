@@ -15,7 +15,6 @@
     },
     "dependencies": {
         "@tailwindcss/forms": "^0.5.7",
-        "datatables": "^1.10.18",
-        "datatables.net": "^1.13.8"
+        "tabulator-tables": "^5.5.2"
     }
 }
