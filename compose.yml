@@ -1,6 +1,14 @@
 version: "3.4"
 
 services:
+  php:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+        - .:/var/www/:rw
+    command: ["symfony","server:start"]
+
   database:
     image: mariadb:10.6.15
     environment:
@@ -12,5 +20,6 @@ services:
       - db_data:/var/lib/mysql:rw
     ports:
       - "3306:3306"
+
 volumes:
   db_data:
