@@ -34,7 +34,6 @@ class Billing
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0', nullable: true)]
     private ?string $discount = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'billings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
@@ -48,11 +47,16 @@ class Billing
     
     private float $priceVat = 0;
 
-    private float $priceDiscount = 0;
+    private float $priceDiscountOfLines = 0;
 
     private float $priceHt = 0;
     private float $priceTtc = 0;
 
+     const STATUS_LABEL = [
+        'paid' => 'Payée',
+        'unpaid' => 'Non payée',
+        'pending' => 'En cours'
+    ];
 
     public function __construct()
     {
@@ -185,7 +189,7 @@ class Billing
         
         foreach($billingsCompanyCatalogs as $billingCompanyCatalog){
             $this->priceVat += $billingCompanyCatalog->getPriceVat();
-            $this->priceDiscount += $billingCompanyCatalog->getPriceDiscount();
+            $this->priceDiscountOfLines += $billingCompanyCatalog->getPriceDiscount();
             $this->priceHt += $billingCompanyCatalog->getPriceHt();
             $this->priceTtc += $billingCompanyCatalog->getPriceTtc();
         }   
@@ -216,9 +220,9 @@ class Billing
     /**
      * Get the value of priceDiscount
      */ 
-    public function getPriceDiscount(): float 
+    public function getPriceDiscountOfLines(): float
     {
-        return $this->priceDiscount;
+        return $this->priceDiscountOfLines;
     }
 
     /**
@@ -226,9 +230,9 @@ class Billing
      *
      * @return  self
      */ 
-    public function setPriceDiscount($priceDiscount)
+    public function setPriceDiscount(float $priceDiscountOfLines)
     {
-        $this->priceDiscount = $priceDiscount;
+        $this->priceDiscountOfLines = $priceDiscountOfLines;
 
         return $this;
     }
@@ -241,6 +245,12 @@ class Billing
         return $this->priceTtc;
     }
 
+
+    public function getPriceTtcDiscounted(): float
+    {
+        $discount = $this->getDiscount()/100 * $this->getPriceTtc();
+        return $this->getPriceTtc() - $discount;
+    }
     /**
      * Set the value of priceTtc
      *
@@ -271,5 +281,15 @@ class Billing
         $this->priceHt = $priceHt;
 
         return $this;
+    }
+
+    public function getStatusLabel(): string
+    {
+        return self::STATUS_LABEL[$this->getStatus()];
+    }
+
+    public function getTypeFirstLetter(): string
+    {
+        return strtoupper($this->getType()[0]);
     }
 }

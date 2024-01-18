@@ -146,6 +146,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstname;
     }
 
+    public function getFullName(): string
+    {
+        return  strtoupper($this->lastname)  . ' ' . ucfirst(strtolower($this->firstname));
+    }
     public function setFirstname(?string $firstname): static
     {
         $this->firstname = $firstname;
