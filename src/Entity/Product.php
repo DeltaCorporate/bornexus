@@ -125,7 +125,7 @@ class Product
 
     public function getTva(): ?string
     {
-        return $this->tva;
+        return $this->tva/100;
     }
 
     public function setTva(string $tva): static

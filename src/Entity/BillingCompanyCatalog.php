@@ -27,6 +27,9 @@ class BillingCompanyCatalog
     #[ORM\JoinColumn(nullable: false)]
     private ?CompanyCatalog $company_catalog = null;
 
+    #[ORM\Column]
+    private ?int $quantity = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,6 +67,39 @@ class BillingCompanyCatalog
     public function setCompanyCatalog(?CompanyCatalog $company_catalog): static
     {
         $this->company_catalog = $company_catalog;
+
+        return $this;
+    }
+
+    public function getPriceTtc(): ?float
+    {
+        $price = $this->getCompanyCatalog()->getProduct()->getPrice() * $this->getQuantity();
+
+        return ($price - $this->getPriceVat() - $this->getPriceDiscount());
+    }
+    
+    public function getPriceVat(): ?float
+    {
+        $quantity = $this->getQuantity();
+        $price = $this->getCompanyCatalog()->getProduct()->getPrice();
+        $price *= $quantity - $this->getPriceDiscount();
+        $tva = $this->getCompanyCatalog()->getProduct()->getTva();
+        return $price * $tva;
+    }
+
+    public function getPriceDiscount(): ?float
+    {
+        return $this->getDiscount() * ($this->getCompanyCatalog()->getProduct()->getPrice() * $this->getQuantity());
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): static
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }
