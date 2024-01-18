@@ -19,6 +19,11 @@ class BillingController extends AbstractController
     {
 
         $billings = $billingsRepository->findAll();
+
+        array_map(function ($billing){
+            $billing->calculTotalPrices();
+        }, $billings);
+        
         return $this->render('billing/index.html.twig', [
             'billings' => $billingsRepository->findAll(),
         ]);
