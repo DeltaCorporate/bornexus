@@ -10,31 +10,35 @@ npm
 ```bash
 docker-compose up -d
 ```
-3. Installer les dépendances php
+3. Copier le fichier .env.example en .env
+```bash
+cp .env.example .env
+```
+4. Installer les dépendances php
 ```bash
 composer install
 ```
-4. Installer les dépendances js
+5. Installer les dépendances js
 ```bash
 npm install
 ```
-5. Créer la base de données if not exist
+6. Créer la base de données if not exist
 ```bash
 php bin/console doctrine:database:create --if-not-exists
 ```
-6. Lancer les migrations
+7. Lancer les migrations
 ```bash
 php bin/console doctrine:migrations:migrate
 ```
-7. Lancer les fixtures
+8. Lancer les fixtures
 ```bash
 php bin/console doctrine:fixtures:load
 ```
-8. Lancer le watcher
+9. Lancer le watcher
 ```bash
 npm run dev
 ```
-9. Lancer le serveur de dev
+10. Lancer le serveur de dev
 ```bash
 symfony server:start
 ```
