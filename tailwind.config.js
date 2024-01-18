@@ -45,7 +45,10 @@ module.exports = {
       },
       translate: {
         '-1/2': '-50%',
-      }
+      },
+      container: {
+        center: true,
+      },
       
       },
    

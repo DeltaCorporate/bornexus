@@ -31,8 +31,8 @@
                 <td>{{ billing.updatedAt ? billing.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ billing.createdAt ? billing.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_billing_show', {'id': billing.id}) }}">show</a>
-                    <a href="{{ path('app_billing_edit', {'id': billing.id}) }}">edit</a>
+                    <a href="{{ path('commercial_company_app_billing_show', {'id': billing.id}) }}">show</a>
+                    <a href="{{ path('commercial_company_app_billing_edit', {'id': billing.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -43,5 +43,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_billing_new') }}">Create new</a>
+    <a href="{{ path('commercial_company_app_billing_new') }}">Create new</a>
 {% endblock %}
