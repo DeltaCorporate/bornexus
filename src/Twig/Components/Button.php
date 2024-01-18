@@ -20,6 +20,7 @@ class Button
         public string $href = '#',
         public string $radius = 'rounded-md',
         public string $balise = 'button',
+        public string $class = '',
         /**
          * @var 'solid' | 'outline'
          */

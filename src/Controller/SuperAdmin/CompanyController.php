@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\SuperAdmin;
 
 use App\Entity\Company;
 use App\Form\CompanyType;
@@ -33,7 +33,7 @@ class CompanyController extends AbstractController
             $entityManager->persist($company);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('company/new.html.twig', [
@@ -59,7 +59,7 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('company/edit.html.twig', [
@@ -76,6 +76,6 @@ class CompanyController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
     }
 }

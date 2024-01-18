@@ -55,3 +55,6 @@ public/.htaccess
 .env
 composer.lock
 package-lock.json
+
+public/build/
+public/tmp.css

@@ -22,10 +22,27 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        // Get all companies
-        $companies = $manager->getRepository(Company::class)->findAll();
-
-        foreach ($companies as $company) {
+        // Get all repository
+        $repository = $manager->getRepository(Company::class);
+        $superAdmin = new User();
+        $superAdmin->setEmail('admin@test.com');
+        $superAdmin->setRoles(['ROLE_SUPER_ADMIN']);
+        $superAdmin->setPassword($this->passwordHasher->hashPassword(
+            $superAdmin,
+            'password'
+        ));
+        $superAdmin->setFirstname($faker->firstName);
+        $superAdmin->setLastname($faker->lastName);
+        $superAdmin->setAddress($faker->address);
+        $superAdmin->setCountry($faker->countryCode);
+        $superAdmin->setZip(rand(10000, 99999));
+        $superAdmin->setVerificationToken($faker->md5);
+        $superAdmin->setVerifiedAt(new \DateTimeImmutable());
+        $superAdmin->setCreatedAt(new \DateTimeImmutable());
+        $superAdmin->setUpdatedAt(new \DateTimeImmutable());
+        $superAdmin->setCompany($repository->find(1));
+        $manager->persist($superAdmin);
+        foreach ($repository->findAll() as $company) {
             for ($i = 0; $i < 4; $i++) {
                 $user = new User();
                 $user->setEmail($faker->email);
@@ -43,7 +60,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
                 $user->setVerifiedAt(new \DateTimeImmutable());
                 $user->setCreatedAt(new \DateTimeImmutable());
                 $user->setUpdatedAt(new \DateTimeImmutable());
-                $user->setCompany($company); // Set the company of the user
+                $user->setCompany($company);
 
                 $manager->persist($user);
             }

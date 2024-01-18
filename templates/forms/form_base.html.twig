@@ -18,7 +18,7 @@
 
 
 {%- block widget_attributes -%}
-    {%- set attr = attr|merge({ class: attr.class|default(widget_class|default('bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg')) ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
+    {%- set attr = attr|merge({ class: attr.class|default(widget_class|default('block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg')) ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
     {{- parent() -}}
 {%- endblock widget_attributes -%}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\CommercialCompany;
 
 use App\Entity\Billing;
 use App\Form\BillingType;
@@ -34,7 +34,7 @@ class BillingController extends AbstractController
             $entityManager->persist($billing);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_billing_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('commercial_company_commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('billing/new.html.twig', [
@@ -60,7 +60,7 @@ class BillingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_billing_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('billing/edit.html.twig', [
@@ -77,6 +77,6 @@ class BillingController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_billing_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
     }
 }
