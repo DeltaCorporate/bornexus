@@ -25,5 +25,8 @@ WORKDIR /var/www
 
 RUN symfony server:ca:install
 
+RUN echo 'function s() { php bin/console "$@"; }' >> ~/.bashrc
+
+
 # Commande pour démarrer PHP-FPM
 CMD ["symfony"]
