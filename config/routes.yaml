@@ -2,12 +2,26 @@ controllers_super_admin:
     resource: ../src/Controller/SuperAdmin/
     type: attribute
     name_prefix:  super_admin_
-    prefix: /bornexus/admin
+    prefix: /bornexus
+
+controllers_admin_company:
+    resource: ../src/Controller/AdminCompany/
+    type: attribute
+    name_prefix:  admin_company_
+    prefix: /companies/admin
+
+controllers_accountant_company:
+    resource: ../src/Controller/AccountantCompany/
+    type: attribute
+    name_prefix:  accountant_company_
+    prefix: /companies/accountant
+
 controllers_commercial_company:
     resource: ../src/Controller/CommercialCompany/
     type: attribute
     name_prefix:  commercial_company_
-    prefix: /companies/admin
+    prefix: /companies
+
 controllers:
     resource: ../src/Controller/Global/
     type: attribute

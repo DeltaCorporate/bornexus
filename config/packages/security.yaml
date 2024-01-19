@@ -34,14 +34,19 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN_COMPANY, ROLE_ACCOUNTANT_COMPANY, ROLE_COMMERCIAL_COMPANY, ROLE_USER]
+        ROLE_ADMIN_COMPANY: [ROLE_ACCOUNTANT_COMPANY, ROLE_COMMERCIAL_COMPANY, ROLE_USER]
+        ROLE_ACCOUNTANT_COMPANY: [ROLE_COMMERCIAL_COMPANY, ROLE_USER]
+        ROLE_COMMERCIAL_COMPANY: [ROLE_USER]
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/bornexus/admin, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/companies/admin, roles: ROLE_COMMERCIAL_COMPANY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/bornexus, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/companies/admin, roles: ROLE_ADMIN_COMPANY }
+        - { path: ^/companies/accountant, roles: ROLE_ACCOUNTANT_COMPANY }
+        - { path: ^/companies, roles: ROLE_COMMERCIAL_COMPANY }
 
 when@test:
     security:
