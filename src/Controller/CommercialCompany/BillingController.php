@@ -6,26 +6,32 @@ use App\Entity\Billing;
 use App\Form\BillingType;
 use App\Repository\BillingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/billing')]
 class BillingController extends AbstractController
 {
-    #[Route('/', name: 'app_billing_index', methods: ['GET'])]
-    public function index(BillingsRepository $billingsRepository): Response
+    #[Route('/{page<\d+>?1}', name: 'app_billing_index', methods: ['GET'])]
+    public function index(BillingsRepository $billingsRepository, PaginatorInterface $paginator,Request $request): Response
     {
 
-        $billings = $billingsRepository->findAll();
-
-        array_map(function ($billing){
-            $billing->calculTotalPrices();
-        }, $billings);
+        $billings = $paginator->paginate(
+            $billingsRepository->listPaginationQuery(),
+            $request->get('page'),
+            10
+        );
+        $billingsItems = $billings->getItems();
+        
+          array_map(function ($billing){
+             $billing->calculTotalPrices();
+          }, $billingsItems);
         
         return $this->render('billing/index.html.twig', [
-            'billings' => $billingsRepository->findAll(),
+            'billings' => $billings,
         ]);
     }
 

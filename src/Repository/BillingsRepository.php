@@ -22,5 +22,10 @@ class BillingsRepository extends ServiceEntityRepository
     }
 
 
+    public function listPaginationQuery(){
+        return $this->createQueryBuilder('b')
+            ->orderBy('b.id', 'ASC')
+            ->getQuery();
+    }
         
 }
