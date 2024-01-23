@@ -19,19 +19,9 @@ class BillingController extends AbstractController
     public function index(BillingsRepository $billingsRepository, PaginatorInterface $paginator,Request $request): Response
     {
 
-        $billings = $paginator->paginate(
-            $billingsRepository->listPaginationQuery(),
-            $request->get('page'),
-            10
-        );
-        $billingsItems = $billings->getItems();
-        
-          array_map(function ($billing){
-             $billing->calculTotalPrices();
-          }, $billingsItems);
+       
         
         return $this->render('billing/index.html.twig', [
-            'billings' => $billings,
         ]);
     }
 

@@ -7,6 +7,9 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "@symfony/stimulus-bridge": "^3.2.0",
+        "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
         "autoprefixer": "^10.4.16",
         "postcss": "^8.4.32",
         "tailwindcss": "^3.3.7",
