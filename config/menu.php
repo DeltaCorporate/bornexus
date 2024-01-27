@@ -15,7 +15,7 @@ return [
         "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
         "subMenu" => [
             [
-                "route" => "commercial_company_app_billing_index",
+                "route" => "accountant_company_app_billing_index",
                 "route_args" => [],
                 "title" => "Devis",
                 "icon" => "fa fa-gear",
