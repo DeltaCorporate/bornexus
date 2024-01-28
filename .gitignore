@@ -58,3 +58,7 @@ package-lock.json
 
 public/build/
 public/tmp.css
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###

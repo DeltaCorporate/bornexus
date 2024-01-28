@@ -1,5 +1,5 @@
 # Utilisation de PHP 8.1 FPM comme image de base
-FROM php:8.1
+FROM php:8.3
 
 # Installation des dépendances nécessaires pour Symfony et les extensions PHP
 RUN apt-get update && apt-get install -y \
@@ -7,10 +7,18 @@ RUN apt-get update && apt-get install -y \
         zip \
         unzip \
         git \
+        libicu-dev \
+        g++ \
+        npm \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
-        zip
+        zip \
+        intl
+
+RUN docker-php-ext-install opcache \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu
 
 # Installation de Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -21,7 +29,6 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 # Définition du répertoire de travail
 WORKDIR /var/www
-
 
 RUN symfony server:ca:install
 
