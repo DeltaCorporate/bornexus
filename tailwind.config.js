@@ -67,5 +67,5 @@ module.exports = {
     'hover:brightness-75',
   ],
 
-    // plugins: [require('@tailwindcss/forms')]
+     plugins: [require('@tailwindcss/forms')]
 }
