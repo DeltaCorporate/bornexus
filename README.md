@@ -1,7 +1,6 @@
 # Lancement du projet en local
 
 ## Installation
-
 * Cloner le projet
 * Copier le fichier .env.example en .env
     ```bash
@@ -22,18 +21,17 @@
 * Lancer les migrations
     ```bash
     docker compose exec php bin/console doctrine:migrations:migrate --no-interaction
-    ```
 * Lancer les fixtures
     ```bash
     docker compose exec php bin/console doctrine:fixtures:load --no-interaction
     ```
-* Installer les dépendances js
-    ```bash
-    npm install
-    ```
 * Lancer le terminal du container
     ```bash
     docker compose exec -it php bash
+    ```
+  * Lancer le watcher tailwind
+    ```bash
+    docker compose exec -it php bin/console tailwind:build --watch
     ```
 
 ## Accès
