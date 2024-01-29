@@ -7,18 +7,10 @@ RUN apt-get update && apt-get install -y \
         zip \
         unzip \
         git \
-        libicu-dev \
-        g++ \
-        npm \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
-        zip \
-        intl
-
-RUN docker-php-ext-install opcache \
-    && pecl install apcu \
-    && docker-php-ext-enable apcu
+        zip
 
 # Installation de Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -30,10 +22,13 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 # Définition du répertoire de travail
 WORKDIR /var/www
 
+
 RUN symfony server:ca:install
 
 RUN echo 'function s() { php bin/console "$@"; }' >> ~/.bashrc
 
+
+RUN chmod 777 -R ./
 
 # Commande pour démarrer PHP-FPM
 CMD ["symfony"]

@@ -1,65 +1,66 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-    /*.size-xs {*/
-    /*    @apply px-1.5 py-0.5;*/
-    /*}*/
-    /*.size-sm {*/
-    /*    @apply px-2 py-1;*/
-    /*}*/
-    /*.size-base {*/
-    /*    @apply px-2.5 py-1.5;*/
-    /*}*/
-    /*.size-lg {*/
-    /*    @apply px-3 py-2;*/
-    /*}*/
-    /*.size-xl {*/
-    /*    @apply px-3.5 py-2.5;*/
-    /*}*/
 
-    /*.h1 {*/
-    /*    @apply text-2xl font-bold;*/
-    /*}*/
-    /*.h2 {*/
-    /*    @apply text-2xl font-bold;*/
-    /*}*/
-    /*.h3 {*/
-    /*    @apply text-xl font-semibold;*/
-    /*}*/
-    /*.h4 {*/
-    /*    @apply text-lg font-semibold;*/
-    /*}*/
-    /*.h5 {*/
-    /*    @apply text-base font-bold;*/
-    /*}*/
-    /*.h6 {*/
-    /*    @apply text-sm font-bold;*/
-    /*}*/
+.size-xs {
+    @apply px-1.5 py-0.5;
+}
+.size-sm {
+    @apply px-2 py-1;
+}
+.size-base {
+    @apply px-2.5 py-1.5;
+}
+.size-lg {
+    @apply px-3 py-2;
+}
+.size-xl {
+    @apply px-3.5 py-2.5;
+}
 
-    /*.pg {*/
-    /*    @apply text-base;*/
-    /*}*/
-    /*.small {*/
-    /*    @apply text-sm;*/
-    /*}*/
+.h1 {
+    @apply text-2xl font-bold;
+}
+.h2 {
+    @apply text-2xl font-bold;
+}
+.h3 {
+    @apply text-xl font-semibold;
+}
+.h4 {
+    @apply text-lg font-semibold;
+}
+.h5 {
+    @apply text-base font-bold;
+}
+.h6 {
+    @apply text-sm font-bold;
+}
 
-
-    /*.dropdown-bg {*/
-    /*    @apply bg-base;*/
-    /*}*/
-
-    /*.dropdown-bg li a:hover {*/
-    /*    @apply bg-neutral;*/
-    /*}*/
-
-    /*.dropdown-neutral {*/
-    /*    @apply bg-neutral;*/
-    /*}*/
-
-    /*.dropdown-neutral li a:hover {*/
-    /*    @apply bg-base;*/
-    /*}*/
+.pg {
+    @apply text-base;
+}
+.small {
+    @apply text-sm;
+}
 
 
+.dropdown-bg {
+    @apply bg-base;
+}
+
+.dropdown-bg li a:hover {
+    @apply bg-neutral;
+}
+
+.dropdown-neutral {
+    @apply bg-neutral;
+}
+
+.dropdown-neutral li a:hover {
+    @apply bg-base;
+}
