@@ -1,12 +1,12 @@
 <?php
-namespace App\Components\Billing;
+namespace App\Twig\Components\Billing;
 
 use App\Repository\BillingsRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Symfony\UX\LiveComponent\Attribute\LiveAction;
-use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
 
 #[AsLiveComponent(template: 'billing/components/billing_table.html.twig')]
