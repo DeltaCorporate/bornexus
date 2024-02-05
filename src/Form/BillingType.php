@@ -3,7 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Billing;
+use Doctrine\ORM\Query\Expr\Select;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,15 +17,20 @@ class BillingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('status')
-            ->add('type')
-            ->add('emited_at')
-            ->add('payment_method')
-            ->add('discount')
-            ->add('updated_at')
-            ->add('created_at')
-            ->add('company')
-            ->add('users')
+            ->add('type', ChoiceType::class,[
+                'choices' => array_flip(Billing::TYPE),
+                'expanded' => true
+            ])
+            ->add('emited_at',DateType::class)
+            ->add('payment_method',ChoiceType::class,[
+                'choices' => array_flip(Billing::PAYMENT_METHOD)
+            ])
+            ->add('discount',NumberType::class,[
+                'html5' => true,
+                'attr' => [
+                    'min' => 0
+                ]
+            ])
         ;
     }
 

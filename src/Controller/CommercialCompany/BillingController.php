@@ -1,26 +1,25 @@
 <?php
 
-namespace App\Controller\AccountantCompany;
+namespace App\Controller\CommercialCompany;
 
 use App\Entity\Billing;
 use App\Form\BillingType;
 use App\Repository\BillingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/billing')]
 class BillingController extends AbstractController
 {
-    #[Route('/{page<\d+>?1}', name: 'app_billing_index', methods: ['GET'])]
+
+    #[Route('/', name: 'app_billing_index', methods: ['GET'])]
     public function index(BillingsRepository $billingsRepository, PaginatorInterface $paginator,Request $request): Response
     {
 
-       
-        
         return $this->render('billing/index.html.twig', [
         ]);
     }
@@ -31,14 +30,11 @@ class BillingController extends AbstractController
         $billing = new Billing();
         $form = $this->createForm(BillingType::class, $billing);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($billing);
             $entityManager->flush();
-
-            return $this->redirectToRoute('accountant_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('billing/new.html.twig', [
             'billing' => $billing,
             'form' => $form,
@@ -62,7 +58,7 @@ class BillingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('accountant_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('billing/edit.html.twig', [
@@ -79,6 +75,6 @@ class BillingController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('accountant_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
     }
 }

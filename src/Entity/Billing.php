@@ -58,6 +58,15 @@ class Billing
         'pending' => 'En cours'
     ];
 
+    const PAYMENT_METHOD = [
+        'stripe' => 'Stripe',
+        'credit_card' => 'Carte de crédit',
+        'paypal' => 'Paypal'
+    ];
+    const TYPE = [
+        'quote' => 'Devis',
+        'invoice' => 'Facture'
+    ];
     public function __construct()
     {
         $this->billingsCompanyCatalogs = new ArrayCollection();
