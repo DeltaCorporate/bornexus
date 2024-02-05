@@ -22,12 +22,6 @@ controllers_commercial_company:
     name_prefix:  commercial_company_
     prefix: /companies
 
-controllers_product:
-    resource: ../src/Controller/Product/
-    type: attribute
-    name_prefix:  product_
-    prefix: /products
-
 controllers:
     resource: ../src/Controller/Global/
     type: attribute
