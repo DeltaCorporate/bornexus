@@ -3,19 +3,17 @@
 {% block title %}Billing index{% endblock %}
 
 {% block body %}
-    <h1>Billing index</h1>
     <twig:Billing:BillingCard
         title="Billing card"
         description="Billing card description"
-        routeIcon="accountant_company_app_billing_new"
+        routeIcon="commercial_company_app_billing_new"
     >
 
 
-        {{ component('Billing:BillingTable', { page : app.request.get('page')} ) }}
+        {{ component('Billing:BillingTable') }}
 
  
 
     </twig:Billing:BillingCard>
 
-    <a href="{{ path('accountant_company_app_billing_new') }}">Create new</a>
 {% endblock %}
