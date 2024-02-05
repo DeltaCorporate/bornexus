@@ -32,10 +32,8 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($company);
             $entityManager->flush();
-
             return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('company/new.html.twig', [
             'company' => $company,
             'form' => $form,
