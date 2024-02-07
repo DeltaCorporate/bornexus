@@ -67,7 +67,7 @@ class BillingController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_billing_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_billing_delete', methods: ['DELETE'])]
     public function delete(Request $request, Billing $billing, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$billing->getId(), $request->request->get('_token'))) {

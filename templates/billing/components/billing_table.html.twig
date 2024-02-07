@@ -33,21 +33,22 @@
                         size="sm"
                         color="{{ badgeColor }}"
                         fontSize="sm"
-                        radius="rounded-xl"
-                        textColor="text-base"
+                        radius="rounded-full"
+                        textColor=""
                     />
                 </td>
                 <td class="text-center">
                     <div class="flex py-1 gap-2 ">
                         <twig:Button
-                            icon="fa fa-eye"
+                            icon="fa fa-trash"
+                            color="error"
+                            textColor="text-white"
                             radius="rounded-full"
                             fontSize="sm"
-                            size="sm"
+                            size="xs"
                             balise="a"
-                            href=""
-                            route="commercial_company_app_billing_show"
-                        />
+                            data-action="delete"
+                            />
                         <twig:Button
                             icon="fa fa-pen"
                             color="secondary"
@@ -55,8 +56,8 @@
                             fontSize="sm"
                             size="sm"
                             balise="a"
-                            href=""
-                            route="commercial_company_app_billing_show"
+                            href="{{ path('commercial_company_app_billing_edit',{'id': billing.id}) }}"
+
                         />
                     </div>
                 </td>

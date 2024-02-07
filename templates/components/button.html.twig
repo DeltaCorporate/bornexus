@@ -15,7 +15,7 @@
   {% endif %}
 
    class="inline-flex w-auto gap-2 items-center {{ radius }} justify-center transition-all border-{{ color }} border-{{ borderWidth }} cursor-pointer bg-{{ bgColor }} text-{{ fontSize }} size-{{ size }} {{ weight }} hover:{{ hoverEffect }} {{ textColor }} focus:outline-none focus:ring {{ class }}"
-  {{ attributes|attribute2String }}
+  {{ attributes }}
 >
 
 {% if icon is not empty %}
