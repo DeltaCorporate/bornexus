@@ -11,7 +11,7 @@ class Button
         public string $text = '',
         public string $icon = '',
         public string $color = 'primary',
-        public string $textColor = 'text-text',
+        public string $textColor = 'text-dark',
         public string $size = 'base',
         public string $borderWidth = '2',
         public string $fontSize = 'md',

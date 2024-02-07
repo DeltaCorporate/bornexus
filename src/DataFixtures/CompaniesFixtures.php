@@ -12,8 +12,7 @@ class CompaniesFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR'); // Utilisez 'fr_FR' pour les données en français
-
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $company = new Company();
             $company->setName($faker->company);
             $company->setDescription($faker->text);
@@ -25,14 +24,14 @@ class CompaniesFixtures extends Fixture
             $company->setPaypalId($faker->uuid);
             $company->setStripeId($faker->uuid);
             $company->setIban($faker->iban('FR'));
-            $company->setTva($faker->boolean);
+            $company->setTva($faker->randomNumber(9, true));
             $company->setTvaReason($faker->sentence);
             $company->setCreatedAt(new \DateTimeImmutable());
             $company->setUpdatedAt(new \DateTimeImmutable());
-
+            $company->setStatus($faker->randomElement(['pending', 'active', 'inactive']));
             $manager->persist($company);
         }
-
         $manager->flush();
+        $manager->clear();
     }
 }

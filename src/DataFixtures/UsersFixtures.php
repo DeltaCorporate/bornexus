@@ -41,32 +41,31 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $superAdmin->setCreatedAt(new \DateTimeImmutable());
         $superAdmin->setUpdatedAt(new \DateTimeImmutable());
         $superAdmin->setCompany($repository->find(1));
+        $companies = $repository->findAll();
         $manager->persist($superAdmin);
-        foreach ($repository->findAll() as $company) {
-            for ($i = 0; $i < 4; $i++) {
-                $user = new User();
-                $user->setEmail($faker->email);
-                $user->setRoles(['ROLE_USER']);
-                $user->setPassword($this->passwordHasher->hashPassword(
-                    $user,
-                    'the_new_password'
-                ));
-                $user->setFirstname($faker->firstName);
-                $user->setLastname($faker->lastName);
-                $user->setAddress($faker->address);
-                $user->setCountry($faker->countryCode);
-                $user->setZip(rand(10000, 99999));
-                $user->setVerificationToken($faker->md5);
-                $user->setVerifiedAt(new \DateTimeImmutable());
-                $user->setCreatedAt(new \DateTimeImmutable());
-                $user->setUpdatedAt(new \DateTimeImmutable());
-                $user->setCompany($company);
-
-                $manager->persist($user);
-            }
+        for ($i = 0; $i <4; $i++) {
+            $user = new User();
+            $user->setEmail($faker->email);
+            $user->setRoles(['ROLE_USER']);
+            $user->setPassword($this->passwordHasher->hashPassword(
+                $user,
+                'the_new_password'
+            ));
+            $user->setFirstname($faker->firstName);
+            $user->setLastname($faker->lastName);
+            $user->setAddress($faker->address);
+            $user->setCountry($faker->countryCode);
+            $user->setZip(rand(10000, 99999));
+            $user->setVerificationToken($faker->md5);
+            $user->setVerifiedAt(new \DateTimeImmutable());
+            $user->setCreatedAt(new \DateTimeImmutable());
+            $user->setUpdatedAt(new \DateTimeImmutable());
+            $user->setCompany($companies[array_rand($companies)]);
+            $manager->persist($user);
         }
 
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

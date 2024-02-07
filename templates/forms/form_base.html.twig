@@ -1,4 +1,4 @@
-{% use 'form_div_layout.html.twig' %}
+{% use 'tailwind_2_layout.html.twig' %}
 
 
 {%- block form_widget_compound -%}
@@ -29,6 +29,9 @@
     <span class="absolute right-2 top-1/2 text-md">%</span>
 {%- endblock percent_widget -%}
 
+
+
+
 {%- block form_label -%}
     {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default('block text-text')) }) -%}
     {{- parent() -}}
@@ -46,6 +49,8 @@
 {%- endblock form_errors -%}
 
 
+
+
 {%- block widget_container_attributes -%}
     {%- if id is not empty %} class="flex flex-row items-center gap-2" id="{{ id }}"{% endif -%}
     {{ block('attributes') }}
@@ -54,9 +59,8 @@
 
 
 
-     
+
         {% block submit_widget %}
-        
             <twig:Button
                     type="submit"
                     color="primary"
@@ -72,6 +76,5 @@
 
 {% block password_widget %}
     {%- set type = type|default('password') -%}
-    {{ block('form_widget_simple') }}
     <i onclick="togglePassword(this)" class="absolute right-2 top-1/2 cursor-pointer fa fa-eye text-lg"></i>
 {% endblock password_widget %}

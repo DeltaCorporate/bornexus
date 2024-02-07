@@ -43,6 +43,7 @@ class BillingsFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

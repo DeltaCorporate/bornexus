@@ -17,10 +17,17 @@
             }
         )
     }}
-    <section class="block w-full p-3 h-screen overflow-auto">
-        {% block body %}
+    <section class="block w-full h-screen overflow-auto p-3">
 
-        {% endblock %}
+        <section>
+            <header class="bg-neutral min-h-[70px] py-4 shadow-lg rounded-2xl"></header>
+        </section>
+        <main class="mt-4">
+
+            {% block body %}
+
+            {% endblock %}
+        </main>
 
     </section>
 </main>

@@ -20,15 +20,15 @@
             </div>
             <div class="my-4 space-y-4">
                 <div class="space-y-2">
-                    <label class="block text-text" for="inputEmail">Email</label>
+                    <label class="block text-dark" for="inputEmail">Email</label>
                     <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
-                           class="block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg px-4 py-2 w-full"
+                           class="block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-dark rounded-lg px-4 py-2 w-full"
                            autocomplete="email" required autofocus/>
                 </div>
                 <div class="space-y-2">
-                    <label class="block text-text" for="inputPassword">Password</label>
+                    <label class="block text-dark" for="inputPassword">Password</label>
                     <input type="password" name="password" id="inputPassword"
-                           class="block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg  px-4 py-2 w-full"
+                           class="block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-dark rounded-lg  px-4 py-2 w-full"
                            autocomplete="current-password" required/>
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>

@@ -12,6 +12,7 @@ class AppFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
 
+        ini_set('memory_limit', '4G');
         $manager->flush();
     }
 }

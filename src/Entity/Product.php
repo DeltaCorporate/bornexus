@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Timestampable;
 use App\Repository\ProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Product
 {
+    use Timestampable;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -32,14 +34,8 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: '2')]
     private ?string $tva = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]

@@ -10,7 +10,7 @@ class Badge
     public function __construct(
         public string $text = '',
         public string $color = 'primary',
-        public string $textColor = 'text-text',
+        public string $textColor = 'text-dark',
         public string $size = 'base',
         public string $fontSize = 'md',
         public string $weight = 'font-medium',
