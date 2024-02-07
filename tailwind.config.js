@@ -15,7 +15,7 @@ module.exports = {
                 'primary': "#A8EB74", // ROSE
                 'secondary': '#7EB0FA', // NOIR
                 'accent': "rgba(33, 33, 33, 0.70);",
-                'text': '#212121',
+                'dark': '#212121',
                 'base': '#FFF', // BLANC
                 'neutral': '#F6F7FA', // CARD
                 'darkgrey': '#D9D9D9',
@@ -33,14 +33,20 @@ module.exports = {
     },
     safelist: [
         {
-            pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning|darkgrey)/,
+            pattern: /(bg|text|border|ring)-(primary|secondary|accent|dark|background|card|error|success|warning|darkgrey)/,
             variants: ['hover']
         },
         {
             pattern: /(w|h)-(100|[1-9][0-9]?)/,
         },
+        {
+            pattern: /(col-span-(1[0-2]|[1-9])|col-span-full)/
+        },
+        {
+            pattern: /text-(left|right|center|justify|start|end)/
+        },
         'hover:brightness-75',
     ],
 
-    // plugins: [require('@tailwindcss/forms')]
+    plugins: [require('@tailwindcss/forms')]
 }

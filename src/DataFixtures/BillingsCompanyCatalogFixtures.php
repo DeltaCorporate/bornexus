@@ -35,6 +35,7 @@ class BillingsCompanyCatalogFixtures extends Fixture implements DependentFixture
         }
 
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

@@ -4,19 +4,15 @@
 
 {% block body %}
 
-<div class="flex items-center h-screen justify-center">
-    <div class="w-3/4 h-5/6 p-10 bg-neutral overflow-auto">
-        <h1>Create new Company</h1>
-        
-        {{ form(form) }}
-
-    <twig:Button href="{{ path('super_admin_app_company_index') }}"
-                 text="Back to list"
-                 color="0"
-                 borderWidth="0"
-                 icon="fa fa-solid fa-arrow-left"
-    />
-
+<twig:Card>
+    <div class="mb-4">
+        <a  href="{{ path('super_admin_app_company_index') }}" class="px-4 py-2 bg-darkgrey rounded-lg">
+            <i class="fas fa-arrow-left"></i> Back to list</a>
+        <h1 class="block font-bold text-3xl mt-4">Ajouter une entreprise</h1>
+        <p class="text-dark text-xs mt-4">
+            Ajouter une entreprise en renseignant le maximum d'infos en sur elle. Il ne s'agit que de l'insérer, il faut encore valider son propriétaire et ajouter ses différents moyens de paiement.
+        </p>
     </div>
-</div>
+    {{ form(form) }}
+</twig:Card>
 {% endblock %}

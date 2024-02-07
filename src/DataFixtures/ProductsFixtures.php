@@ -27,7 +27,7 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
         foreach ($companies as $company) {
             foreach ($categories as $category) {
                 foreach ($suppliers as $supplier) {
-                    for ($i = 0; $i < 3; $i++) {
+                    for ($i = 0; $i < 4; $i++) {
                         $product = new Product();
                         $product->setName($faker->word);
                         $product->setDescription($faker->sentence);
@@ -47,6 +47,7 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

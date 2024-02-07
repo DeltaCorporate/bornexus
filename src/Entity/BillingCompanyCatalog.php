@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Timestampable;
 use App\Repository\BillingsCompanyCatalogRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BillingsCompanyCatalogRepository::class)]
 class BillingCompanyCatalog
 {
+    use Timestampable;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
