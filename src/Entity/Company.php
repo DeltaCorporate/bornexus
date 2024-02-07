@@ -59,8 +59,8 @@ class Company
     #[ORM\Column(length: 34, nullable: true)]
     private ?string $iban = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: '2')]
-    private ?string $tva = null;
+    #[ORM\Column()]
+    private ?float $tva = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tva_reason = null;
@@ -85,6 +85,16 @@ class Company
 
     #[ORM\Column(length: 255)]
     private ?string $status = "active";
+
+    #[ORM\Column]
+    private ?float $test = null;
+
+    const TVA = [
+        "20" =>'20%',
+        "10" => '10%',
+        "5.5" => '5.5%',
+        "2.1" => "2.1%"
+    ];
 
     public function __construct()
     {
@@ -221,12 +231,12 @@ class Company
         return $this;
     }
 
-    public function isTva(): ?bool
+    public function isTva(): ?float
     {
         return $this->tva;
     }
 
-    public function setTva(bool $tva): static
+    public function setTva(float $tva): static
     {
         $this->tva = $tva;
 
@@ -438,6 +448,18 @@ class Company
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTest(): ?float
+    {
+        return $this->test;
+    }
+
+    public function setTest(float $test): static
+    {
+        $this->test = $test;
 
         return $this;
     }
