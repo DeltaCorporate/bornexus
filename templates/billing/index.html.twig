@@ -6,7 +6,12 @@
     <twig:Billing:BillingCard
         title="Billing card"
         description="Billing card description"
-        routeIcon="commercial_company_app_billing_new"
+        :routeAction="{
+            'new': {
+              'link': path('commercial_company_app_billing_new'),
+              'text': 'Créer une Facturation'
+            }
+        }"
     >
 
 
