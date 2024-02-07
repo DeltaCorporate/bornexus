@@ -1,84 +1,86 @@
 <div{{ attributes }}>
 
-    <twig:Card>
-        <section class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
-            <div class="relative flex flex-col min-w-0 break-words w-full mb-6">
-                <div class="rounded-t mb-0 px-4 py-3 border-0">
-                    <div class="flex flex-wrap items-center">
-                        <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                            <h3 class="font-semibold">Liste des entreprises</h3>
-                            <p class="text-xs">{{ totalCompanies }} entreprises au total</p>
-                        </div>
+    <section class="w-full xl:w-8/12 xl:mb-0 px-4 mx-auto my-4">
+        <div class="relative flex flex-col min-w-0 break-words w-full mb-6">
+            <div class="rounded-t mb-0 px-4 py-3 border-0">
+                <div class="flex flex-wrap items-center">
+                    <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+                        <h3 class="font-semibold text-2xl">Liste des entreprises</h3>
+                        <p class="text-xs">{{ totalCompanies }} entreprises au total</p>
+                    </div>
 
-                        <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                            <a href="{{ path('super_admin_app_company_new') }}"
-                               class="rounded-lg font-semibold bg-primary text-xs uppercase rounded outline-none ml-auto mr-1 mb-1 ease-linear transition-all duration-150 px-4 py-2">
-                                Ajouter une entreprise
-                            </a>
-                        </div>
+                    <div class="relative w-full px-4 max-w-full flex items-center justify-end space-x-2 flex-grow flex-1">
+                        <a href="{{ path('super_admin_app_company_new') }}"
+                           class="rounded-lg font-semibold bg-primary text-xs uppercase rounded outline-none ml-auto mr-1 mb-1 ease-linear transition-all duration-150 px-4 py-2">
+                            Ajouter une entreprise
+                        </a>
                     </div>
                 </div>
-
-                <div class="block w-full overflow-x-auto">
-                    <table class="items-center bg-transparent w-full border-collapse ">
-                        <thead>
-                        <tr>
-                            <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                #
-                            </th>
-                            {% for header in headers %}
-                                <th class="px-6 bg-blueGray-50 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                    {{ header }}
-                                </th>
-                            {% endfor %}
-                            <th class="px-6 bg-blueGray-50 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                Actions
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for company in companies %}
-                            <tr>
-                                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                                    {{ company.id }}
-                                </th>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                                    {{ company.name }}
-                                </td>
-                                <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{ company.siret }}
-                                </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{ company.createdAt | date('d/m/Y') }}
-                                </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{ company.getCountClients() }}
-                                </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 uppercase">
-                                    {{ component("Badge",{
-                                        text:company.status,
-                                    }) }}
-                                </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 flex items-center space-x-1">
-                                    <a href="{{ path('super_admin_app_company_edit', {'id': company.id}) }}"
-                                       class="w-8 h-8 flex items-center justify-center bg-secondary text-xs font-bold uppercase rounded outline-none focus:outline-none ml-auto mr-1 mb-1 ease-linear transition-all duration-150 rounded-full"
-                                       type="button">
-                                        <i class="fa-solid fa-edit"></i>
-                                    </a>
-                                    <a href="{{ path('super_admin_app_company_delete', {'id': company.id}) }}"
-                                       class="w-8 h-8 flex items-center justify-center bg-error text-xs font-bold uppercase rounded outline-none focus:outline-none ml-auto mr-1 mb-1 ease-linear transition-all duration-150 rounded-full"
-                                       type="button">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-
-                    </table>
-                </div>
             </div>
-        </section>
-    </twig:Card>
+
+            <div class="block w-full overflow-x-auto">
+                <table class="items-center bg-transparent w-full border-collapse ">
+                    <thead>
+                        <tr>
+                        <th class="px-6 align-middle border border-solid border-black py-3 text-xs uppercase border-l-0 border-t-0 border-r-0 whitespace-nowrap font-semibold text-left">
+
+                        </th>
+                        {% for header in headers %}
+                            <th class="px-6 align-middle border border-black border-solid py-3 text-xs uppercase border-l-0 border-t-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                {{ header }}
+                            </th>
+                        {% endfor %}
+                        <th class="px-6 align-middle border border-black border-solid py-3 text-xs uppercase border-l-0 border-r-0  border-t-0 whitespace-nowrap font-semibold text-left">
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for company in this.getCompanies() %}
+                        <tr>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                                <label>
+                                    <input class="w-6 h-6 border-0 rounded-md focus:ring-0 focus:outline-none text-primary"  type="checkbox"  value="{{ company.id }}" data-model="companyIds[]">
+                                </label>
+                            </th>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                                {{ company.name }}
+                            </td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {{ company.createdAt | date('d/m/Y') }}
+                            </td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {{ company.getCountClients() }}
+                            </td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 uppercase">
+                                {{ component("Badge",{
+                                    text:company.status,
+                                }) }}
+                            </td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 flex items-center space-x-1">
+                                <a href="{{ path('super_admin_app_company_edit', {'id': company.id}) }}"
+                                   class="w-8 h-8 flex items-center justify-center bg-secondary text-xs font-bold uppercase rounded outline-none focus:outline-none ml-auto mr-1 mb-1 ease-linear transition-all duration-150 rounded-full"
+                                   type="button">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
+                                {{ include('company/_delete_form.html.twig') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if totalCompanies > itemsPerPage %}
+                <div class="flex items-center">
+                    {% if currentPage-1 > 0 %}
+                        <button class="border rounded-lg px-2 py-1" data-action="live#action" data-action-name="prevPage">Previous <i class="fa-solid fa-circle-chevron-left"></i> </button>
+                    {% endif %}
+                    {% if currentPage+1 <= totalPages %}
+                        <button class="ml-auto  border rounded-lg px-2 py-1" data-action="live#action" data-action-name="nextPage"> Next <i class="fa-solid fa-circle-chevron-right"></i> </button>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
 
 </div>

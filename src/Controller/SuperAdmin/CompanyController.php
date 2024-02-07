@@ -51,7 +51,6 @@ class CompanyController extends AbstractController
     {
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
-//        dd($company);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 

@@ -7,6 +7,7 @@ use Faker\Provider\ar_EG\Text;
 use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -33,15 +34,9 @@ class CompanyType extends AbstractType
                 'attr' =>[
                     'placeholder' => 'Choisissez un taux de TVA',
                 ],
-                'choices'=>[
-                    '20%'=>"20.00",
-                    '10%' =>"10.00" ,
-                    '5.5%'=> "5.50",
-                    "2.1%"=>"2.10"
-
-                ]
+                'choices'=>array_flip(Company::TVA)
             ])
-                ->add('tva_reason')
+            ->add('tva_reason')
             ->add('status',ChoiceType::class, [
                 'choices' => [
                     'Active' => 'Active',
@@ -65,6 +60,7 @@ class CompanyType extends AbstractType
                 ]
             ])
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
