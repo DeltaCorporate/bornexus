@@ -1,13 +1,13 @@
 <div {{ attributes }}>
-<table class="w-full">
+    <table class="w-full">
         <thead>
-            <th>#</th>
-            <th>Numéro</th>
-            <th>Date d'émission</th>
-            <th>Client</th>
-            <th>Total TTC</th>
-            <th>Status</th>
-            <th></th>
+        <th>#</th>
+        <th>Numéro</th>
+        <th>Date d'émission</th>
+        <th>Client</th>
+        <th>Total TTC</th>
+        <th>Status</th>
+        <th></th>
         </thead>
         <tbody>
 
@@ -20,44 +20,45 @@
                 <td class="text-center"><a href="#" class="text-accent" target="_blank"> {{ billing.clientFullName }}</a></td>
                 <td class="text-center">{{ billing.priceTtcDiscounted }}€ </td>
                 <td class="text-center">
-                     {% if billing.status == 'paid' %}
-                            {% set badgeColor = 'success' %}
-                          {% elseif billing.status == 'pending' %}
-                            {% set badgeColor = 'warning' %}
-                          {% elseif billing.status == 'unpaid' %}
-                            {% set badgeColor = 'error' %}
-                     {% endif %}
+                    {% if billing.status == 'paid' %}
+                        {% set badgeColor = 'success' %}
+                    {% elseif billing.status == 'pending' %}
+                        {% set badgeColor = 'warning' %}
+                    {% elseif billing.status == 'unpaid' %}
+                        {% set badgeColor = 'error' %}
+                    {% endif %}
 
                     <twig:Badge
-                        text="{{ billing.statusLabel }}"
-                        size="sm"
-                        color="{{ badgeColor }}"
-                        fontSize="sm"
-                        radius="rounded-full"
-                        textColor=""
+                            text="{{ billing.statusLabel }}"
+                            size="sm"
+                            color="{{ badgeColor }}"
+                            fontSize="sm"
+                            radius="rounded-full"
+                            textColor=""
                     />
                 </td>
                 <td class="text-center">
                     <div class="flex py-1 gap-2 ">
                         <twig:Button
-                            icon="fa fa-trash"
-                            color="error"
-                            textColor="text-white"
-                            radius="rounded-full"
-                            fontSize="sm"
-                            size="xs"
-                            balise="a"
-                            data-action="delete"
-                            />
-                        <twig:Button
-                            icon="fa fa-pen"
-                            color="secondary"
-                            radius="rounded-full"
-                            fontSize="sm"
-                            size="sm"
-                            balise="a"
-                            href="{{ path('commercial_company_app_billing_edit',{'id': billing.id}) }}"
+                                icon="fa fa-trash"
+                                color="error"
+                                textColor="text-white"
+                                radius="rounded-full"
+                                fontSize="sm"
+                                size="xs"
+                                balise="a"
+                                data-action="click->live#action"
+                                data-action-name="prevent|debounce(150)|deleteBilling(id={{ billing.id }})"
 
+                        />
+                        <twig:Button
+                                icon="fa fa-pen"
+                                color="secondary"
+                                radius="rounded-full"
+                                fontSize="sm"
+                                size="sm"
+                                balise="a"
+                                href="{{ path('commercial_company_app_billing_edit',{'id': billing.id}) }}"
                         />
                     </div>
                 </td>
@@ -65,16 +66,41 @@
         {% endfor %}
         </tbody>
         <tfoot>
-            <tr>
-                <td colspan="100%">
+        <tr>
+            <td colspan="100%">
 
-                    <div class="flex w-full justify-center">
+                <div class="flex w-full justify-center mt-5">
+                    <div class="flex gap-2 items-center">
+                        {% if this.page != 1 %}
+                        <twig:Button
+                                icon="fa-solid fa-chevron-left"
+                                variant="outline"
+                                color="dark"
+                                text="Précédent"
+                                size="xs"
+                                data-action="click->live#action"
+                                data-action-name="previousPage"
+                        />
+                        {% endif %}
+                        <span>{{ this.page }}</span>
                         {% if this.page < this.pageCount %}
-                            <i data-action="click->live#action" data-action-name="nextPage" class="fa fa-chevron-down text-xl font-bold cursor-pointer"></i>
+                        <twig:Button
+                                icon="fa-solid fa-chevron-right"
+                                iconPosition="right"
+                                color="dark"
+                                variant="outline"
+                                text="Suivant"
+                                size="xs"
+                                data-action="click->live#action" data-action-name="nextPage"
+                        />
                         {% endif %}
                     </div>
-                </td>
-            </tr>
+
+
+
+                </div>
+            </td>
+        </tr>
         </tfoot>
     </table>
 </div>

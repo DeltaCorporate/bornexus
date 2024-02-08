@@ -2,9 +2,11 @@
 namespace App\Twig\Components\Billing;
 
 use App\Repository\BillingsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -27,6 +29,7 @@ class BillingTable
 
     public function __construct(
         private BillingsRepository $billingsRepository,
+        private EntityManagerInterface $entityManager,
         private PaginatorInterface $paginator,
         private SerializerInterface $serializer
 
@@ -52,13 +55,41 @@ class BillingTable
         $this->loadBillings();
     }
 
-    public function loadBillings(): void{
+    #[LiveAction]
+    public function previousPage(): void {
+        $this->page--;
+        $this->loadBillings();
+    }
+
+    #[LiveAction]
+    public function deleteBilling(#[LiveArg] int $id): void
+    {
+
+        $billing = $this->billingsRepository->find($id);
+        if ($billing) {
+            $this->billingsRepository->delete($billing);
+            $this->paginateBilling();
+            $this->billings = array_filter($this->billings, function ($billing) use ($id) {
+                return $billing['id'] != $id;
+            });
+        }
+
+    }
+
+
+    public function paginateBilling()
+    {
         $billings = $this->paginator->paginate(
             $this->billingsRepository->listPaginationQuery(),
             $this->page,
             10
         );
         $this->pageCount = $billings->getPageCount();
+
+        return $billings;
+    }
+    public function loadBillings(): void{
+        $billings = $this->paginateBilling();
 
        $billingsItems =  array_map(function ($billing){
             $billing->calculTotalPrices();
@@ -72,7 +103,8 @@ class BillingTable
                 'status' => $billing->getStatus()
             ];
         },$billings->getItems());
-        $this->billings = array_merge($this->billings,$billingsItems);
-
+        $this->billings = $billingsItems;
     }
+
+
 }

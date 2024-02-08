@@ -1,14 +1,11 @@
 <?php
 namespace App\Twig\Components;
 
-use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
-use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsLiveComponent(template: 'components/button.html.twig')]
+#[AsTwigComponent(template: 'components/button.html.twig')]
 class Button
 {
-    use DefaultActionTrait;
     public function __construct(
         public string $text = '',
         public string $icon = '',
@@ -23,6 +20,7 @@ class Button
         public string $radius = 'rounded-md',
         public string $balise = 'button',
         public string $class = '',
+        public string $iconPosition = 'left',
         /**
          * @var 'solid' | 'outline'
          */
