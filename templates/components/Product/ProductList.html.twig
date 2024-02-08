@@ -1,4 +1,4 @@
-<div class="flex flex-wrap gap-5" {{ attributes }}>
+<div class="flex items-center flex-wrap gap-5" {{ attributes }}>
 
     {% for product in products %}
 
@@ -6,12 +6,14 @@
             <img src="https://via.placeholder.com/200x150" alt="{{ product.name }}" class="card-img-top">
             <div class="card-body">
                 <div class="flex justify-between items-center">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <span class="text-darkgrey text-lg">{{ product.price }} €</span>
+                    <h5 class="text-slate-950 font-light">SupplierHere</h5>
+                    <span class="card-title font-semibold">{{ product.price }}€</span>
                 </div>
-                <p class="card-text">{{ product.description }}</p>
+                <h3 class="card-text font-semibold">{{ product.name }}</h3>
+                <p class="line-clamp-2 mt-2">{{ product.description }}</p>
             </div>
         </div>
+
 
     {% endfor %}
 
