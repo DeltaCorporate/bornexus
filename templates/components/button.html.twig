@@ -6,7 +6,11 @@
   {% set hoverEffect = 'bg-' ~ color %}
 {% endif %}
 
-
+{% if iconPosition == "right" %}
+  {% set iconPosition = "flex-row-reverse" %}
+{% elseif iconPosition == "left" %}
+  {% set iconPosition = "flex-row" %}
+{% endif %}
 
 <{{ balise }}
   {% if balise == 'a' %}
@@ -14,7 +18,7 @@
     href="{{ href }}"
   {% endif %}
 
-   class="inline-flex w-auto gap-2 items-center {{ radius }} justify-center transition-all border-{{ color }} border-{{ borderWidth }} cursor-pointer bg-{{ bgColor }} text-{{ fontSize }} size-{{ size }} {{ weight }} hover:{{ hoverEffect }} {{ textColor }} focus:outline-none focus:ring {{ class }}"
+   class="inline-flex {{ iconPosition }} w-auto gap-2 items-center {{ radius }} justify-center transition-all border-{{ color }} border-{{ borderWidth }} cursor-pointer bg-{{ bgColor }} text-{{ fontSize }} size-{{ size }} {{ weight }} hover:{{ hoverEffect }} {{ textColor }} focus:outline-none focus:ring {{ class }}"
   {{ attributes }}
 >
 
