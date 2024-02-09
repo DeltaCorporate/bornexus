@@ -2,6 +2,7 @@
 namespace App\Twig\Components\Billing;
 
 use App\Repository\BillingsRepository;
+use App\Twig\Components\Traits\TableTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -16,80 +17,36 @@ class BillingTable
 {
 
     use DefaultActionTrait;
+    use TableTrait;
 
-    #[LiveProp(writable: true)]
-    public int $page = 1;
-
-    #[LiveProp(writable: true, hydrateWith: 'hydrateBillings',dehydrateWith: 'dehydrateBillings' )]
-    public array $billings = [];
-
-    #[LiveProp]
-    public $pageCount;
 
 
     public function __construct(
-        private BillingsRepository $billingsRepository,
+        private BillingsRepository $dataRepository,
         private EntityManagerInterface $entityManager,
         private PaginatorInterface $paginator,
         private SerializerInterface $serializer
-
     ){
     }
 
-    public function mount(): void
-    {
-        $this->loadBillings();
-    }
-    public function dehydrateBillings(array $billings): string
-    {
-        return serialize($billings);
-    }
-
-    public function hydrateBillings(string $data): array
-    {
-        return unserialize($data);
-    }
-    #[LiveAction]
-    public function nextPage(): void {
-        $this->page++;
-        $this->loadBillings();
-    }
-
-    #[LiveAction]
-    public function previousPage(): void {
-        $this->page--;
-        $this->loadBillings();
-    }
 
     #[LiveAction]
     public function deleteBilling(#[LiveArg] int $id): void
     {
 
-        $billing = $this->billingsRepository->find($id);
+        $billing = $this->dataRepository->find($id);
         if ($billing) {
-            $this->billingsRepository->delete($billing);
-            $this->paginateBilling();
-            $this->billings = array_filter($this->billings, function ($billing) use ($id) {
+            $this->dataRepository->delete($billing);
+            $this->paginate();
+            $this->data = array_filter($this->data, function ($billing) use ($id) {
                 return $billing['id'] != $id;
             });
         }
 
     }
 
-
-    public function paginateBilling()
-    {
-        $billings = $this->paginator->paginate(
-            $this->billingsRepository->listPaginationQuery(),
-            $this->page,
-            10
-        );
-        $this->pageCount = $billings->getPageCount();
-
-        return $billings;
-    }
-    public function loadBillings(): void{
-        $billings = $this->paginateBilling();
+    public function loadData(): void{
+        $billings = $this->paginate();
 
        $billingsItems =  array_map(function ($billing){
             $billing->calculTotalPrices();
@@ -103,7 +60,7 @@ class BillingTable
                 'status' => $billing->getStatus()
             ];
         },$billings->getItems());
-        $this->billings = $billingsItems;
+        $this->data = $billingsItems;
     }
 
 

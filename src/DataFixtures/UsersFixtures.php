@@ -24,6 +24,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
 
         // Get all repository
         $repository = $manager->getRepository(Company::class);
+        $companies = $repository->findAll();
         $superAdmin = new User();
         $superAdmin->setEmail('admin@test.com');
         $superAdmin->setRoles(['ROLE_SUPER_ADMIN']);
@@ -40,9 +41,9 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $superAdmin->setVerifiedAt(new \DateTimeImmutable());
         $superAdmin->setCreatedAt(new \DateTimeImmutable());
         $superAdmin->setUpdatedAt(new \DateTimeImmutable());
-        $superAdmin->setCompany($repository->find(1));
+        $superAdmin->setCompany($companies[0]);
         $manager->persist($superAdmin);
-        foreach ($repository->findAll() as $company) {
+        foreach ($companies as $company) {
             for ($i = 0; $i < 4; $i++) {
                 $user = new User();
                 $user->setEmail($faker->email);
