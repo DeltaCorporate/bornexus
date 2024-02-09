@@ -33,10 +33,12 @@ class BillingController extends AbstractController
     #[Route('/new', name: 'app_billing_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserService $userService): Response
     {
+
         $company = $this->security->getUser()->getCompany();
-        $users = $userService->filterRole($company->getUsers(), 'ROLE_USER');
+
+        $users = $entityManager->getRepository(User::class)->findByCompanyAndRole($company,'ROLE_USER');
         $billing = new Billing();
-        $form = $this->createForm(BillingType::class, $billing);
+        $form = $this->createForm(BillingType::class, $billing,compact('users'));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($billing);
