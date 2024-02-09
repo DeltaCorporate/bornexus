@@ -33,7 +33,6 @@ class BillingController extends AbstractController
     #[Route('/new', name: 'app_billing_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserService $userService): Response
     {
-
         $company = $this->security->getUser()->getCompany();
 
         $users = $entityManager->getRepository(User::class)->findByCompanyAndRole($company,'ROLE_USER');
