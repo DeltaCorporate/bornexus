@@ -22,15 +22,25 @@ class BillingType extends AbstractType
                 'choices' => array_flip(Billing::TYPE),
                 'expanded' => true
             ])
-            ->add('emited_at',DateType::class)
+            ->add('emited_at',DateType::class,[
+                'label' => "Date d'émission"
+            ])
             ->add('payment_method',ChoiceType::class,[
+                'label' => 'Moyen de paiement',
                 'choices' => array_flip(Billing::PAYMENT_METHOD)
             ])
             ->add('discount',NumberType::class,[
+                'label' => 'Réduction',
                 'html5' => true,
                 'attr' => [
                     'min' => 0
                 ]
+            ])
+            ->add('users',ChoiceType::class,[
+                'label' => 'Client',
+                'choices' => $options['users'],
+                'choice_label' => 'fullName',
+                'choice_value' => 'id'
             ])
         ;
     }
@@ -39,6 +49,7 @@ class BillingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Billing::class,
+            'users' => []
         ]);
     }
 }
