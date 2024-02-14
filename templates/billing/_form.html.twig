@@ -1,4 +1,26 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+
+
+<twig:Billing:BillingCompanyCatalogTable
+        :billing="billing"
+/>
+<div class="flex justify-end gap-2 sh">
+
+    {% if billing.id is not null %}
+
+        {{ include('billing/_delete_form.html.twig') }}
+
+    {% endif %}
+
+    <twig:Button
+            text="Sauvegarder"
+    />
+
+
+
+
+
+</div>
 {{ form_end(form) }}

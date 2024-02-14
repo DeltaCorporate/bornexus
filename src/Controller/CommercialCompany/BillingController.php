@@ -40,6 +40,7 @@ class BillingController extends AbstractController
         $form = $this->createForm(BillingType::class, $billing,compact('users'));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $billing->setStatus('pending');
             $entityManager->persist($billing);
             $entityManager->flush();
             return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
@@ -62,7 +63,11 @@ class BillingController extends AbstractController
     #[Route('/{id}/edit', name: 'app_billing_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Billing $billing, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(BillingType::class, $billing);
+        $company = $this->security->getUser()->getCompany();
+
+        $users = $entityManager->getRepository(User::class)->findByCompanyAndRole($company,'ROLE_USER');
+
+        $form = $this->createForm(BillingType::class, $billing,compact('users'));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
