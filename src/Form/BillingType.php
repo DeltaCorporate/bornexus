@@ -34,7 +34,8 @@ class BillingType extends AbstractType
                 'html5' => true,
                 'attr' => [
                     'min' => 0
-                ]
+                ],
+                'required' => false
             ])
             ->add('users',ChoiceType::class,[
                 'label' => 'Client',

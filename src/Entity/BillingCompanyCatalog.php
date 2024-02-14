@@ -28,7 +28,6 @@ class BillingCompanyCatalog
     #[ORM\Column]
     private ?int $quantity = null;
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -73,7 +72,6 @@ class BillingCompanyCatalog
     public function getPriceTtc(): ?float
     {
         $price = $this->getPriceHt() - $this->getPriceDiscount();
-
         return ($price - $this->getPriceVat());
     }
     
@@ -101,6 +99,8 @@ class BillingCompanyCatalog
 
         return $this;
     }
+
+
     public function getPriceHt(): float
     {
         $price = $this->getCompanyCatalog()->getProduct()->getPrice();
