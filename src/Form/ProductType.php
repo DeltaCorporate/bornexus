@@ -24,6 +24,7 @@ class ProductType extends AbstractType
             ->add('tva')
             ->add('created_at')
             ->add('updated_at')
+            ->add('image')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
 'choice_label' => 'id',
