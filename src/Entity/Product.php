@@ -8,9 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
+#[Uploadable]
+
 class Product
 {
     use Timestampable;
@@ -53,6 +57,26 @@ class Product
     #[ORM\Column(length: 6, nullable: true)]
     private ?string $tva = null;
 
+
+    #[UploadableField(mapping: 'products', fileNameProperty: 'imageName', size: 'imageSize')]
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     */
+    public function setImage(?string $image): void
+    {
+        $this->image = $image;
+    }
 
     public function __construct()
     {
