@@ -3,6 +3,13 @@
     {% for product in products %}
 
         <div class="flex flex-col p-6 rounded-3xl bg-neutral md:w-1/4 w-80 h-96">
+            <a href="#" class="favorite-button absolute top-2 right-2 text-yellow-500" onclick="toggleFavorite({{ product.id }})">
+                {% if product.isFavorite %}
+                    &#9733; <!-- étoile pleine si le produit est déjà favori -->
+                {% else %}
+                    &#9734; <!-- étoile vide si le produit n'est pas encore favori -->
+                {% endif %}
+            </a>
             <img src="https://via.placeholder.com/200x150" alt="{{ product.name }}" class="card-img-top">
             <div class="card-body">
                 <div class="flex justify-between items-center">
