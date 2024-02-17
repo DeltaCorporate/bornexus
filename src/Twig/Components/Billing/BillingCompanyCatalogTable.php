@@ -1,6 +1,8 @@
 <?php
 namespace App\Twig\Components\Billing;
 
+use App\Entity\BillingCompanyCatalog;
+use App\Entity\CompanyCatalog;
 use App\Form\BillingCompanyCatalogType;
 use App\Repository\BillingsRepository;
 use App\Twig\Components\Traits\TableTrait;
@@ -9,6 +11,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
+use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -36,9 +39,42 @@ class BillingCompanyCatalogTable
         $this->loadData();
     }
 
+
+    #[LiveListener('line_item:save')]
+    public function refreshLineItemSaved(#[LiveArg] string $billingCompanyCatalog): void
+    {
+        $billingCompanyCatalog = unserialize($billingCompanyCatalog);
+        $this->data = array_map(function ($item) use ($billingCompanyCatalog){
+              if($item->getId() === $billingCompanyCatalog->getId())
+                  $item = $billingCompanyCatalog;
+              return $item;
+          },$this->data);
+    }
+
+    #[LiveListener('line_item:delete')]
+    public function refreshLineItemDeleted(#[LiveArg] int $billingCompanyCatalogId): void
+    {
+
+        foreach($this->data as $key => $item){
+            if($item->getId() === $billingCompanyCatalogId)
+                unset($this->data[$key]);
+
+        }
+
+        $this->data = array_values($this->data);
+    }
+
     #[LiveAction]
-    public function addItem(){
-        dd($this->data);
+    public function addItem(): void
+    {
+
+        $billingCompanyCatalog = new BillingCompanyCatalog();
+        $billingCompanyCatalog->setBilling($this->billing);
+        $billingCompanyCatalog->setQuantity(1);
+        $billingCompanyCatalog->setDiscount(0);
+        $this->entityManager->persist($billingCompanyCatalog);
+        $this->entityManager->flush();
+        $this->data[] = $billingCompanyCatalog;
     }
 
     public function loadData(): void {

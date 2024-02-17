@@ -17,9 +17,11 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use App\Entity\BillingCompanyCatalog;
+use Symfony\UX\LiveComponent\LiveResponder;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 
 #[AsLiveComponent(template: 'billing/components/billing_company_catalog_item.html.twig')]
@@ -27,6 +29,7 @@ class BillingCompanyCatalogItem
 {
 
     use DefaultActionTrait;
+    use ComponentToolsTrait;
 
     #[LiveProp(writable: ['quantity','discount'])]
     public ?BillingCompanyCatalog $billingCompanyCatalog;
@@ -46,15 +49,23 @@ class BillingCompanyCatalogItem
         $this->formFactory = $formFactory;
     }
 
+    public function hydrate($value){
+        return unserialize($value);
+    }
+
+    public function dehydrate($value){
+        return serialize($value);
+    }
 
     public function mount(BillingCompanyCatalog $billingCompanyCatalog){
         $this->billingCompanyCatalog = $billingCompanyCatalog;
-        $this->company_catalog = $billingCompanyCatalog->getCompanyCatalog()->getId();
+        if($this->billingCompanyCatalog->hasCompanyCatalog())
+            $this->company_catalog = $billingCompanyCatalog->getCompanyCatalog()->getId();
         $this->createForm();
     }
 
     #[LiveAction]
-    public function save(): void{
+    public function save(LiveResponder $responder): void{
         $this->createForm();
         if($this->billingCompanyCatalog->getId()){
             $this->billingCompanyCatalog->setCompanyCatalog(
@@ -63,22 +74,36 @@ class BillingCompanyCatalogItem
             $this->entityManager->persist($this->billingCompanyCatalog);
             $this->entityManager->flush();
         }
+        $responder->emitUp('line_item:save',[
+            'billingCompanyCatalog' => $this->dehydrate($this->billingCompanyCatalog),
+        ]);
+
+
 
     }
 
     #[LiveAction]
-    public function delete()
+    public function delete(LiveResponder $responder)
     {
+        $billingCompanyCatalogId = $this->billingCompanyCatalog->getId();
         $this->entityManager->remove($this->billingCompanyCatalog);
         $this->entityManager->flush();
+        $responder->emitUp('line_item:delete',[
+            'billingCompanyCatalogId' => $billingCompanyCatalogId
+        ]);
+
     }
 
 
 
     public function createForm(): Form
     {
+
         $this->form = $this->formFactory->create(BillingCompanyCatalogType::class, $this->billingCompanyCatalog,[
-           'company_catalogs' => $this->billingCompanyCatalog->getCompanyCatalog()->getCompany()->getCompanyCatalogs()
+           'company_catalogs' => $this->billingCompanyCatalog
+                                      ->getBilling()
+                                      ->getCompany()
+                                      ->getCompanyCatalogs()
        ]);
 
         $this->formView = $this->form->createView();

@@ -47,7 +47,6 @@ class BillingTable
 
     public function loadData(): void{
         $billings = $this->paginate();
-
        $billingsItems =  array_map(function ($billing){
             $billing->calculTotalPrices();
             return [

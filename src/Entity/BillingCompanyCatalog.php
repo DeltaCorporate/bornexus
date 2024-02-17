@@ -24,7 +24,7 @@ class BillingCompanyCatalog
     private ?Billing $billing = null;
 
     #[ORM\ManyToOne(inversedBy: 'billingsCompanyCatalogs')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?CompanyCatalog $company_catalog = null;
 
     #[ORM\Column]
@@ -105,8 +105,20 @@ class BillingCompanyCatalog
 
     public function getPriceHt(): float
     {
+        if(!$this->hasCompanyCatalog())
+            return 0;
         $price = $this->getCompanyCatalog()->getProduct()->getPrice();
         return $price * $this->getQuantity();
+    }
+    /**
+     * Vérifie si le Billing a un CompanyCatalog qui contient un Product.
+     *
+     * @return bool
+     */
+    public function hasCompanyCatalog(): bool
+    {
+        $companyCatalog = $this->getCompanyCatalog();
+        return $this->getCompanyCatalog() !== null;
     }
 
 }
