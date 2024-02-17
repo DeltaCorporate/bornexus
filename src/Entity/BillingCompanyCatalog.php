@@ -28,6 +28,12 @@ class BillingCompanyCatalog
     #[ORM\Column]
     private ?int $quantity = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $tva = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $price_ht = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -117,6 +123,25 @@ class BillingCompanyCatalog
     {
         $companyCatalog = $this->getCompanyCatalog();
         return $this->getCompanyCatalog() !== null;
+    }
+
+    public function getTva(): ?int
+    {
+        return $this->tva;
+    }
+
+    public function setTva(?int $tva): static
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
+    public function setPriceHt(?float $price_ht): static
+    {
+        $this->price_ht = $price_ht;
+
+        return $this;
     }
 
 }
