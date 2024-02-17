@@ -20,7 +20,6 @@ class BillingCompanyCatalogType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $billingCompanyCatalog = $options['data']; // L'objet BillingCompanyCatalog
-
         $builder
             ->add('company_catalog',ChoiceType::class,[
                 'choices' => $options['company_catalogs'],
@@ -45,13 +44,11 @@ class BillingCompanyCatalogType extends AbstractType
                 ]
             ])
             ->add('discount',NumberType::class)
-
             ->add('priceTtc',TextType::class,[
                 'mapped' => false,
                 'data' => $billingCompanyCatalog->getPriceTtc(),
                 'attr' => [
                     'disabled' => true,
-
                 ]
             ])
         ;

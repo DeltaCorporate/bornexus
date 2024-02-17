@@ -237,8 +237,11 @@ class Billing
     public function calculTotalPrices(): Billing 
     {
         $billingsCompanyCatalogs = $this->getBillingsCompanyCatalogs();
-        
+
+
         foreach($billingsCompanyCatalogs as $billingCompanyCatalog){
+            if(!$billingCompanyCatalog->hasCompanyCatalog())
+                    continue;
             $this->priceVat += $billingCompanyCatalog->getPriceVat();
             $this->priceDiscountOfLines += $billingCompanyCatalog->getPriceDiscount();
             $this->priceHt += $billingCompanyCatalog->getPriceHt();
