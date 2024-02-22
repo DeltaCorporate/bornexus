@@ -58,7 +58,7 @@ class Product
     private ?string $tva = null;
 
 
-    #[UploadableField(mapping: 'products', fileNameProperty: 'imageName', size: 'imageSize')]
+    #[UploadableField(mapping: 'products', fileNameProperty: 'image')]
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
