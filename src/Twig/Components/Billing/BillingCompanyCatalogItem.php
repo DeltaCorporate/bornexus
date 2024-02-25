@@ -31,6 +31,10 @@ class BillingCompanyCatalogItem
     use DefaultActionTrait;
     use ComponentToolsTrait;
 
+
+    #[LiveProp]
+    public int $key;
+
     #[LiveProp(writable: ['quantity','discount'])]
     public ?BillingCompanyCatalog $billingCompanyCatalog;
 
@@ -68,9 +72,11 @@ class BillingCompanyCatalogItem
     public function save(LiveResponder $responder): void{
         $this->createForm();
         if($this->billingCompanyCatalog->getId()){
+
             $this->billingCompanyCatalog->setCompanyCatalog(
-                $this->entityManager->getRepository(CompanyCatalog::class)->find($this->company_catalog)
+                    $this->entityManager->getRepository(CompanyCatalog::class)->find($this->company_catalog)
             );
+
             $this->entityManager->persist($this->billingCompanyCatalog);
             $this->entityManager->flush();
         }
@@ -85,11 +91,10 @@ class BillingCompanyCatalogItem
     #[LiveAction]
     public function delete(LiveResponder $responder)
     {
-        $billingCompanyCatalogId = $this->billingCompanyCatalog->getId();
         $this->entityManager->remove($this->billingCompanyCatalog);
         $this->entityManager->flush();
         $responder->emitUp('line_item:delete',[
-            'billingCompanyCatalogId' => $billingCompanyCatalogId
+            'key' => $this->key
         ]);
 
     }

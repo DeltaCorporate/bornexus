@@ -24,11 +24,18 @@ class BillingCompanyCatalogType extends AbstractType
             ->add('company_catalog',ChoiceType::class,[
                 'choices' => $options['company_catalogs'],
                 'choice_label' => function($companyCatalog){
-                    return $companyCatalog->getProduct()->getName();
+                    $product = $companyCatalog->getProduct();
+                    return $product->getName() . '(' . $product->getPrice() . '€)';
                 },
-                'choice_value' => function($companyCatalog){
-                    return $companyCatalog->getId();
-                }
+
+                'choice_value' => function($companyCatalog = null){
+                      return $companyCatalog ? $companyCatalog->getId() : null;
+                },
+                'placeholder' => 'Produit',
+                'attr' => [
+                    'data-action' => 'change->live#action'
+                ]
+
             ])
             ->add('quantity',IntegerType::class,[
                 'attr' =>

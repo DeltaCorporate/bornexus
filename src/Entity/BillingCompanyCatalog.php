@@ -73,26 +73,30 @@ class BillingCompanyCatalog
     public function setCompanyCatalog(?CompanyCatalog $company_catalog): static
     {
         $this->company_catalog = $company_catalog;
+        $this->setPriceHt($this->getCompanyCatalog()->getProduct()->getPrice());
+        $this->setTva($this->getCompanyCatalog()->getProduct()->getTva());
 
         return $this;
     }
 
     public function getPriceTtc(): ?float
     {
-        $price = $this->getPriceHt() - $this->getPriceDiscount();
-        return ($price - $this->getPriceVat());
+        return ($this->getDiscountedPriceHt() + $this->getPriceVat());
     }
     
     public function getPriceVat(): ?float
     {
-        $price = $this->getPriceHt() - $this->getPriceDiscount();
-
-        $tva = $this->getCompanyCatalog()->getProduct()->getTva();
-        return $price * $tva;
+        $tva = ($this->getTva()/100);
+        return $this->getDiscountedPriceHt() * $tva;
     }
 
+    public function getDiscountedPriceHt(): ?float
+    {
+        return $this->getPriceHt() - $this->getPriceDiscount();
+    }
     public function getPriceDiscount(): ?float
     {
+
         return $this->getDiscount() * $this->getPriceHt();
     }
 
@@ -111,13 +115,10 @@ class BillingCompanyCatalog
 
     public function getPriceHt(): float
     {
-        if(!$this->hasCompanyCatalog())
-            return 0;
-        $price = $this->getCompanyCatalog()->getProduct()->getPrice();
-        return $price * $this->getQuantity();
+        return $this->price_ht * $this->getQuantity();
     }
     /**
-     * Vérifie si le Billing a un CompanyCatalog qui contient un Product.
+     * Vérifie si le BillingForm a un CompanyCatalog qui contient un Product.
      *
      * @return bool
      */

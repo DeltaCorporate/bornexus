@@ -15,8 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BillingType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('type', ChoiceType::class,[
                 'choices' => array_flip(Billing::TYPE),
@@ -41,7 +43,12 @@ class BillingType extends AbstractType
                 'label' => 'Client',
                 'choices' => $options['users'],
                 'choice_label' => 'fullName',
-                'choice_value' => 'id'
+                'choice_value' => 'id',
+                'attr' => [
+                    'data-action' => 'change->live#action',
+                    'data-action-name' => 'changeUserForm'
+                ]
+
             ])
         ;
     }
