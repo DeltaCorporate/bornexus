@@ -16,8 +16,6 @@ class BillingCompanyCatalog
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
-    private ?string $discount = null;
 
     #[ORM\ManyToOne(inversedBy: 'billingsCompanyCatalogs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -36,21 +34,12 @@ class BillingCompanyCatalog
     #[ORM\Column(nullable: true)]
     private ?float $price_ht = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $discount = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDiscount(): ?string
-    {
-        return $this->discount;
-    }
-
-    public function setDiscount(string $discount): static
-    {
-        $this->discount = $discount;
-
-        return $this;
     }
 
     public function getBilling(): ?Billing
@@ -73,7 +62,7 @@ class BillingCompanyCatalog
     public function setCompanyCatalog(?CompanyCatalog $company_catalog): static
     {
         $this->company_catalog = $company_catalog;
-        $this->setPriceHt($this->getCompanyCatalog()->getProduct()->getPrice());
+        $this->setPriceHt($this->getCompanyCatalog()->getProductPriceWithMargin());
         $this->setTva($this->getCompanyCatalog()->getProduct()->getTva());
 
         return $this;
@@ -97,7 +86,7 @@ class BillingCompanyCatalog
     public function getPriceDiscount(): ?float
     {
 
-        return $this->getDiscount() * $this->getPriceHt();
+        return $this->getDiscount()/100 * $this->getPriceHt();
     }
 
     public function getQuantity(): ?int
@@ -143,6 +132,18 @@ class BillingCompanyCatalog
     public function setPriceHt(?float $price_ht): static
     {
         $this->price_ht = $price_ht;
+
+        return $this;
+    }
+
+    public function getDiscount(): ?int
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?int $discount): static
+    {
+        $this->discount = $discount;
 
         return $this;
     }

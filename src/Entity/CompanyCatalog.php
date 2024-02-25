@@ -42,6 +42,13 @@ class CompanyCatalog
     {
         return $this->id;
     }
+
+    public function getProductPriceWithMargin(): ?float
+    {
+        $productMargin = $this->getProduct()->getPrice() * ($this->getMargin() / 100);
+
+        return $this->getProduct()->getPrice() + $productMargin;
+    }
     
 
     public function getCompany(): ?Company

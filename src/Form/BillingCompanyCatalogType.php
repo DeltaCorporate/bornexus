@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +26,7 @@ class BillingCompanyCatalogType extends AbstractType
                 'choices' => $options['company_catalogs'],
                 'choice_label' => function($companyCatalog){
                     $product = $companyCatalog->getProduct();
-                    return $product->getName() . '(' . $product->getPrice() . '€)';
+                    return $product->getName() . '(' . $companyCatalog->getProductPriceWithMargin() . '€)';
                 },
 
                 'choice_value' => function($companyCatalog = null){
@@ -50,7 +51,13 @@ class BillingCompanyCatalogType extends AbstractType
                     'disabled' => true,
                 ]
             ])
-            ->add('discount',NumberType::class)
+            ->add('discount',IntegerType::class,[
+                'attr' =>
+                    [
+                        'min' => 0,
+                        'max' => 100
+                    ]
+            ])
             ->add('priceTtc',TextType::class,[
                 'mapped' => false,
                 'data' => $billingCompanyCatalog->getPriceTtc(),

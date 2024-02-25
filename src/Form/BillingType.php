@@ -20,10 +20,6 @@ class BillingType extends AbstractType
     {
 
         $builder
-            ->add('type', ChoiceType::class,[
-                'choices' => array_flip(Billing::TYPE),
-                'expanded' => true
-            ])
             ->add('emited_at',DateType::class,[
                 'label' => "Date d'émission"
             ])
