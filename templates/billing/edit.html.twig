@@ -6,7 +6,10 @@
     <twig:Card>
         <h1 class="font-semibold text-2xl">Éditer la facture</h1>
 
-        {{ include('billing/_form.html.twig') }}
+        {{ component('Billing:BillingForm',{
+            'form': form,
+            'billing': billing
+        }) }}
 
 
 

@@ -15,8 +15,6 @@ class Button
         public string $borderWidth = '2',
         public string $fontSize = 'md',
         public string $weight = 'font-medium',
-        public string $type = 'button',
-        public string $href = '#',
         public string $radius = 'rounded-md',
         public string $balise = 'button',
         public string $class = '',

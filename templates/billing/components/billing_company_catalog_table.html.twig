@@ -13,7 +13,7 @@
         <tbody>
 
         {% for billingCompanyCatalog in data %}
-            <twig:Billing:BillingCompanyCatalogItem :billingCompanyCatalog="billingCompanyCatalog" />
+            <twig:Billing:BillingCompanyCatalogItem  key="{{ billingCompanyCatalog.id }}" :billingCompanyCatalog="billingCompanyCatalog" />
         {% endfor %}
         </tbody>
 
@@ -25,8 +25,8 @@
                             text="Ajouter une ligne"
                             icon="fa fa-plus"
                             size="sm"
-                            balise="a"
-                            href="#"
+                            balise="button"
+                            type="button"
                             data-action="click->live#action"
                             data-action-name="addItem"
                             color="secondary"

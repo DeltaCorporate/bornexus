@@ -32,8 +32,6 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
-    private ?string $tva = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -56,6 +54,9 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
     private Collection $companyCatalogs;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $tva = null;
 
     public function __construct()
     {
@@ -127,18 +128,7 @@ class Product
         return $this;
     }
 
-    public function getTva(): ?string
-    {
-        return $this->tva/100;
-    }
-
-    public function setTva(string $tva): static
-    {
-        $this->tva = $tva;
-
-        return $this;
-    }
-
+    
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -240,6 +230,18 @@ class Product
                 $companyCatalog->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTva(): ?int
+    {
+        return $this->tva;
+    }
+
+    public function setTva(?int $tva): static
+    {
+        $this->tva = $tva;
 
         return $this;
     }

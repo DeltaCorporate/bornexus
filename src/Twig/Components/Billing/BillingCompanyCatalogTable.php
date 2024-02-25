@@ -16,6 +16,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Entity\Billing;
+use Symfony\UX\LiveComponent\LiveResponder;
 
 #[AsLiveComponent(template: 'billing/components/billing_company_catalog_table.html.twig')]
 class BillingCompanyCatalogTable
@@ -52,16 +53,14 @@ class BillingCompanyCatalogTable
     }
 
     #[LiveListener('line_item:delete')]
-    public function refreshLineItemDeleted(#[LiveArg] int $billingCompanyCatalogId): void
+    public function refreshLineItemDeleted(#[LiveArg] int $key): void
     {
 
-        foreach($this->data as $key => $item){
-            if($item->getId() === $billingCompanyCatalogId)
-                unset($this->data[$key]);
-
+        foreach($this->data as $id => $item){
+            if($item->getId() === $key)
+                unset($this->data[$id]);
         }
 
-        $this->data = array_values($this->data);
     }
 
     #[LiveAction]
@@ -81,7 +80,6 @@ class BillingCompanyCatalogTable
 
         $billingCompanyCatalogs = $this->billing->getBillingsCompanyCatalogs();
         $this->data = $billingCompanyCatalogs->count() > 0 ? $billingCompanyCatalogs->toArray() : [];
-
     }
 
 
