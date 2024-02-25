@@ -16,32 +16,38 @@ class ClientReadOnlyType extends AbstractType
             ->add('email',TextType::class,[
                 'attr' => [
                     'readonly' => true
-                ]
+                ],
+                'label' => 'Email'
             ])
             ->add('firstname',TextType::class,[
                 'attr' => [
                     'readonly' => true
-                ]
+                ],
+                'label' => 'Prénom'
             ])
             ->add('lastname',TextType::class,[
                 'attr' => [
                     'readonly' => true
-                ]
+                ],
+                'label' => 'Nom'
             ])
             ->add('address',TextType::class,[
                 'attr' => [
                     'readonly' => true
-                ]
+                ],
+                'label' => 'Adresse'
             ])
             ->add('country',TextType::class,[
                 'attr' => [
                     'readonly' => true
-                ]
+                ],
+                'label' => 'Pays'
             ])
             ->add('zip',TextType::class,[
                     'attr' => [
                         'readonly' => true
-                    ]
+                    ],
+                    'label' => 'Code postal'
             ]);
     }
 
