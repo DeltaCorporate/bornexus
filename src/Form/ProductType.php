@@ -8,8 +8,10 @@ use App\Entity\Product;
 use App\Entity\Supplier;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ProductType extends AbstractType
 {
@@ -24,7 +26,7 @@ class ProductType extends AbstractType
             ->add('tva')
             ->add('created_at')
             ->add('updated_at')
-            ->add('image')
+            ->add('imageFile', FileType::class)
             ->add('category', EntityType::class, [
                 'class' => Category::class,
 'choice_label' => 'id',
