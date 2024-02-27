@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
@@ -61,6 +62,27 @@ class Product
     #[UploadableField(mapping: 'products', fileNameProperty: 'image')]
     #[ORM\Column(length: 255)]
     private ?string $image = null;
+
+    #[UploadableField(mapping: 'products', fileNameProperty: 'image')]
+    #[Assert\Image()]
+    private ?File $imageFile = null;
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile): static
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
 
     /**
      * @return string|null
