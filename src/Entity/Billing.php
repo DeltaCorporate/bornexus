@@ -29,8 +29,6 @@ class Billing
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $payment_method = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0', nullable: true)]
-    private ?string $discount = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
@@ -55,6 +53,9 @@ class Billing
 
     private float $priceHt = 0;
     private float $priceTtc = 0;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $discount = null;
     
      const STATUS_LABEL = [
         'paid' => 'Payée',
@@ -129,17 +130,7 @@ class Billing
         return $this;
     }
 
-    public function getDiscount(): ?string
-    {
-        return $this->discount;
-    }
 
-    public function setDiscount(?string $discount): static
-    {
-        $this->discount = $discount;
-
-        return $this;
-    }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -302,8 +293,7 @@ class Billing
 
     public function getPriceTtcDiscounted(): float
     {
-        $discount = $this->getDiscount()/100 * $this->getPriceTtc();
-        return $this->getPriceTtc() - $discount;
+        return $this->getPriceTtc() - $this->getDiscountPrice();
     }
     /**
      * Set the value of priceTtc
@@ -325,6 +315,10 @@ class Billing
         return $this->priceHt;
     }
 
+    public function getDiscountPrice(): float
+    {
+        return $this->getDiscount()/100 * $this->getPriceHt();
+    }
     /**
      * Set the value of priceTtc
      *
@@ -345,5 +339,17 @@ class Billing
     public function getTypeFirstLetter(): string
     {
         return strtoupper($this->getType()[0]);
+    }
+
+    public function getDiscount(): ?int
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?int $discount): static
+    {
+        $this->discount = $discount;
+
+        return $this;
     }
 }

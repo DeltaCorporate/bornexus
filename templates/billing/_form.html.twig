@@ -14,6 +14,15 @@
     />
 
 
+    <section class="flex justify-end mb-6 pr-5">
+        <uL>
+            <li><span class="font-semibold">Prix HT :</span> {{ this.billing.priceHt }}€</li>
+            <li><span class="font-semibold">Solde :</span> {{ this.billing.discountPrice }}€</li>
+            <li><span class="font-semibold">Prix TTC :</span> {{ this.billing.priceTtcDiscounted }}€</li>
+
+        </uL>
+    </section>
+
 <div class="flex justify-end gap-2 sh">
 
         {% if billing.id is not null %}
@@ -32,6 +41,5 @@
 
     </div>
     {{ form_end(form) }}
-
 
 </section>

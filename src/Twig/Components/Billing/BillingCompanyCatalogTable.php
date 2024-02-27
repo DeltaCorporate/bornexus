@@ -50,6 +50,8 @@ class BillingCompanyCatalogTable
                   $item = $billingCompanyCatalog;
               return $item;
           },$this->data);
+
+
     }
 
     #[LiveListener('line_item:delete')]

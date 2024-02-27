@@ -80,7 +80,7 @@ class BillingCompanyCatalogItem
             $this->entityManager->persist($this->billingCompanyCatalog);
             $this->entityManager->flush();
         }
-        $responder->emitUp('line_item:save',[
+        $responder->emit('line_item:save',[
             'billingCompanyCatalog' => $this->dehydrate($this->billingCompanyCatalog),
         ]);
 
@@ -93,7 +93,7 @@ class BillingCompanyCatalogItem
     {
         $this->entityManager->remove($this->billingCompanyCatalog);
         $this->entityManager->flush();
-        $responder->emitUp('line_item:delete',[
+        $responder->emit('line_item:delete',[
             'key' => $this->key
         ]);
 
