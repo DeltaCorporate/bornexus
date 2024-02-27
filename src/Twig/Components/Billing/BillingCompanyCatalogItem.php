@@ -84,6 +84,7 @@ class BillingCompanyCatalogItem
             'billingCompanyCatalog' => $this->dehydrate($this->billingCompanyCatalog),
         ]);
 
+        $responder->emit('line_item:doRefresh');
 
 
     }
@@ -96,6 +97,9 @@ class BillingCompanyCatalogItem
         $responder->emit('line_item:delete',[
             'key' => $this->key
         ]);
+
+        $responder->emit('line_item:doRefresh');
+
 
     }
 

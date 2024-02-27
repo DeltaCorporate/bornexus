@@ -32,11 +32,9 @@ class BillingCompanyCatalogType extends AbstractType
                 'choice_value' => function($companyCatalog = null){
                       return $companyCatalog ? $companyCatalog->getId() : null;
                 },
-                'placeholder' => 'Produit',
                 'attr' => [
                     'data-action' => 'change->live#action'
                 ]
-
             ])
             ->add('quantity',IntegerType::class,[
                 'attr' =>

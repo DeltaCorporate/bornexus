@@ -54,7 +54,7 @@ class BillingForm extends AbstractController
         $this->changeUserForm();
     }
 
-    #[LiveListener('line_item:save')]
+    #[LiveListener('line_item:doRefresh')]
     public function refreshBilling(): void
     {
        $entityManager = $this->entityManager;
