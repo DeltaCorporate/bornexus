@@ -22,4 +22,13 @@ class CompaniesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Company::class);
     }
+
+    public function deleteCompanies(array $companyIds): void
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->delete()
+            ->where($qb->expr()->in('c.id', $companyIds))
+            ->getQuery()
+            ->execute();
+    }
 }

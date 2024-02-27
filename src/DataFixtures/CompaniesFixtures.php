@@ -24,10 +24,11 @@ class CompaniesFixtures extends Fixture
             $company->setPaypalId($faker->uuid);
             $company->setStripeId($faker->uuid);
             $company->setIban($faker->iban('FR'));
-            $company->setTva($faker->randomNumber(9, true));
+            //random TVA based on Company::TVA it's string convert it to float
+            $company->setTva((float) $faker->randomElement(Company::TVA));
             $company->setTvaReason($faker->sentence);
-            $company->setCreatedAt(new \DateTimeImmutable());
-            $company->setUpdatedAt(new \DateTimeImmutable());
+            $company->setCreatedAt(new \DateTime());
+            $company->setUpdatedAt(new \DateTime());
             $company->setStatus($faker->randomElement(['pending', 'active', 'inactive']));
             $manager->persist($company);
         }

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use Exception;
 use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Billing;
@@ -14,6 +15,9 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class BillingsFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @throws Exception
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
@@ -35,8 +39,8 @@ class BillingsFixtures extends Fixture implements DependentFixtureInterface
                     $billing->setDiscount($faker->randomFloat(2, 0, 100));
                     $billing->setCompany($company);
                     $billing->setUsers($users[$i]);
-                    $billing->setCreatedAt(new \DateTimeImmutable());
-                    $billing->setUpdatedAt(new \DateTimeImmutable());
+                    $billing->setCreatedAt(new \DateTime());
+                    $billing->setUpdatedAt(new \DateTime());
                     $manager->persist($billing);
                 }
             }

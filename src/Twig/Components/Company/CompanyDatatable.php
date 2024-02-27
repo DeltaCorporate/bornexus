@@ -34,6 +34,15 @@ final class CompanyDatatable
         $this->totalPages = $this->getTotalPages();
     }
 
+    #[LiveAction]
+    public function deleteCompanies(): void
+    {
+        $this->companiesRepository->deleteCompanies($this->companyIds);
+        $this->totalCompanies = $this->companiesRepository->count([]);
+        $this->totalPages = $this->getTotalPages();
+        $this->currentPage = 1;
+    }
+
     public function getCompanies(): array
     {
         $offset = ($this->currentPage - 1) * $this->itemsPerPage;
@@ -44,11 +53,13 @@ final class CompanyDatatable
     {
         return ceil($this->totalCompanies / $this->itemsPerPage);
     }
+
     #[LiveAction]
     public function nextPage(): void
     {
         $this->currentPage++;
     }
+
     #[LiveAction]
     public function prevPage(): void
     {

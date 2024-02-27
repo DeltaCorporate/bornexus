@@ -86,9 +86,6 @@ class Company
     #[ORM\Column(length: 255)]
     private ?string $status = "active";
 
-    #[ORM\Column]
-    private ?float $test = null;
-
     const TVA = [
         "20" =>'20%',
         "10" => '10%',
