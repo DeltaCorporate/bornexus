@@ -1,15 +1,22 @@
 {% extends 'layouts/dashboard.html.twig' %}
 
-{% block title %}Edit Product{% endblock %}
+{% block title %}Editer le produit{% endblock %}
 
 {% block body %}
-    <h1>Edit Product</h1>
-
-    <img src="{{ vich_uploader_asset(product, 'imageFile') }}" alt="image">
-
-    {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_product_index') }}">back to list</a>
-
-    {{ include('product/_delete_form.html.twig') }}
+    <twig:Card>
+        <div class="mb-4">
+            <a  href="{{ path('commercial_company_app_product_index') }}" class="px-4 py-2 bg-darkgrey rounded-lg">
+                <i class="fas fa-arrow-left"></i> Back to list</a>
+            <h1 class="block font-bold text-3xl mt-4">Editer le produit</h1>
+        </div>
+        {{ form(form) }}
+        <div>
+{#            delete button#}
+            <form method="post" action="{{ path('commercial_company_app_product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg">Delete</button>
+            </form>
+        </div>
+    </twig:Card>
 {% endblock %}

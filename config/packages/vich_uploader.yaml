@@ -5,11 +5,10 @@ vich_uploader:
         type: attribute
 
     mappings:
-        dynamic_files:
+        product_thumbnails:
             uri_prefix: /images/products
             upload_destination: "%kernel.project_dir%/public/images/products"
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
