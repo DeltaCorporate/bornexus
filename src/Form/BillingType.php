@@ -31,7 +31,8 @@ class BillingType extends AbstractType
                 'label' => 'Réduction',
                 'html5' => true,
                 'attr' => [
-                    'min' => 0
+                    'min' => 0,
+                    'max' => 100
                 ],
                 'required' => false
             ])

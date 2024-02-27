@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\Timestampable;
 use App\Repository\BillingsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BillingsRepository::class)]
 class Billing
 {
-    use Timestampable;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -31,8 +29,12 @@ class Billing
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $payment_method = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0', nullable: true)]
-    private ?string $discount = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'billings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -52,6 +54,9 @@ class Billing
     private float $priceHt = 0;
     private float $priceTtc = 0;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $discount = null;
+    
      const STATUS_LABEL = [
         'paid' => 'Payée',
         'unpaid' => 'Non payée',
@@ -125,16 +130,44 @@ class Billing
         return $this;
     }
 
-    public function getDiscount(): ?string
+
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->discount;
+        return $this->updated_at;
     }
 
-    public function setDiscount(?string $discount): static
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
-        $this->discount = $discount;
+        $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtAuto(): void {
+        $this->setCreatedAt(new \DateTimeImmutable());
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtAuto(): void {
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
     public function getCompany(): ?Company
@@ -232,7 +265,7 @@ class Billing
     /**
      * Get the value of priceDiscount
      */ 
-    public function getPriceDiscountOfLines(): float
+    public function getPriceDiscountOfLines(): float 
     {
         return $this->priceDiscountOfLines;
     }
@@ -253,15 +286,14 @@ class Billing
      * Get the value of priceTtc
      */ 
     public function getPriceTtc(): float
-    {
+    {   
         return $this->priceTtc;
     }
 
 
     public function getPriceTtcDiscounted(): float
     {
-        $discount = $this->getDiscount()/100 * $this->getPriceTtc();
-        return $this->getPriceTtc() - $discount;
+        return $this->getPriceTtc() - $this->getDiscountPrice();
     }
     /**
      * Set the value of priceTtc
@@ -283,6 +315,10 @@ class Billing
         return $this->priceHt;
     }
 
+    public function getDiscountPrice(): float
+    {
+        return $this->getDiscount()/100 * $this->getPriceHt();
+    }
     /**
      * Set the value of priceTtc
      *
@@ -303,5 +339,17 @@ class Billing
     public function getTypeFirstLetter(): string
     {
         return strtoupper($this->getType()[0]);
+    }
+
+    public function getDiscount(): ?int
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?int $discount): static
+    {
+        $this->discount = $discount;
+
+        return $this;
     }
 }

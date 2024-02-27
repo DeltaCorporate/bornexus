@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
@@ -49,9 +50,18 @@ class BillingForm extends AbstractController
     }
     #[PostMount]
     public function postMount(){
+        $this->billing->calculTotalPrices();
         $this->changeUserForm();
     }
 
+    #[LiveListener('line_item:save')]
+    public function refreshBilling(): void
+    {
+       $entityManager = $this->entityManager;
+       $billing = $this->billing;
+       $entityManager->refresh($billing);
+       $billing->calculTotalPrices();
+    }
     #[LiveAction]
     public function changeUserForm(){
         $this->userForm = $this->createForm(ClientReadOnlyType::class, $this->billing->getUsers())->createView();
