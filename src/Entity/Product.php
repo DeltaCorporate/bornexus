@@ -9,16 +9,23 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
-#[Uploadable]
-
+#[Uploadable()]
 class Product
 {
     use Timestampable;
+
+    const TVA = [
+        "20" =>'20%',
+        "10" => '10%',
+        "5.5" => '5.5%',
+        "2.1" => "2.1%"
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,10 +50,6 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Company $company = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
@@ -84,21 +87,9 @@ class Product
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param string|null $image
-     */
-    public function setImage(?string $image): void
-    {
-        $this->image = $image;
-    }
+    #[UploadableField(mapping: 'product_thumbnails', fileNameProperty: 'thumbnail')]
+    #[Assert\Image(maxSize:10e6, mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Please upload a valid image file')]
+    private ?File $thumbnailFile = null;
 
     public function __construct()
     {
@@ -166,6 +157,18 @@ class Product
     public function setStock(int $stock): static
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getTva(): ?string
+    {
+        return $this->tva;
+    }
+
+    public function setTva(string $tva): static
+    {
+        $this->tva = $tva;
 
         return $this;
     }
@@ -247,5 +250,28 @@ class Product
         $this->tva = $tva;
 
         return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(string $thumbnail): static
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    public function setThumbnailFile(?File $thumbnailFile): Product
+    {
+        $this->thumbnailFile = $thumbnailFile;
+        return $this;
+    }
+
+    public function getThumbnailFile(): ?File
+    {
+        return $this->thumbnailFile;
     }
 }

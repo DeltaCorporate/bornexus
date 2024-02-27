@@ -22,6 +22,7 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 # Définition du répertoire de travail
 WORKDIR /var/www
 
+COPY uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 RUN symfony server:ca:install
 

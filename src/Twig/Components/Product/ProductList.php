@@ -15,7 +15,8 @@ final class ProductList
 
     public function __construct(ProductsRepository $productsRepository)
     {
-        $this->products = $productsRepository->findAll();
+        //find all products sorted by created_at
+        $this->products = $productsRepository->findBy([], ['createdAt' => 'DESC']);
         $this->totalProducts = $productsRepository->count([]);
     }
 }

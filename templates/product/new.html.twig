@@ -1,11 +1,18 @@
 {% extends 'layouts/dashboard.html.twig' %}
 
-{% block title %}New Product{% endblock %}
+{% block title %}New Company{% endblock %}
 
 {% block body %}
-    <h1>Create new Product</h1>
 
-    {{ include('product/_form.html.twig') }}
-
-    <a href="{{ path('app_product_index') }}">back to list</a>
+    <twig:Card>
+        <div class="mb-4">
+            <a  href="{{ path('commercial_company_app_product_index') }}" class="px-4 py-2 bg-darkgrey rounded-lg">
+                <i class="fas fa-arrow-left"></i> Back to list</a>
+            <h1 class="block font-bold text-3xl mt-4">Ajouter un produit</h1>
+            <p class="text-dark text-xs mt-4">
+                Ajouter une entreprise en renseignant le maximum d'infos en sur elle. Il ne s'agit que de l'insérer, il faut encore valider son propriétaire et ajouter ses différents moyens de paiement.
+            </p>
+        </div>
+        {{ form(form) }}
+    </twig:Card>
 {% endblock %}
