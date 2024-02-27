@@ -317,7 +317,7 @@ class Billing
 
     public function getDiscountPrice(): float
     {
-        return $this->getDiscount()/100 * $this->getPriceHt();
+        return $this->getDiscount()/100 * $this->getPriceTtc();
     }
     /**
      * Set the value of priceTtc
