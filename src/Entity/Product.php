@@ -55,8 +55,10 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
     private Collection $companyCatalogs;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $tva = null;
+    #[ORM\Column(length: 6, nullable: true)]
+    private ?string $tva = null;
+
+
 
     public function __construct()
     {
@@ -234,15 +236,17 @@ class Product
         return $this;
     }
 
-    public function getTva(): ?int
+    public function getTva(): ?float
     {
-        return $this->tva;
+        return (float)$this->tva;
     }
 
-    public function setTva(?int $tva): static
+    public function setTva(?string $tva): static
     {
         $this->tva = $tva;
 
         return $this;
     }
+
+  
 }

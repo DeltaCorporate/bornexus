@@ -1,13 +1,16 @@
 {% extends 'layouts/dashboard.html.twig' %}
 
-{% block title %}Créer une facture{% endblock %}
+{% block title %}Créer un devis{% endblock %}
 
 {% block body %}
 
     <twig:Card>
-        <h1 class="font-semibold text-2xl">Créer une facture</h1>
+        <h1 class="font-semibold text-2xl">Créer un devis</h1>
 
-        {{ include('billing/_form.html.twig') }}
+        {{ component('Billing:BillingForm',{
+            'form': form,
+            'billing': billing,
+        }) }}
 
 
     </twig:Card>

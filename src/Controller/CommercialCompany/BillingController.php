@@ -34,16 +34,21 @@ class BillingController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UserService $userService): Response
     {
         $company = $this->security->getUser()->getCompany();
-
         $users = $entityManager->getRepository(User::class)->findByCompanyAndRole($company,'ROLE_USER');
         $billing = new Billing();
+        $billing->setCompany($company);
+        $billing->setEmitedAt(new \DateTimeImmutable());
+        $billing->setType('quote');
+        $billing->setCreatedAt(new \DateTimeImmutable());
+        $billing->setUpdatedAt(new \DateTimeImmutable());
         $form = $this->createForm(BillingType::class, $billing,compact('users'));
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $billing->setStatus('pending');
+            $billing->setStatus('unpaid');
             $entityManager->persist($billing);
             $entityManager->flush();
-            return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('commercial_company_app_billing_edit', ['id' => $billing->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('billing/new.html.twig', [

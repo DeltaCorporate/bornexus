@@ -34,7 +34,7 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
                         $product->setPrice($faker->randomNumber(2));
                         $product->setPublished($faker->boolean);
                         $product->setStock($faker->randomNumber(2));
-                        $product->setTva(20);
+                        $product->setTva(['5', '10', '20'][rand(0, 2)]);
                         $product->setCreatedAt(new \DateTimeImmutable());
                         $product->setUpdatedAt(new \DateTimeImmutable());
                         $product->setCategory($category);

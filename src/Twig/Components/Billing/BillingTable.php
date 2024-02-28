@@ -27,6 +27,7 @@ class BillingTable
         private PaginatorInterface $paginator,
         private SerializerInterface $serializer
     ){
+        $this->entityManager = $entityManager;
     }
 
 
@@ -37,6 +38,7 @@ class BillingTable
         $billing = $this->dataRepository->find($id);
         if ($billing) {
             $this->dataRepository->delete($billing);
+            $this->entityManager->flush();
             $this->paginate();
             $this->data = array_filter($this->data, function ($billing) use ($id) {
                 return $billing['id'] != $id;

@@ -40,7 +40,6 @@ class BillingType extends AbstractType
                 'label' => 'Client',
                 'choices' => $options['users'],
                 'choice_label' => 'fullName',
-                'choice_value' => 'id',
                 'attr' => [
                     'data-action' => 'change->live#action',
                     'data-action-name' => 'changeUserForm'
