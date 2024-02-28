@@ -50,7 +50,6 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
@@ -181,19 +180,6 @@ class Product
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): static
-    {
-        $this->company = $company;
 
         return $this;
     }
