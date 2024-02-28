@@ -77,9 +77,6 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyCatalog::class)]
     private Collection $companyCatalogs;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Product::class)]
-    private Collection $products;
-
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Billing::class)]
     private Collection $billings;
 
@@ -99,7 +96,6 @@ class Company
         $this->suppliers = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->companyCatalogs = new ArrayCollection();
-        $this->products = new ArrayCollection();
         $this->billings = new ArrayCollection();
     }
 
@@ -372,35 +368,7 @@ class Company
         return $this;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
 
-    public function addProduct(Product $product): static
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->setCompany($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): static
-    {
-        if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getCompany() === $this) {
-                $product->setCompany(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Billing>
