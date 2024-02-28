@@ -9,6 +9,9 @@
     <twig:Billing:ClientPreview
         :user="billing.users" />
 
+
+    {% if billing.id is not null %}
+
     <twig:Billing:BillingCompanyCatalogTable
             :billing="billing"
     />
@@ -22,7 +25,7 @@
 
         </uL>
     </section>
-
+    {% endif %}
 <div class="flex justify-end gap-2 sh">
 
         {% if billing.id is not null %}

@@ -7,6 +7,7 @@ use App\Entity\BillingCompanyCatalog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Billing>
@@ -20,7 +21,9 @@ class BillingsRepository extends ServiceEntityRepository
 {
     public function __construct(
       private  EntityManagerInterface $entityManager,
-      private ManagerRegistry $registry)
+      private ManagerRegistry $registry,
+      private Security $security
+    )
     {
         parent::__construct($registry, Billing::class);
     }
@@ -28,6 +31,8 @@ class BillingsRepository extends ServiceEntityRepository
 
     public function listPaginationQuery(){
         return $this->createQueryBuilder('b')
+            ->where('b.company = :company')
+            ->setParameter('company', $this->security->getUser()->getCompany())
             ->orderBy('b.id', 'ASC')
             ->getQuery();
     }
@@ -38,9 +43,7 @@ class BillingsRepository extends ServiceEntityRepository
         foreach ($catalogs as $catalog)
             $this->entityManager->remove($catalog);
 
-
         $this->entityManager->remove($billing);
-        $this->entityManager->flush();
 
     }
 }

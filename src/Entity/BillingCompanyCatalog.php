@@ -28,14 +28,15 @@ class BillingCompanyCatalog
     #[ORM\Column]
     private ?int $quantity = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $tva = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $price_ht = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $discount = null;
+
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $tva = null;
 
     public function getId(): ?int
     {
@@ -117,17 +118,7 @@ class BillingCompanyCatalog
         return $this->getCompanyCatalog() !== null;
     }
 
-    public function getTva(): ?int
-    {
-        return $this->tva;
-    }
-
-    public function setTva(?int $tva): static
-    {
-        $this->tva = $tva;
-
-        return $this;
-    }
+    
 
     public function setPriceHt(?float $price_ht): static
     {
@@ -144,6 +135,18 @@ class BillingCompanyCatalog
     public function setDiscount(?int $discount): static
     {
         $this->discount = $discount;
+
+        return $this;
+    }
+
+    public function getTva(): ?float
+    {
+        return (float)$this->tva;
+    }
+
+    public function setTva(?string $tva): static
+    {
+        $this->tva = $tva;
 
         return $this;
     }

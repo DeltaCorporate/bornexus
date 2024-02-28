@@ -34,9 +34,6 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: '2')]
-    private ?string $tva = null;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
@@ -52,6 +49,10 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
     private Collection $companyCatalogs;
+
+    #[ORM\Column(length: 6, nullable: true)]
+    private ?string $tva = null;
+
 
     public function __construct()
     {
@@ -119,18 +120,6 @@ class Product
     public function setStock(int $stock): static
     {
         $this->stock = $stock;
-
-        return $this;
-    }
-
-    public function getTva(): ?string
-    {
-        return $this->tva/100;
-    }
-
-    public function setTva(string $tva): static
-    {
-        $this->tva = $tva;
 
         return $this;
     }
@@ -236,6 +225,18 @@ class Product
                 $companyCatalog->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTva(): ?float
+    {
+        return (float)$this->tva;
+    }
+
+    public function setTva(?string $tva): static
+    {
+        $this->tva = $tva;
 
         return $this;
     }

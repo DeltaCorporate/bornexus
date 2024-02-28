@@ -7,9 +7,12 @@ use App\Entity\User;
 use App\Form\BillingType;
 use App\Form\ClientReadOnlyType;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -28,20 +31,37 @@ class BillingForm extends AbstractController
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
-    #[LiveProp(fieldName: 'billingForm:billing')]
+    public $key = 0;
+
+    #[LiveProp(fieldName: 'billingForm:billing',hydrateWith: 'hydrate', dehydrateWith: 'dehydrate')]
     public ?Billing $billing = null;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
         private LiveResponder $responder
        ){
+
         $this->entityManager = $entityManager;
-        $this->responder = $this->responder;
+        $this->responder = $responder;
+
     }
+
+    public function hydrate($value)
+    {
+        return unserialize($value);
+    }
+
+    public function dehydrate($value)
+    {
+        return serialize($value);
+    }
+
 
     protected function instantiateForm(): FormInterface
     {
+
         $this->changeUserForm();
+
         $users = $this->entityManager->getRepository(User::class)->findByCompanyAndRole($this->billing->getCompany(),'ROLE_USER');
 
         return $this->createForm(BillingType::class, $this->billing,[
@@ -57,10 +77,8 @@ class BillingForm extends AbstractController
     #[LiveListener('line_item:doRefresh')]
     public function refreshBilling(): void
     {
-       $entityManager = $this->entityManager;
-       $billing = $this->billing;
-       $entityManager->refresh($billing);
-       $billing->calculTotalPrices();
+        $this->billing = $this->entityManager->getRepository(Billing::class)->find($this->billing->getId());
+        $this->billing->calculTotalPrices();
     }
     #[LiveAction]
     public function changeUserForm(){
@@ -71,11 +89,21 @@ class BillingForm extends AbstractController
         ]);
     }
 
+    #[LiveAction]
+    public function delete()
+    {
+        $entityManager = $this->entityManager;
+        $billingRepository = $entityManager->getRepository(Billing::class);
+        $billing = $billingRepository->find($this->billing->getId());
+        $billingRepository->delete($billing);
+        $entityManager->flush();
+
+        $this->redirectToRoute('commercial_company_app_billing_index');
+    }
+
     private function getDataModelValue(): ?string
     {
         return 'norender|*';
     }
-
-
 
 }
