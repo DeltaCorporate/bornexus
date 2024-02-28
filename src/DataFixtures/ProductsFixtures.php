@@ -20,11 +20,9 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR'); // Utilisez 'fr_FR' pour les données en français
 
-        $companies = $manager->getRepository(Company::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
         $suppliers = $manager->getRepository(Supplier::class)->findAll();
 
-        foreach ($companies as $company) {
             foreach ($categories as $category) {
                 foreach ($suppliers as $supplier) {
                     for ($i = 0; $i < 4; $i++) {
@@ -35,16 +33,13 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
                         $product->setPublished($faker->boolean);
                         $product->setStock($faker->randomNumber(2));
                         $product->setTva(['5', '10', '20'][rand(0, 2)]);
-                        $product->setCreatedAt(new \DateTimeImmutable());
-                        $product->setUpdatedAt(new \DateTimeImmutable());
                         $product->setCategory($category);
-                        $product->setCompany($company);
                         $product->setSupplier($supplier);
+                        $product->setThumbnail("https://cdn.futura-sciences.com/sources/images/dossier/773/01-intro-773.jpg");
                         $manager->persist($product);
                     }
                 }
             }
-        }
 
         $manager->flush();
         $manager->clear();
