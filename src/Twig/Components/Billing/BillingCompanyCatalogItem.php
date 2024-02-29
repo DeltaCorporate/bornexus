@@ -99,8 +99,6 @@ class BillingCompanyCatalogItem
         ]);
 
         $responder->emit('line_item:doRefresh');
-
-
     }
 
     public function createForm(): Form
