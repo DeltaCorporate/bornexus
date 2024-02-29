@@ -4,10 +4,8 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\Product;
-use App\Entity\Company;
 use App\Entity\Supplier;
 use App\Entity\Category;
-use App\DataFixtures\CompaniesFixtures;
 use App\DataFixtures\SuppliersFixtures;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\CategoriesFixtures;

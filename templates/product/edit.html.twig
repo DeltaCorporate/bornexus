@@ -14,7 +14,7 @@
             <form method="post" action="{{ path('commercial_company_app_product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg">Delete</button>
+                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-full">Delete</button>
             </form>
         </div>
     </twig:Card>

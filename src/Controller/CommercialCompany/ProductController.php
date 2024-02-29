@@ -18,7 +18,11 @@ class ProductController extends AbstractController
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductsRepository $productsRepository): Response
     {
-        return $this->render('product/index.html.twig');
+        $productsCount = $productsRepository->count([]);
+
+        return $this->render('product/index.html.twig',  [
+            'productsCount' => $productsCount,
+        ]);
     }
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
