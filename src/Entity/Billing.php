@@ -65,7 +65,7 @@ class Billing
         'paid' => 'Payée',
         'unpaid' => 'Non payée',
         'pending' => 'En cours',
-        'overpaid' => 'Surpayée'
+         '' => ''
     ];
 
     const PAYMENT_METHOD = [
@@ -77,9 +77,9 @@ class Billing
         'quote' => 'Devis',
         'invoice' => 'Facture'
     ];
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct()
     {
-        $this->entityManager = $entityManager;
+
         $this->billingsCompanyCatalogs = new ArrayCollection();
     }
 
@@ -158,7 +158,6 @@ class Billing
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
-
         return $this;
     }
 
@@ -380,28 +379,6 @@ class Billing
         return $this->amount_paid;
     }
 
-    public function updatePriceStatus(){
-        $this->calculTotalPrices();
-        $statusOrigine = $this->getStatus();
-        if ($this->getType() === 'quote') {
-            $this->setStatus(null);
-            return;
-        }
-        $priceTtcDiscounted = $this->getPriceTtcDiscounted();
-        $amountPaid = (float)$this->getAmountPaid();
-
-        if ($amountPaid == 0)
-            $this->setStatus('unpaid');
-         elseif ($amountPaid < $priceTtcDiscounted)
-            $this->setStatus('pending');
-        elseif ($amountPaid > $priceTtcDiscounted)
-            $this->setStatus('overpaid');
-        else
-            $this->setStatus('paid');
-
-        if($statusOrigine !== $this->getStatus())
-            $this->entityManager->flush();
-    }
 
     public function setAmountPaid(?string $amount_paid): static
     {

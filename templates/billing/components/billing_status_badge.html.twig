@@ -1,0 +1,20 @@
+{% if billing.status == 'paid' %}
+    {% set badgeColor = 'success' %}
+{% elseif billing.status == 'pending' %}
+    {% set badgeColor = 'warning' %}
+{% elseif billing.status == 'unpaid' %}
+    {% set badgeColor = 'error' %}
+
+
+{% endif %}
+
+{% if billing.status is not empty %}
+<twig:Badge
+        text="{{ billing.statusLabel }}"
+        size="sm"
+        color="{{ badgeColor }}"
+        fontSize="sm"
+        radius="rounded-full"
+        textColor=""
+/>
+{% endif %}

@@ -45,7 +45,7 @@ class BillingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $billing->setStatus(null);
+            $billing->setStatus('');
             $entityManager->persist($billing);
             $entityManager->flush();
             return $this->redirectToRoute('commercial_company_app_billing_edit', ['id' => $billing->getId()], Response::HTTP_SEE_OTHER);

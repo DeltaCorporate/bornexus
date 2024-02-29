@@ -20,22 +20,7 @@
                 <td class="text-center"><a href="#" class="text-accent" target="_blank"> {{ billing.clientFullName }}</a></td>
                 <td class="text-center">{{ billing.priceTtcDiscounted }}€ </td>
                 <td class="text-center">
-                    {% if billing.status == 'paid' %}
-                        {% set badgeColor = 'success' %}
-                    {% elseif billing.status == 'pending' %}
-                        {% set badgeColor = 'warning' %}
-                    {% elseif billing.status == 'unpaid' %}
-                        {% set badgeColor = 'error' %}
-                    {% endif %}
-
-                    <twig:Badge
-                            text="{{ billing.statusLabel }}"
-                            size="sm"
-                            color="{{ badgeColor }}"
-                            fontSize="sm"
-                            radius="rounded-full"
-                            textColor=""
-                    />
+                    {% include 'billing/components/billing_status_badge.html.twig' %}
                 </td>
                 <td class="text-center">
                     <div class="flex py-1 gap-2 ">

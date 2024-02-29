@@ -29,6 +29,29 @@ class BillingsRepository extends ServiceEntityRepository
         parent::__construct($registry, Billing::class);
     }
 
+    public function updatePriceStatus(Billing $billing){
+
+        $billing->calculTotalPrices();
+        $statusOrigine = $billing->getStatus();
+        if ($billing->getType() === 'quote') {
+            $billing->setStatus('');
+        }else{
+            $priceTtcDiscounted = $billing->getPriceTtcDiscounted();
+            $amountPaid = (float)$billing->getAmountPaid();
+
+            if ($amountPaid == 0)
+                $billing->setStatus('unpaid');
+            elseif ($amountPaid <= $priceTtcDiscounted)
+                $billing->setStatus('pending');
+            else
+                $billing->setStatus('paid');
+        }
+
+        if($statusOrigine !== $billing->getStatus())
+            $this->entityManager->flush();
+
+        return $billing;
+    }
 
     public function listPaginationQuery(){
         return $this->createQueryBuilder('b')
