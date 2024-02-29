@@ -6,6 +6,7 @@ use App\Repository\BillingsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
@@ -63,7 +64,8 @@ class Billing
      const STATUS_LABEL = [
         'paid' => 'Payée',
         'unpaid' => 'Non payée',
-        'pending' => 'En cours'
+        'pending' => 'En cours',
+        'overpaid' => 'Surpayée'
     ];
 
     const PAYMENT_METHOD = [
@@ -75,8 +77,9 @@ class Billing
         'quote' => 'Devis',
         'invoice' => 'Facture'
     ];
-    public function __construct()
+    public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->billingsCompanyCatalogs = new ArrayCollection();
     }
 
@@ -240,7 +243,7 @@ class Billing
             $this->priceDiscountOfLines += $billingCompanyCatalog->getPriceDiscount();
             $this->priceHt += $billingCompanyCatalog->getPriceHt();
             $this->priceTtc += $billingCompanyCatalog->getPriceTtc();
-        }   
+        }
         return $this;
     }
 
@@ -377,10 +380,32 @@ class Billing
         return $this->amount_paid;
     }
 
+    public function updatePriceStatus(){
+        $this->calculTotalPrices();
+        $statusOrigine = $this->getStatus();
+        if ($this->getType() === 'quote') {
+            $this->setStatus(null);
+            return;
+        }
+        $priceTtcDiscounted = $this->getPriceTtcDiscounted();
+        $amountPaid = (float)$this->getAmountPaid();
+
+        if ($amountPaid == 0)
+            $this->setStatus('unpaid');
+         elseif ($amountPaid < $priceTtcDiscounted)
+            $this->setStatus('pending');
+        elseif ($amountPaid > $priceTtcDiscounted)
+            $this->setStatus('overpaid');
+        else
+            $this->setStatus('paid');
+
+        if($statusOrigine !== $this->getStatus())
+            $this->entityManager->flush();
+    }
+
     public function setAmountPaid(?string $amount_paid): static
     {
         $this->amount_paid = $amount_paid;
-
         return $this;
     }
 }

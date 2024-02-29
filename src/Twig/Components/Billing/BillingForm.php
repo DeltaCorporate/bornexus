@@ -79,6 +79,7 @@ class BillingForm extends AbstractController
     {
         $this->billing = $this->entityManager->getRepository(Billing::class)->find($this->billing->getId());
         $this->billing->calculTotalPrices();
+        $this->billing->updatePriceStatus();
     }
     #[LiveAction]
     public function changeUserForm(){

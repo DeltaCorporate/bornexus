@@ -44,9 +44,19 @@ class BillingType extends AbstractType
                     'data-action' => 'change->live#action',
                     'data-action-name' => 'changeUserForm'
                 ]
-
             ])
         ;
+
+        if($options['data']->getType() === 'invoice'){
+            $builder->add('amount_paid',NumberType::class,[
+                'label' => 'Montant payé',
+                'html5' => true,
+                'attr' => [
+                    'min' => 0,
+                ],
+                'required' => false
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

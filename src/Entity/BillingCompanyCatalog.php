@@ -123,7 +123,6 @@ class BillingCompanyCatalog
     public function setPriceHt(?float $price_ht): static
     {
         $this->price_ht = $price_ht;
-
         return $this;
     }
 
