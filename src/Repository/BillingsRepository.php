@@ -6,6 +6,7 @@ use App\Entity\Billing;
 use App\Entity\BillingCompanyCatalog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -37,6 +38,27 @@ class BillingsRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    /**
+     * @param Billing $billing
+     * @param string $type
+     * @return Billing
+     * @throws \Exception
+     */
+    public function cloneBilling(Billing $billing,string $type = 'quote'): Billing{
+        if(!array_key_exists($type,Billing::TYPE))
+            throw new \Exception('Le type de facturation n\'est pas correct');
+
+        if (!$billing->getId())
+            throw new EntityNotFoundException('La facture demandée n\'existe pas.');
+
+
+        $clonedBilling = clone $billing;
+        $clonedBilling->setType($type);
+        $this->entityManager->persist($clonedBilling);
+        $this->entityManager->flush();
+
+        return $clonedBilling;
+    }
     public function delete(Billing $billing): void{
 
         $catalogs = $this->entityManager->getRepository(BillingCompanyCatalog::class)->findBy(['billing' => $billing]);

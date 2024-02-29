@@ -6,6 +6,7 @@ use App\Entity\Billing;
 use App\Entity\User;
 use App\Form\BillingType;
 use App\Form\ClientReadOnlyType;
+use App\Repository\BillingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,7 +44,6 @@ class BillingForm extends AbstractController
 
         $this->entityManager = $entityManager;
         $this->responder = $responder;
-
     }
 
     public function hydrate($value)
@@ -90,6 +90,16 @@ class BillingForm extends AbstractController
     }
 
     #[LiveAction]
+    public function createInvoiceFromQuote()
+    {
+        $billingRepository = $this->entityManager->getRepository(Billing::class);
+        $billing = $billingRepository->find($this->billing->getId());
+        $newBilling = $billingRepository->cloneBilling($billing,'invoice');
+
+        return $this->redirectToRoute('commercial_company_app_billing_edit',['id' => $newBilling->getId()]);
+    }
+
+    #[LiveAction]
     public function delete()
     {
         $entityManager = $this->entityManager;
@@ -98,7 +108,7 @@ class BillingForm extends AbstractController
         $billingRepository->delete($billing);
         $entityManager->flush();
 
-        $this->redirectToRoute('commercial_company_app_billing_index');
+        return $this->redirectToRoute('commercial_company_app_billing_index');
     }
 
     private function getDataModelValue(): ?string

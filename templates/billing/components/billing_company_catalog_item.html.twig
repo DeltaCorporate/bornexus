@@ -25,9 +25,9 @@
 
                         {{ form_widget(field,{
                                 'attr': {
-                                        'data-action': 'change->live#action',
+                                        'data-action': 'input->live#action',
                                         'data-model': dataModelValue,
-                                        'data-action-name': 'save'
+                                        'data-action-name': 'prevent|debounce(250)|save'
                                 }
                         }) }}
                         {{ form_errors(field) }}
