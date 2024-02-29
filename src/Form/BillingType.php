@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Billing;
-use Doctrine\ORM\Query\Expr\Select;
-use http\Client\Curl\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -49,7 +47,7 @@ class BillingType extends AbstractType
 
         if($options['data']->getType() === 'invoice'){
             $builder->add('amount_paid',NumberType::class,[
-                'label' => 'Montant payé',
+                'label' => 'Montant payé en €',
                 'html5' => true,
                 'attr' => [
                     'min' => 0,

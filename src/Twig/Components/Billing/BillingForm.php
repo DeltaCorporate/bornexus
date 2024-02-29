@@ -19,6 +19,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\Attribute\PreReRender;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\Component\Form\FormInterface;
@@ -41,7 +42,6 @@ class BillingForm extends AbstractController
         private EntityManagerInterface $entityManager,
         private LiveResponder $responder
        ){
-
         $this->entityManager = $entityManager;
         $this->responder = $responder;
     }
@@ -79,7 +79,6 @@ class BillingForm extends AbstractController
     {
         $this->billing = $this->entityManager->getRepository(Billing::class)->find($this->billing->getId());
         $this->billing->calculTotalPrices();
-        $this->billing->updatePriceStatus();
     }
     #[LiveAction]
     public function changeUserForm(){
@@ -103,6 +102,7 @@ class BillingForm extends AbstractController
     #[LiveAction]
     public function delete()
     {
+
         $entityManager = $this->entityManager;
         $billingRepository = $entityManager->getRepository(Billing::class);
         $billing = $billingRepository->find($this->billing->getId());
