@@ -244,14 +244,14 @@ class Product
         return $this->thumbnail;
     }
 
-    public function setThumbnail(string $thumbnail): static
+    public function setThumbnail(?string $thumbnail = null): static
     {
         $this->thumbnail = $thumbnail;
 
         return $this;
     }
 
-    public function setThumbnailFile(?File $thumbnailFile): Product
+    public function setThumbnailFile(?File $thumbnailFile = null): Product
     {
         $this->thumbnailFile = $thumbnailFile;
         return $this;
