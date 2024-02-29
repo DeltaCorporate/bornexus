@@ -56,6 +56,9 @@ class Billing
 
     #[ORM\Column(nullable: true)]
     private ?int $discount = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3, nullable: true)]
+    private ?string $amount_paid = null;
     
      const STATUS_LABEL = [
         'paid' => 'Payée',
@@ -367,5 +370,17 @@ class Billing
             }
             $this->billingsCompanyCatalogs = $clonedBillingsCompanyCatalogs;
         }
+    }
+
+    public function getAmountPaid(): ?string
+    {
+        return $this->amount_paid;
+    }
+
+    public function setAmountPaid(?string $amount_paid): static
+    {
+        $this->amount_paid = $amount_paid;
+
+        return $this;
     }
 }
