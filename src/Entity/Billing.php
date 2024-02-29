@@ -40,7 +40,7 @@ class Billing
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
 
-    #[ORM\OneToMany(mappedBy: 'billing', targetEntity: BillingCompanyCatalog::class)]
+    #[ORM\OneToMany(mappedBy: 'billing', targetEntity: BillingCompanyCatalog::class,cascade: ['persist'])]
     private Collection $billingsCompanyCatalogs;
 
     #[ORM\ManyToOne(inversedBy: 'billings')]
@@ -351,5 +351,21 @@ class Billing
         $this->discount = $discount;
 
         return $this;
+    }
+    public function __clone()
+    {
+        if ($this->id) {
+            $this->id = null;
+            $this->created_at = new \DateTimeImmutable();
+            $this->updated_at = new \DateTimeImmutable();
+
+            $clonedBillingsCompanyCatalogs = new ArrayCollection();
+            foreach ($this->billingsCompanyCatalogs as $billingsCompanyCatalog) {
+                $clonedBillingsCompanyCatalog = clone $billingsCompanyCatalog;
+                $clonedBillingsCompanyCatalog->setBilling($this); // Associez le catalogue cloné à la nouvelle facture
+                $clonedBillingsCompanyCatalogs->add($clonedBillingsCompanyCatalog);
+            }
+            $this->billingsCompanyCatalogs = $clonedBillingsCompanyCatalogs;
+        }
     }
 }

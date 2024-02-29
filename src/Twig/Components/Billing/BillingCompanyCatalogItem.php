@@ -103,8 +103,6 @@ class BillingCompanyCatalogItem
 
     }
 
-
-
     public function createForm(): Form
     {
         $this->form = $this->formFactory->create(BillingCompanyCatalogType::class, $this->billingCompanyCatalog,[

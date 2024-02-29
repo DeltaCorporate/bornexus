@@ -1,4 +1,19 @@
 <section {{ attributes }}>
+{% if billing.type == 'quote' and billing.id is not null%}
+    <div class="py-5">
+        <twig:Button
+                text="Créer une facture a partir de ce devis"
+                type="button"
+                variant="outline"
+                color="primary"
+                fontSize="sm"
+                size="sm"
+                data-action="click->live#action"
+                data-action-name="createInvoiceFromQuote"
+        />
+    </div>
+
+{% endif %}
 
     {{ form_start(form) }}
 
