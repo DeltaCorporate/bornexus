@@ -3,37 +3,45 @@
 {% block title %}Se connecter{% endblock %}
 
 {% block content %}
-<div class="container h-screen flex items-center justify-center">
+    <div class="container h-screen flex items-center justify-center">
 
-    <form method="post" class="bg-neutral p-5 w-full md:w-1/3 flex flex-col items-center rounded-2xl">
-        <div class="text-center  space-y-2">
+        <form method="post" class="bg-neutral p-5 w-full md:w-1/3 flex flex-col items-center rounded-2xl">
+            <div class="text-center  space-y-2">
 
-            <h1 class="text-3xl font-bold">Connexion</h1>
-            <p class="font-semibold">
-                Content de vous revoir 👋
-            </p>
-        </div>
-        <div class="my-4 space-y-4">
-            <div class="space-y-2">
-                <label class="block text-text" for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="w-full block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg" autocomplete="email" required autofocus/>
+                <h1 class="text-3xl font-bold">Connexion</h1>
+                <p class="font-semibold">
+                    Content de vous revoir 👋
+                </p>
+                <p class="text-error text-xs">
+                    {% if error %}
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    {% endif %}
+                </p>
             </div>
-            <div class="space-y-2">
-                <label class="block text-text"  for="inputPassword">Password</label>
-                <input type="password" name="password" id="inputPassword"  class="w-full block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg" autocomplete="current-password" required/>
-
+            <div class="my-4 space-y-4">
+                <div class="space-y-2">
+                    <label class="block text-dark" for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                           class="block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-dark rounded-lg px-4 py-2 w-full"
+                           autocomplete="email" required autofocus/>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-dark" for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword"
+                           class="block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-dark rounded-lg  px-4 py-2 w-full"
+                           autocomplete="current-password" required/>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
             </div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-        </div>
 
-        {{ component('Button',{
-            type:"submit",
-            color:"primary",
-            variant:"solid",
-            radius:"rounded-full",
-            text:"Se connecter",
-        }) }}
-    </form>
-</div>
+            {{ component('Button',{
+                type:"submit",
+                color:"primary",
+                variant:"solid",
+                radius:"rounded-full",
+                text:"Se connecter",
+            }) }}
+        </form>
+    </div>
 {% endblock %}
-{#{{ error.messageKey|trans(error.messageData, 'security') }}#}
+{# {{ error.messageKey|trans(error.messageData, 'security') }} #}

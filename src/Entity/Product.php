@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Timestampable;
 use App\Repository\ProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Product
 {
+    use Timestampable;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -32,13 +34,6 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
@@ -57,7 +52,6 @@ class Product
 
     #[ORM\Column(length: 6, nullable: true)]
     private ?string $tva = null;
-
 
 
     public function __construct()
@@ -128,45 +122,6 @@ class Product
         $this->stock = $stock;
 
         return $this;
-    }
-
-    
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-     /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtAuto(): void {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtAuto(): void {
-        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
     public function getCategory(): ?Category
@@ -247,6 +202,4 @@ class Product
 
         return $this;
     }
-
-  
 }

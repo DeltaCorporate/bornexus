@@ -17,9 +17,7 @@ class CompanyController extends AbstractController
     #[Route('/', name: 'app_company_index', methods: ['GET'])]
     public function index(CompaniesRepository $companiesRepository): Response
     {
-        return $this->render('company/index.html.twig', [
-            'companies' => $companiesRepository->findAll(),
-        ]);
+        return $this->render('company/index.html.twig');
     }
 
     #[Route('/new', name: 'app_company_new', methods: ['GET', 'POST'])]
@@ -28,14 +26,11 @@ class CompanyController extends AbstractController
         $company = new Company();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($company);
             $entityManager->flush();
-
             return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('company/new.html.twig', [
             'company' => $company,
             'form' => $form,
@@ -55,10 +50,8 @@ class CompanyController extends AbstractController
     {
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,7 +64,7 @@ class CompanyController extends AbstractController
     #[Route('/{id}', name: 'app_company_delete', methods: ['POST'])]
     public function delete(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$company->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $company->getId(), $request->request->get('_token'))) {
             $entityManager->remove($company);
             $entityManager->flush();
         }

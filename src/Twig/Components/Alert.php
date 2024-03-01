@@ -12,7 +12,7 @@ class Alert
         public string $icon = '',
         public string $color = 'primary',
         public string $size = 'base',
-        public string $textColor = 'text-text',
+        public string $textColor = 'text-dark',
         public string $borderWidth = '0',
         public string $fontSize = 'md',
         public string $weight = 'font-medium',

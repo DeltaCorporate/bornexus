@@ -6,13 +6,14 @@ use App\Repository\BillingsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\Timestampable;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BillingsRepository::class)]
 class Billing
 {
+    use Timestampable;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -29,13 +30,6 @@ class Billing
 
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $payment_method = null;
-
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'billings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -134,45 +128,6 @@ class Billing
         $this->payment_method = $payment_method;
 
         return $this;
-    }
-
-
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-        return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtAuto(): void {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-    
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtAuto(): void {
-        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
     public function getCompany(): ?Company
@@ -361,8 +316,6 @@ class Billing
     {
         if ($this->id) {
             $this->id = null;
-            $this->created_at = new \DateTimeImmutable();
-            $this->updated_at = new \DateTimeImmutable();
 
             $clonedBillingsCompanyCatalogs = new ArrayCollection();
             foreach ($this->billingsCompanyCatalogs as $billingsCompanyCatalog) {

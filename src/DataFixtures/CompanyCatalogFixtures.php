@@ -26,7 +26,7 @@ class CompanyCatalogFixtures extends Fixture implements DependentFixtureInterfac
             $products = $manager->getRepository(Product::class)->findBy(['company' => $company]);
 
 
-            for ($j = 0; $j < 3; $j++) {
+            for ($j = 0; $j < 4; $j++) {
                 $companyCatalog = new CompanyCatalog();
                 $companyCatalog->setMargin($faker->randomFloat(2, 0, 100));
                 $companyCatalog->setCompany($company);
@@ -38,6 +38,7 @@ class CompanyCatalogFixtures extends Fixture implements DependentFixtureInterfac
         }
 
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

@@ -53,19 +53,18 @@ module.exports = {
       },
    
   },
-  safelist: [
-    {
-      pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning|darkgrey)/,
-      variants: ['hover']
-    },
-    {
-      pattern: /text-(xs|sm|md|lg|xl|2xl|3xl|4xl)/,
-    },
-    {
-      pattern: /(w|h)-(100|[1-9][0-9]?)/,
-    },
-    'hover:brightness-75',
-  ],
+    safelist: [
+        {
+            pattern: /(bg|text|border|ring)-(primary|secondary|accent|text|background|card|error|success|warning|darkgrey)/,
+            variants: ['hover']
+        },
+        {
+            pattern: /text-(xs|sm|md|lg|xl|2xl|3xl|4xl)/,
+            pattern: /(w|h)-(100|[1-9][0-9]?)/
+        },
+        'hover:brightness-75',
+    ],
 
-     plugins: [require('@tailwindcss/forms')]
+
+    plugins: [require('@tailwindcss/forms')]
 }

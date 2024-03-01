@@ -2,16 +2,28 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Timestampable;
 use App\Repository\CompaniesRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use function PHPUnit\Framework\isEmpty;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CompaniesRepository::class)]
 class Company
 {
+    use Timestampable;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -47,17 +59,11 @@ class Company
     #[ORM\Column(length: 34, nullable: true)]
     private ?string $iban = null;
 
-    #[ORM\Column]
-    private ?bool $tva = null;
+    #[ORM\Column()]
+    private ?float $tva = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tva_reason = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
@@ -76,6 +82,16 @@ class Company
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Billing::class)]
     private Collection $billings;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = "active";
+
+    const TVA = [
+        "20" =>'20%',
+        "10" => '10%',
+        "5.5" => '5.5%',
+        "2.1" => "2.1%"
+    ];
 
     public function __construct()
     {
@@ -212,12 +228,12 @@ class Company
         return $this;
     }
 
-    public function isTva(): ?bool
+    public function isTva(): ?float
     {
         return $this->tva;
     }
 
-    public function setTva(bool $tva): static
+    public function setTva(float $tva): static
     {
         $this->tva = $tva;
 
@@ -234,44 +250,6 @@ class Company
         $this->tva_reason = $tva_reason;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-     /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtAuto(): void {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtAuto(): void {
-        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
     /**
@@ -450,6 +428,35 @@ class Company
                 $billing->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCountClients(): int
+    {
+        return $this->getUsers()->count();
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTest(): ?float
+    {
+        return $this->test;
+    }
+
+    public function setTest(float $test): static
+    {
+        $this->test = $test;
 
         return $this;
     }
