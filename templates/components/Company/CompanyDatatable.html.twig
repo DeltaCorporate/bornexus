@@ -12,7 +12,7 @@
                         {% if companyIds|length > 0 %}
                         {% endif %}
                         <button class="rounded-lg font-semibold bg-error text-xs text-white uppercase rounded outline-none ml-auto mr-1 mb-1 ease-linear transition-all duration-150 px-4 py-2"
-                                data-confirm="Êtes-vous sûr de vouloir supprimer ces entreprises ?"  data-action="live#action" data-action-name="deleteCompanies">
+                                data-confirm="Êtes-vous sûr de vouloir supprimer ces entreprises ?"  data-action="live#action" data-live-action-param="deleteCompanies">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                         <a href="{{ path('super_admin_app_company_new') }}"
@@ -77,10 +77,10 @@
                 {% if totalCompanies > itemsPerPage %}
                 <div class="flex items-center">
                     {% if currentPage-1 > 0 %}
-                        <button class="border rounded-lg px-2 py-1" data-action="live#action" data-action-name="prevPage">Previous <i class="fa-solid fa-circle-chevron-left"></i> </button>
+                        <button class="border rounded-lg px-2 py-1" data-action="live#action" data-live-action-param="prevPage">Previous <i class="fa-solid fa-circle-chevron-left"></i> </button>
                     {% endif %}
                     {% if currentPage+1 <= totalPages %}
-                        <button class="ml-auto  border rounded-lg px-2 py-1" data-action="live#action" data-action-name="nextPage"> Next <i class="fa-solid fa-circle-chevron-right"></i> </button>
+                        <button class="ml-auto  border rounded-lg px-2 py-1" data-action="live#action" data-live-action-param="nextPage"> Next <i class="fa-solid fa-circle-chevron-right"></i> </button>
                     {% endif %}
                 </div>
                 {% endif %}

@@ -9,7 +9,7 @@
                     fontSize="xs"
                     color="error"
                     data-action="click->live#action"
-                    data-action-name="prevent|debounce(500)|delete"
+                    data-live-action-param="prevent|debounce(500)|delete"
                     textColor="text-base"
             />
         </div>
@@ -27,7 +27,7 @@
                                 'attr': {
                                         'data-action': 'input->live#action',
                                         'data-model': dataModelValue,
-                                        'data-action-name': 'prevent|debounce(250)|save'
+                                        'data-live-action-param': 'prevent|debounce(250)|save'
                                 }
                         }) }}
                         {{ form_errors(field) }}

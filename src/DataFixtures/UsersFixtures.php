@@ -24,6 +24,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
 
         // Get all repository
         $repository = $manager->getRepository(Company::class);
+        $companies = $repository->findAll();
         $superAdmin = new User();
         $superAdmin->setEmail('admin@test.com');
         $superAdmin->setRoles(['ROLE_SUPER_ADMIN']);
@@ -40,32 +41,33 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $superAdmin->setVerifiedAt(new \DateTimeImmutable());
         $superAdmin->setCreatedAt(new \DateTimeImmutable());
         $superAdmin->setUpdatedAt(new \DateTimeImmutable());
-        $superAdmin->setCompany($repository->find(1));
-        $companies = $repository->findAll();
+        $superAdmin->setCompany($companies[0]);
         $manager->persist($superAdmin);
-        for ($i = 0; $i <4; $i++) {
-            $user = new User();
-            $user->setEmail($faker->email);
-            $user->setRoles(['ROLE_USER']);
-            $user->setPassword($this->passwordHasher->hashPassword(
-                $user,
-                'the_new_password'
-            ));
-            $user->setFirstname($faker->firstName);
-            $user->setLastname($faker->lastName);
-            $user->setAddress($faker->address);
-            $user->setCountry($faker->countryCode);
-            $user->setZip(rand(10000, 99999));
-            $user->setVerificationToken($faker->md5);
-            $user->setVerifiedAt(new \DateTimeImmutable());
-            $user->setCreatedAt(new \DateTimeImmutable());
-            $user->setUpdatedAt(new \DateTimeImmutable());
-            $user->setCompany($companies[array_rand($companies)]);
-            $manager->persist($user);
+        foreach ($companies as $company) {
+            for ($i = 0; $i < 4; $i++) {
+                $user = new User();
+                $user->setEmail($faker->email);
+                $user->setRoles(['ROLE_USER']);
+                $user->setPassword($this->passwordHasher->hashPassword(
+                    $user,
+                    'the_new_password'
+                ));
+                $user->setFirstname($faker->firstName);
+                $user->setLastname($faker->lastName);
+                $user->setAddress($faker->address);
+                $user->setCountry($faker->countryCode);
+                $user->setZip(rand(10000, 99999));
+                $user->setVerificationToken($faker->md5);
+                $user->setVerifiedAt(new \DateTimeImmutable());
+                $user->setCreatedAt(new \DateTimeImmutable());
+                $user->setUpdatedAt(new \DateTimeImmutable());
+                $user->setCompany($company);
+
+                $manager->persist($user);
+            }
         }
 
         $manager->flush();
-        $manager->clear();
     }
 
     public function getDependencies()

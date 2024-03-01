@@ -5,6 +5,7 @@ use App\Repository\BillingsRepository;
 use App\Twig\Components\Traits\TableTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -13,7 +14,7 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsLiveComponent(template: 'billing/components/billing_table.html.twig')]
-class BillingTable
+class BillingTable extends AbstractController
 {
 
     use DefaultActionTrait;

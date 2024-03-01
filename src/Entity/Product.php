@@ -124,44 +124,6 @@ class Product
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-     /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtAuto(): void {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtAuto(): void {
-        $this->setUpdatedAt(new \DateTimeImmutable());
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
