@@ -2,14 +2,19 @@
 
 namespace App\Twig\Components\Product;
 
+use AllowDynamicProperties;
+use App\Entity\CompanyCatalog;
 use App\Entity\User;
+use App\Repository\CompanyCatalogRepository;
 use App\Repository\ProductsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
-#[AsLiveComponent]
+#[AllowDynamicProperties] #[AsLiveComponent]
 final class ProductList
 {
     use DefaultActionTrait;
@@ -34,9 +39,27 @@ final class ProductList
      * Si dans les deux, on ne fait rien
      * */
 
+    // A compléter !
+    /**
+     * @throws ORMException
+     */
     #[LiveAction]
-    public function favoriteProduct(): void
+    public function favoriteProduct(CompanyCatalogRepository $companyCatalog): void
     {
-        dd($this->favProducts);
+        $currentFavorites = new ArrayCollection();
+        $this->currentFavorites = $this->favProducts;
+        foreach ($currentFavorites as $productId) {
+            $productId = $this->$companyCatalog->find($productId);
+
+            if ($productId && !$currentFavorites->contains($productId)) {
+                $companyCatalog->addFavoriteProduct($productId);
+            }
+            else {
+                $companyCatalog->removeFavoriteProduct($productId);
+            }
+
+        }
+
+        $this->favProducts = $companyCatalog->getFavoriteProducts($companyCatalog)->map(fn ($product) => $productId->getId())->toArray();
     }
 }

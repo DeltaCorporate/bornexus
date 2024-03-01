@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
 use App\Entity\CompanyCatalog;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,9 +20,48 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CompanyCatalogRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(ManagerRegistry $registry, $entityManager)
     {
         parent::__construct($registry, CompanyCatalog::class);
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @throws ORMException
+     */
+    public function getFavoriteProducts($companyId)
+    {
+        $companyCatalog = $this->entityManager->getReference(CompanyCatalog::class, $companyId);
+        return $companyCatalog->getFavoriteProducts();
+    }
+
+    /**
+     * @throws ORMException
+     */
+    public function addFavoriteProduct($productId, $companyId)
+    {
+        $companyId = $this->find($companyId);
+        $companyCatalog = $this->entityManager->getReference(CompanyCatalog::class, $companyId);
+        $product = $this->entityManager->getReference(Product::class, $productId);
+
+        $companyCatalog->addFavoriteProduct($product);
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @throws ORMException
+     */
+    public function removeFavoriteProduct($productId, $companyId)
+    {
+        $companyCatalog = $this->entityManager->getReference(CompanyCatalog::class, $companyId);
+        $product = $this->entityManager->getReference(Product::class, $productId);
+
+        $companyCatalog->removeFavoriteProduct($product);
+
+        $this->entityManager->flush();
     }
 
 //    /**
