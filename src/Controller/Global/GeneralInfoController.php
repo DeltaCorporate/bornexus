@@ -18,8 +18,7 @@ class GeneralInfoController extends AbstractController
                 'secondary',
                 'accent',
                 'base',
-                'neutral',
-                'warning',
+                  'warning',
                 'error',
                 'success'
             ],

@@ -34,9 +34,6 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: '2')]
-    private ?string $tva = null;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
@@ -52,6 +49,10 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
     private Collection $companyCatalogs;
+
+    #[ORM\Column(length: 6, nullable: true)]
+    private ?string $tva = null;
+
 
     public function __construct()
     {
@@ -123,56 +124,6 @@ class Product
         return $this;
     }
 
-    public function getTva(): ?string
-    {
-        return $this->tva;
-    }
-
-    public function setTva(string $tva): static
-    {
-        $this->tva = $tva;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-     /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtAuto(): void {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtAuto(): void {
-        $this->setUpdatedAt(new \DateTimeImmutable());
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -236,6 +187,18 @@ class Product
                 $companyCatalog->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTva(): ?float
+    {
+        return (float)$this->tva;
+    }
+
+    public function setTva(?string $tva): static
+    {
+        $this->tva = $tva;
 
         return $this;
     }

@@ -1,4 +1,71 @@
-{{ form_start(form) }}
+<section {{ attributes }}>
+    {% if billing.type == 'quote' and billing.id is not null%}
+        <div class="py-5">
+            <twig:Button
+                    text="Créer une facture a partir de ce devis"
+                    type="button"
+                    variant="outline"
+                    color="primary"
+                    fontSize="sm"
+                    size="sm"
+                    data-action="click->live#action"
+                    data-action-name="createInvoiceFromQuote"
+            />
+        </div>
+
+    {% endif %}
+
+    {{ form_start(form) }}
+
+    {% if form.amount_paid is defined %}
+
+        <div class="flex justify-center py-2">
+                {{ form_row(form.amount_paid) }}
+
+        </div>
+    {% endif %}
+
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+
+
+    <twig:Billing:ClientPreview
+            :user="billing.users" />
+
+
+    {% if billing.id is not null %}
+
+        <twig:Billing:BillingCompanyCatalogTable
+                :billing="billing"
+        />
+
+
+        <section class="flex justify-end mb-6 pr-5">
+            <uL>
+                <li><span class="font-semibold">Prix HT :</span> {{ this.billing.priceHt }}€</li>
+                <li><span class="font-semibold">Solde :</span> -{{ this.billing.discountPrice }}€</li>
+                <li><span class="font-semibold">Prix TTC :</span> {{ this.billing.priceTtcDiscounted }}€</li>
+
+            </uL>
+        </section>
+    {% endif %}
+    <div class="flex justify-end gap-2 sh">
+
+        {% if billing.id is not null %}
+
+            {{ include('billing/_delete_form.html.twig') }}
+
+        {% endif %}
+
+
+
+        <twig:Button
+                text="Sauvegarder"
+                type="submit"
+        />
+
+
+    </div>
+    {{ form_end(form) }}
+
+</section>

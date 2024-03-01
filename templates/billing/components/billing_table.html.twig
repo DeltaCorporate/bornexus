@@ -1,0 +1,91 @@
+<div {{ attributes }}>
+    <table class="w-full">
+        <thead>
+        <th>#</th>
+        <th>Numéro</th>
+        <th>Date d'émission</th>
+        <th>Client</th>
+        <th>Total TTC</th>
+        <th>Status</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        {%
+            for billing in this.data %}
+            <tr>
+                <td class="text-center"><input type="checkbox"/></td>
+                <td class="text-center">{{ billing.typeFirstLetter }}{{ billing.id }}</td>
+                <td class="text-center">{{ billing.emitedAt|format_datetime('short', 'none', locale='fr')}}</td>
+                <td class="text-center"><a href="#" class="text-accent" target="_blank"> {{ billing.clientFullName }}</a></td>
+                <td class="text-center">{{ billing.priceTtcDiscounted }}€ </td>
+                <td class="text-center">
+                    {% include 'billing/components/billing_status_badge.html.twig' %}
+                </td>
+                <td class="text-center">
+                    <div class="flex py-1 gap-2 ">
+                        <twig:Button
+                                icon="fa fa-trash"
+                                color="error"
+                                textColor="text-white"
+                                radius="rounded-full"
+                                fontSize="sm"
+                                size="xs"
+                                balise="a"
+                                data-action="click->live#action"
+                                data-action-name="prevent|debounce(150)|deleteBilling(id={{ billing.id }})"
+
+                        />
+                        <twig:Button
+                                icon="fa fa-pen"
+                                color="secondary"
+                                radius="rounded-full"
+                                fontSize="sm"
+                                size="sm"
+                                balise="a"
+                                href="{{ path('commercial_company_app_billing_edit',{'id': billing.id}) }}"
+                        />
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="100%">
+
+                <div class="flex w-full justify-center mt-5">
+                    <div class="flex gap-2 items-center">
+                        {% if this.page != 1 %}
+                        <twig:Button
+                                icon="fa-solid fa-chevron-left"
+                                variant="outline"
+                                color="dark"
+                                text="Précédent"
+                                size="xs"
+                                data-action="click->live#action"
+                                data-action-name="previousPage"
+                        />
+                        {% endif %}
+                        <span>{{ this.page }}</span>
+                        {% if this.page < this.pageCount %}
+                        <twig:Button
+                                icon="fa-solid fa-chevron-right"
+                                iconPosition="right"
+                                color="dark"
+                                variant="outline"
+                                text="Suivant"
+                                size="xs"
+                                data-action="click->live#action" data-action-name="nextPage"
+                        />
+                        {% endif %}
+                    </div>
+
+
+
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

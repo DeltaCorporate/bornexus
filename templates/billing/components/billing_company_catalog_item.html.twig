@@ -1,0 +1,38 @@
+<tr {{ attributes }}>
+
+    <td>
+        <div class="flex justify-center items-center p-2">
+            <twig:Button
+                    icon="fa-solid fa-xmark"
+                    radius="rounded-md"
+                    size="xs"
+                    fontSize="xs"
+                    color="error"
+                    data-action="click->live#action"
+                    data-action-name="prevent|debounce(500)|delete"
+                    textColor="text-base"
+            />
+        </div>
+    </td>
+    {% for field in formView %}
+        <td>
+                <div class="flex flex-1 py-2">
+                        {% set dataModelValue = field.vars.name   %}
+                        {% if(field.vars.name != 'company_catalog') %}
+                                {% set dataModelValue = 'billingCompanyCatalog.' ~ field.vars.name %}
+                        {% endif %}
+
+
+                        {{ form_widget(field,{
+                                'attr': {
+                                        'data-action': 'input->live#action',
+                                        'data-model': dataModelValue,
+                                        'data-action-name': 'prevent|debounce(250)|save'
+                                }
+                        }) }}
+                        {{ form_errors(field) }}
+                </div>
+
+        </td>
+    {% endfor %}
+</tr>

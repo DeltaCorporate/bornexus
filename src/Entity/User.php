@@ -66,6 +66,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Billing::class)]
     private Collection $billings;
 
+    #[ORM\Column(length: 90, nullable: true)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 15, nullable: true)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->billings = new ArrayCollection();
@@ -146,6 +152,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstname;
     }
 
+    public function getFullName(): string
+    {
+        return  strtoupper($this->lastname)  . ' ' . ucfirst(strtolower($this->firstname));
+    }
     public function setFirstname(?string $firstname): static
     {
         $this->firstname = $firstname;
@@ -302,6 +312,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $billing->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

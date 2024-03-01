@@ -29,7 +29,7 @@ class BillingsFixtures extends Fixture implements DependentFixtureInterface
             // Récupérer tous les utilisateurs associés à l'entreprise
             $users = $manager->getRepository(User::class)->findBy(['company' => $company]);
 
-            for ($i = 0; $i < 4; $i++) {
+            for ($i = 0; $i < 10; $i++) {
                 if (isset($users[$i])) {
                     $billing = new Billing();
                     $billing->setStatus($faker->randomElement(['paid', 'unpaid', 'pending']));

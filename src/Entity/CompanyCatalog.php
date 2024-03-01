@@ -18,8 +18,6 @@ class CompanyCatalog
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
-    private ?string $margin = null;
 
     #[ORM\ManyToOne(inversedBy: 'companyCatalogs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -32,6 +30,9 @@ class CompanyCatalog
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $margin = null;
+
     public function __construct()
     {
         $this->billingsCompanyCatalogs = new ArrayCollection();
@@ -42,17 +43,13 @@ class CompanyCatalog
         return $this->id;
     }
 
-    public function getMargin(): ?string
+    public function getProductPriceWithMargin(): ?float
     {
-        return $this->margin;
-    }
+        $productMargin = $this->getProduct()->getPrice() * ($this->getMargin() / 100);
 
-    public function setMargin(string $margin): static
-    {
-        $this->margin = $margin;
-
-        return $this;
+        return $this->getProduct()->getPrice() + $productMargin;
     }
+    
 
     public function getCompany(): ?Company
     {
@@ -104,6 +101,18 @@ class CompanyCatalog
     public function setProduct(?Product $product): static
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getMargin(): ?int
+    {
+        return $this->margin;
+    }
+
+    public function setMargin(?int $margin): static
+    {
+        $this->margin = $margin;
 
         return $this;
     }
