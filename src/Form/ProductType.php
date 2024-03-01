@@ -51,7 +51,7 @@ class ProductType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => "Enregistrer",
                 'row_attr' => [
-                    'class' => "col-span-full text-center"
+                    'class' => "col-span-full text-right"
                 ]
             ]);
     }
