@@ -39,8 +39,6 @@ class BillingController extends AbstractController
         $billing->setCompany($company);
         $billing->setEmitedAt(new \DateTimeImmutable());
         $billing->setType('quote');
-        $billing->setCreatedAt(new \DateTimeImmutable());
-        $billing->setUpdatedAt(new \DateTimeImmutable());
         $form = $this->createForm(BillingType::class, $billing,compact('users'));
         $form->handleRequest($request);
 
