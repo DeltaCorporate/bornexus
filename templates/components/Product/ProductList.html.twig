@@ -1,37 +1,31 @@
-<div  {{ attributes }}>
-    <div class="flex items-center justify-end">
-        <a href="{{ path('commercial_company_app_product_new') }}">
-            <button type="submit" class="px-4 py-2 mt-6 bg-primary rounded-lg">Ajouter un produit</button>
-        </a>
-    </div>
-    <div class="flex items-center justify-end">
-        <button class="px-4 py-2 bg-primary rounded-lg mt-4" data-action="live#action" data-action-name="favoriteProduct" {% if favProducts|length < 1  %} disabled style="background-color: #ED714A" {% endif%} >Sauvegarder en favoris</button>
-    </div>
+<div {{ attributes }}>
     <div class="flex items-center flex-wrap gap-5">
         {% for product in products %}
-            <div class="flex flex-col p-6 rounded-3xl bg-neutral md:w-1/4 w-80 h-96">
-                <input {% if product.id in favProducts %} checked {% endif%} type="checkbox" id="{{ product.id }}" value="{{ product.id }}" data-model="favProducts" class="hidden">
-                    <label for="{{ product.id }}" class="top-5 left-5 p-2 w-1 text-orange-300 cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                        </svg>
-                        <style>
-                            :checked + [for="{{ product.id }}"] svg {
-                                fill: orange;
-                            }
-                        </style>
-                    </label>
-                    <a href="{{ path('commercial_company_app_product_show', {'id': product.id}) }}" class="product-link">
-                        <img src="{{ vich_uploader_asset(product,'thumbnailFile') }}" alt="{{ product.name }}" class="card-img-top mb-4">
-                        <div class="card-body">
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-950 font-light">{{ product.supplier.getName() }}</span>
-                                <span class="card-title font-semibold">{{ product.price }}€</span>
-                            </div>
-                            <h3 class="card-text font-semibold">{{ product.name }}</h3>
-                            <p class="line-clamp-2 mt-2">{{ product.description }}</p>
+            <div class="flex flex-col p-6 rounded-3xl bg-neutral md:w-1/4 w-80 h-96 relative">
+                <button
+                        type="button"
+                        data-action="live#action"
+                        data-live-action-param="toggleFavorite"
+                        data-live-product-param="{{ product.id }}"
+                        class="absolute cursor-pointer -top-2 -right-2 rounded-full bg-white w-12 h-12 flex items-center justify-center text-yellow-500 text-xl">
+                    {% if product.id in companyCatalogProducts %}
+                        <i class="fa-solid fa-star"></i>
+                    {% else %}
+                        <i class="fa-regular fa-star"></i>
+                    {% endif %}
+                </button>
+                <a href="{{ path('commercial_company_app_product_show', {'id': product.id}) }}" class="product-link">
+                    <img src="{{ vich_uploader_asset(product,'thumbnailFile') }}" alt="{{ product.name }}"
+                         class="card-img-top mb-4">
+                    <div class="card-body">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-950 font-light">{{ product.supplier.getName() }}</span>
+                            <span class="card-title font-semibold">{{ product.price }}€</span>
                         </div>
-                    </a>
+                        <h3 class="card-text font-semibold">{{ product.name }}</h3>
+                        <p class="line-clamp-2 mt-2">{{ product.description }}</p>
+                    </div>
+                </a>
             </div>
 
         {% endfor %}

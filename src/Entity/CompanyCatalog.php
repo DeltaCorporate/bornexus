@@ -33,6 +33,9 @@ class CompanyCatalog
     #[ORM\Column(nullable: true)]
     private ?int $margin = null;
 
+    #[ORM\Column(options: ['default' => true])]
+    private ?bool $status = null;
+
     public function __construct()
     {
         $this->billingsCompanyCatalogs = new ArrayCollection();
@@ -113,6 +116,18 @@ class CompanyCatalog
     public function setMargin(?int $margin): static
     {
         $this->margin = $margin;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
