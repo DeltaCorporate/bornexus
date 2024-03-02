@@ -1,14 +1,13 @@
 {% extends 'layouts/dashboard.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block body %}
 
-    <div class="flex flex-col p-6 bg-neutral rounded-lg">
+    <div class="flex flex-col p-6 bg-neutral rounded-lg mb-4">
 
         <h1 class="text-2xl font-bold mt-6">Découvrez de nouveaux produits</h1>
         <span>{{ productsCount }} produits au total</span>
-
     </div>
 
     {{ component('Product:ProductList') }}

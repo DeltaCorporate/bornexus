@@ -1,13 +1,17 @@
 <div {{ attributes }}>
-    <div class="flex items-center flex-wrap gap-5">
+    <div class="flex items-center justify-between flex-wrap gap-3">
         {% for product in products %}
-            <div class="flex flex-col p-6 rounded-3xl bg-neutral md:w-1/4 w-80 h-96 relative">
+            <div onclick="
+                    if (event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I') {
+                    window.location.href = '{{ path('commercial_company_app_product_show', {'id': product.id}) }}';
+                    }"
+                 class="cursor-pointer flex flex-col p-6 rounded-3xl bg-neutral md:w-1/5 w-80 h-96 relative">
                 <button
                         type="button"
                         data-action="live#action"
                         data-live-action-param="toggleFavorite"
                         data-live-product-param="{{ product.id }}"
-                        class="absolute cursor-pointer -top-2 -right-2 rounded-full bg-white w-12 h-12 flex items-center justify-center text-yellow-500 text-xl">
+                        class="absolute cursor-pointer z-[9999] -top-2 -right-2 rounded-full bg-white w-12 h-12 flex items-center justify-center text-yellow-500 text-xl">
                     {% if product.id in companyCatalogProducts %}
                         <i class="fa-solid fa-star"></i>
                     {% else %}
@@ -27,7 +31,7 @@
                     </div>
                 </a>
             </div>
-
         {% endfor %}
     </div>
 </div>
+
