@@ -68,7 +68,7 @@ return [
         "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
         "subMenu" => [
             [
-                "route" => "",
+                "route" => "commercial_company_app_product_index",
                 "route_args" => [],
                 "title" => "Produits",
                 "icon" => "fa fa-gear",
