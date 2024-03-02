@@ -33,7 +33,7 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
                         $product->setTva(['5', '10', '20'][rand(0, 2)]);
                         $product->setCategory($category);
                         $product->setSupplier($supplier);
-                        $product->setThumbnail("https://cdn.futura-sciences.com/sources/images/dossier/773/01-intro-773.jpg");
+                        $product->setThumbnail("hero-65e37d4383e54444919534.png");
                         $manager->persist($product);
                     }
                 }
