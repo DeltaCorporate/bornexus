@@ -37,7 +37,7 @@ class BillingController extends AbstractController
         $users = $entityManager->getRepository(User::class)->findByCompanyAndRole($company,'ROLE_USER');
         $billing = new Billing();
         $billing->setCompany($company);
-        $billing->setEmitedAt(new \DateTimeImmutable());
+        $billing->setEmitedAt(new \DateTime());
         $billing->setType('quote');
         $form = $this->createForm(BillingType::class, $billing,compact('users'));
         $form->handleRequest($request);

@@ -7,13 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\Timestampable;
+use App\Entity\Traits\Timestampable;
 
-#[ORM\HasLifecycleCallbacks]
+
 #[ORM\Entity(repositoryClass: BillingsRepository::class)]
 class Billing
 {
+
     use Timestampable;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,7 +28,7 @@ class Billing
     private ?string $type = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $emited_at = null;
+    private ?\DateTime $emited_at = null;
 
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $payment_method = null;
@@ -106,12 +108,12 @@ class Billing
         return $this;
     }
 
-    public function getEmitedAt(): ?\DateTimeImmutable
+    public function getEmitedAt(): ?\DateTime
     {
         return $this->emited_at;
     }
 
-    public function setEmitedAt(\DateTimeImmutable $emited_at): static
+    public function setEmitedAt(\DateTime $emited_at): static
     {
         $this->emited_at = $emited_at;
 
@@ -213,9 +215,10 @@ class Billing
     /**
      * Set the value of priceVat
      *
+     * @param $priceVat
      * @return  self
-     */ 
-    public function setPriceVat($priceVat)
+     */
+    public function setPriceVat($priceVat): static
     {
         $this->priceVat = $priceVat;
 
@@ -233,9 +236,10 @@ class Billing
     /**
      * Set the value of priceDiscount
      *
+     * @param float $priceDiscountOfLines
      * @return  self
-     */ 
-    public function setPriceDiscount(float $priceDiscountOfLines)
+     */
+    public function setPriceDiscount(float $priceDiscountOfLines): static
     {
         $this->priceDiscountOfLines = $priceDiscountOfLines;
 
@@ -255,12 +259,14 @@ class Billing
     {
         return $this->getPriceTtc() - $this->getDiscountPrice();
     }
+
     /**
      * Set the value of priceTtc
      *
+     * @param $priceTtc
      * @return  self
-     */ 
-    public function setPriceTtc($priceTtc)
+     */
+    public function setPriceTtc($priceTtc): static
     {
         $this->priceTtc = $priceTtc;
 
@@ -279,12 +285,14 @@ class Billing
     {
         return $this->getDiscount()/100 * $this->getPriceTtc();
     }
+
     /**
      * Set the value of priceTtc
      *
+     * @param $priceHt
      * @return  self
-     */ 
-    public function setPriceHt($priceHt)
+     */
+    public function setPriceHt($priceHt): static
     {
         $this->priceHt = $priceHt;
 

@@ -10,58 +10,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<CompanyCatalog>
- *
- * @method CompanyCatalog|null find($id, $lockMode = null, $lockVersion = null)
- * @method CompanyCatalog|null findOneBy(array $criteria, array $orderBy = null)
- * @method CompanyCatalog[]    findAll()
- * @method CompanyCatalog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class CompanyCatalogRepository extends ServiceEntityRepository
 {
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(ManagerRegistry $registry, $entityManager)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CompanyCatalog::class);
-        $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @throws ORMException
-     */
-    public function getFavoriteProducts($companyId)
-    {
-        $companyCatalog = $this->entityManager->getReference(CompanyCatalog::class, $companyId);
-        return $companyCatalog->getFavoriteProducts();
-    }
-
-    /**
-     * @throws ORMException
-     */
-    public function addFavoriteProduct($productId, $companyId)
-    {
-        $companyId = $this->find($companyId);
-        $companyCatalog = $this->entityManager->getReference(CompanyCatalog::class, $companyId);
-        $product = $this->entityManager->getReference(Product::class, $productId);
-
-        $companyCatalog->addFavoriteProduct($product);
-
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @throws ORMException
-     */
-    public function removeFavoriteProduct($productId, $companyId)
-    {
-        $companyCatalog = $this->entityManager->getReference(CompanyCatalog::class, $companyId);
-        $product = $this->entityManager->getReference(Product::class, $productId);
-
-        $companyCatalog->removeFavoriteProduct($product);
-
-        $this->entityManager->flush();
     }
 
 //    /**

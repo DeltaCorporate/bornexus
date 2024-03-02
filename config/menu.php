@@ -31,7 +31,7 @@ return [
         ]
     ],
     [
-        "route" => "",
+        "route" => "accountant_company_app_accountant",
         "route_args" => [],
         "title" => "Comptabilité",
         "icon" => "fa fa-calculator",
