@@ -5,7 +5,7 @@
                     if (event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I') {
                     window.location.href = '{{ path('commercial_company_app_product_show', {'id': product.id}) }}';
                     }"
-                 class="cursor-pointer flex flex-col p-6 rounded-3xl bg-neutral md:w-1/5 w-80 h-96 relative">
+                 class="cursor-pointer flex flex-col rounded-3xl bg-neutral md:w-1/5 w-80 h-96 relative">
                 <button
                         type="button"
                         data-action="live#action"
@@ -18,9 +18,10 @@
                         <i class="fa-regular fa-star"></i>
                     {% endif %}
                 </button>
-                <a href="{{ path('commercial_company_app_product_show', {'id': product.id}) }}" class="product-link">
-                    <img src="{{ vich_uploader_asset(product,'thumbnailFile') }}" alt="{{ product.name }}"
-                         class="card-img-top mb-4">
+                <img src="{{ vich_uploader_asset(product,'thumbnailFile') }}" alt="{{ product.name }}"
+                     class="rounded mb-4">
+                <a href="{{ path('commercial_company_app_product_show', {'id': product.id}) }}" class="product-link p-6 ">
+
                     <div class="card-body">
                         <div class="flex justify-between items-center">
                             <span class="text-slate-950 font-light">{{ product.supplier.getName() }}</span>
@@ -32,6 +33,19 @@
                 </a>
             </div>
         {% endfor %}
+    </div>
+
+    <div class="flex justify-center mt-8">
+        {% if totalProducts > itemsPerPage %}
+            <div class="flex items-center">
+                {% if currentPage-1 > 0 %}
+                    <button class="border rounded-lg px-2 py-1" data-action="live#action" data-live-action-param="prevPage">Previous <i class="fa-solid fa-circle-chevron-left"></i> </button>
+                {% endif %}
+                {% if currentPage+1 <= totalPages %}
+                    <button class="ml-auto  border rounded-lg px-2 py-1" data-action="live#action" data-live-action-param="nextPage"> Next <i class="fa-solid fa-circle-chevron-right"></i> </button>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 </div>
 

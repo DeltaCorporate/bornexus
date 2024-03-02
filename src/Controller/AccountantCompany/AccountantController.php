@@ -56,7 +56,6 @@ class AccountantController extends AbstractController
         $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
         $signedQuotes = $this->getInvoicesPerMonth($billingsRepository);
         $quotes = $this->getBillings($billingsRepository);
-//        dd($signedQuotes, $quotes);
         $chart->setData([
             'labels' => $this->months,
             'datasets' => [
