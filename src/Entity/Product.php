@@ -62,34 +62,12 @@ class Product
     private ?string $tva = null;
 
 
-    #[UploadableField(mapping: 'products', fileNameProperty: 'image')]
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
-
-    #[UploadableField(mapping: 'products', fileNameProperty: 'image')]
-    #[Assert\Image()]
-    private ?File $imageFile = null;
-
-    /**
-     * @return File|null
-     */
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param File|null $imageFile
-     */
-    public function setImageFile(?File $imageFile): static
-    {
-        $this->imageFile = $imageFile;
-        return $this;
-    }
-
     #[UploadableField(mapping: 'product_thumbnails', fileNameProperty: 'thumbnail')]
     #[Assert\Image(maxSize:10e6, mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Please upload a valid image file')]
     private ?File $thumbnailFile = null;
+
+    #[ORM\Column()]
+    private ?string $thumbnail = null;
 
     public function __construct()
     {
@@ -157,18 +135,6 @@ class Product
     public function setStock(int $stock): static
     {
         $this->stock = $stock;
-
-        return $this;
-    }
-
-    public function getTva(): ?string
-    {
-        return $this->tva;
-    }
-
-    public function setTva(string $tva): static
-    {
-        $this->tva = $tva;
 
         return $this;
     }

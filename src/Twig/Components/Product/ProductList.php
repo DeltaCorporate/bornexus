@@ -38,28 +38,8 @@ final class ProductList
      * Si dans nouveau tableau mais pas dans l'ancien, on ajoute
      * Si dans les deux, on ne fait rien
      * */
-
-    // A compléter !
-    /**
-     * @throws ORMException
-     */
     #[LiveAction]
     public function favoriteProduct(CompanyCatalogRepository $companyCatalog): void
     {
-        $currentFavorites = new ArrayCollection();
-        $this->currentFavorites = $this->favProducts;
-        foreach ($currentFavorites as $productId) {
-            $productId = $this->$companyCatalog->find($productId);
-
-            if ($productId && !$currentFavorites->contains($productId)) {
-                $companyCatalog->addFavoriteProduct($productId);
-            }
-            else {
-                $companyCatalog->removeFavoriteProduct($productId);
-            }
-
-        }
-
-        $this->favProducts = $companyCatalog->getFavoriteProducts($companyCatalog)->map(fn ($product) => $productId->getId())->toArray();
     }
 }
