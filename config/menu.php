@@ -59,11 +59,11 @@ return [
                 "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
             ],
             [
-                "route" => "",
+                "route" => "super_admin_app_supplier_index",
                 "route_args" => [],
                 "title" => "Fournisseurs",
                 "icon" => "fa-solid fa-truck-fast",
-                "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
+                "role" => \App\Enum\RoleEnum::ROLE_SUPER_ADMIN,
             ]
         ]
     ],
