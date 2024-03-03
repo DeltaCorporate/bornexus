@@ -28,6 +28,7 @@ class CompanyCatalogFixtures extends Fixture implements DependentFixtureInterfac
                 $companyCatalog = new CompanyCatalog();
                 $companyCatalog->setMargin($faker->randomFloat(2, 0, 100));
                 $companyCatalog->setCompany($company);
+                $companyCatalog->setStatus([true, false][rand(0, 1)]);
                 $companyCatalog->setProduct($products[$j]);
 
                 $manager->persist($companyCatalog);
