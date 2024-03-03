@@ -13,3 +13,20 @@ window.togglePassword = function(inputToggle){
     inputToggle.classList.toggle('fa-eye');
     input.type = input.type === 'password' ? 'text' : 'password';
 }
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelector('#menu-button').addEventListener('click', function(){
+        let menu = document.querySelector('#menu');
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('block');
+    });
+    //click away from menu to close
+    document.addEventListener('click', function(event) {
+        let menu = document.querySelector('#menu');
+        let menuButton = document.querySelector('#menu-button');
+        if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+            menu.classList.add('hidden');
+            menu.classList.remove('block');
+        }
+    });
+});

@@ -68,27 +68,11 @@ return [
         ]
     ],
     [
-        "route" => "",
+        "route" => "commercial_company_app_product_index",
         "route_args" => [],
         "title" => "Produits",
         "icon" => "fa-solid fa-cart-shopping",
         "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
-        "subMenu" => [
-            [
-                "route" => "commercial_company_app_product_index",
-                "route_args" => [],
-                "title" => "Produits",
-                "icon" => "fa-solid fa-cart-shopping",
-                "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
-            ],
-            [
-                "route" => "",
-                "route_args" => [],
-                "title" => "Catégories",
-                "icon" => "fa-solid fa-layer-group",
-                "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
-            ]
-        ]
     ],
     [
         "route" => "",
