@@ -1,0 +1,14 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block title %}Accountant{% endblock %}
+
+{% block body %}
+    <twig:Card>
+        <h1 class="text-3xl font-semibold mb-4">Quelques statistiques</h1>
+        <p>
+            Voici quelques statistiques sur l'évolution de votre companie.
+        </p>
+        {{ render_chart(chart) }}
+
+    </twig:Card>
+{% endblock %}

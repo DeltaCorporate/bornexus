@@ -1,7 +1,7 @@
 <?php
 return [
     [
-        "route" => "",
+        "route" => "admin_company_app_home",
         "route_args" => [],
         "title" => "Général",
         "icon" => "fa fa-house",
