@@ -43,7 +43,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function findByCompanyAndRole(Company $company, array|string $roles): ArrayCollection
+    public function findByCompanyAndRole(Company $company, array|string $roles,int $limit = null, int $offset = null): ArrayCollection
     {
         if (is_string($roles))
             $roles = [$roles];
@@ -60,32 +60,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 $qb->setParameter($paramName, '%"'.$role.'"%');
         }
         $qb->andWhere($orX);
+        if ($limit)
+            $qb->setMaxResults($limit);
+        if ($offset)
+            $qb->setFirstResult($offset);
 
         return new ArrayCollection($qb->getQuery()->getResult());
     }
-
-//    /**
-//     * @return UserService[] Returns an array of UserService objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?UserService
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function remove(User $user)
+    {
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
+    }
 }

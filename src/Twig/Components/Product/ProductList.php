@@ -83,7 +83,6 @@ final class ProductList
     {
         $offset = ($this->currentPage - 1) * $this->itemsPerPage;
         $data =  $this->productsRepository->findBy([], null, $this->itemsPerPage, $offset);
-//        dd($this->currentPage, $this->itemsPerPage, $data);
         return $data;
     }
 
