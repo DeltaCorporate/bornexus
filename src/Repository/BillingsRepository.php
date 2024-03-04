@@ -51,10 +51,14 @@ class BillingsRepository extends ServiceEntityRepository
         return $billing;
     }
 
-    public function listPaginationQuery(){
+    public function getBillingsByType(string $type = 'quote'){
         return $this->createQueryBuilder('b')
             ->where('b.company = :company')
-            ->setParameter('company', $this->security->getUser()->getCompany())
+            ->andWhere('b.type = :type')
+            ->setParameters([
+                'company' => $this->security->getUser()->getCompany(),
+                'type' => $type
+            ])
             ->orderBy('b.id', 'ASC')
             ->getQuery();
     }
@@ -80,6 +84,10 @@ class BillingsRepository extends ServiceEntityRepository
 
         $clonedBilling = clone $billing;
         $clonedBilling->setType($type);
+        if($type == 'invoice') {
+            $clonedBilling->setStatus('unpaid');
+            $clonedBilling->setAmountPaid(0);
+        }
         $this->entityManager->persist($clonedBilling);
         $this->entityManager->flush();
 

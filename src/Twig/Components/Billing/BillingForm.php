@@ -122,10 +122,13 @@ private BillingsRepository $billingsRepository
         $entityManager = $this->entityManager;
         $billingRepository = $entityManager->getRepository(Billing::class);
         $billing = $billingRepository->find($this->billing->getId());
+        $type = $billing->getType();
         $billingRepository->delete($billing);
         $entityManager->flush();
 
-        return $this->redirectToRoute('commercial_company_app_billing_index');
+        return $this->redirectToRoute('commercial_company_app_billing_index',[
+            'type' => $type
+        ]);
     }
 
     private function getDataModelValue(): ?string

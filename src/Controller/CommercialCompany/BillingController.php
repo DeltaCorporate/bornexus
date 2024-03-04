@@ -25,11 +25,13 @@ class BillingController extends AbstractController
         private Security $security,
     ){}
     #[Route('/', name: 'app_billing_index', methods: ['GET'])]
-    public function index(BillingsRepository $billingsRepository, PaginatorInterface $paginator,Request $request): Response
+    public function index(Request $request, BillingsRepository $billingsRepository, PaginatorInterface $paginator): Response
     {
-
+        $type = $request->query->get('type') ?? 'quote';
         return $this->render('billing/index.html.twig', [
-        ]);
+                'typeSelected' => $type,
+                'typeList' => Billing::TYPE
+            ]);
     }
 
     #[Route('/new', name: 'app_billing_new', methods: ['GET', 'POST'])]
@@ -87,7 +89,9 @@ class BillingController extends AbstractController
            if($billing->getPaymentMethod() != 'stripe' && $billing->getType() != 'quote')
                $billingsRepository->updatePriceStatus($billing);
 
-            return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('commercial_company_app_billing_index', [
+                'type' => $billing->getType()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('billing/edit.html.twig', [
@@ -99,11 +103,15 @@ class BillingController extends AbstractController
     #[Route('/{id}/delete', name: 'app_billing_delete', methods: ['DELETE'])]
     public function delete(Request $request, Billing $billing, EntityManagerInterface $entityManager): Response
     {
+
+        $type = $billing->getType();
         if ($this->isCsrfTokenValid('delete'.$billing->getId(), $request->request->get('_token'))) {
             $entityManager->remove($billing);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('commercial_company_app_billing_index', [
+            'type' => $type
+        ], Response::HTTP_SEE_OTHER);
     }
 }

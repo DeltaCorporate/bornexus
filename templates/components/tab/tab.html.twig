@@ -4,6 +4,6 @@
     {% set class = 'bg-primary text-dark' %}
 {% endif %}
 
-<div class="rounded-full flex justify-center items-center cursor-pointer text-md transition-all size-{{ size }} {{ class }} hover:brightness-75">
+<a {{ attributes}} class="rounded-full flex justify-center items-center cursor-pointer text-md transition-all size-{{ size }} {{ class }} hover:brightness-75">
     {{ text }}
-</div>
+</a>

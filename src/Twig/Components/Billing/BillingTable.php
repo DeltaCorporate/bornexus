@@ -4,8 +4,11 @@ namespace App\Twig\Components\Billing;
 use App\Repository\BillingsRepository;
 use App\Twig\Components\Traits\TableTrait;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -26,9 +29,11 @@ class BillingTable extends AbstractController
         private BillingsRepository $dataRepository,
         private EntityManagerInterface $entityManager,
         private PaginatorInterface $paginator,
-        private SerializerInterface $serializer
+        private SerializerInterface $serializer,
+        private RequestStack $requestStack
     ){
         $this->entityManager = $entityManager;
+        $this->requestStack = $requestStack;
     }
 
 
@@ -47,8 +52,21 @@ class BillingTable extends AbstractController
         }
 
     }
+    final public function paginate()
+    {
+        $type = $this->requestStack->getCurrentRequest()->query->get('type') ?? 'quote';
+        $data = $this->paginator->paginate(
+            $this->dataRepository->getBillingsByType($type),
+            $this->page,
+            10
+        );
+        $this->pageCount = $data->getPageCount();
+
+        return $data;
+    }
 
     public function loadData(): void{
+
         $billings = $this->paginate();
        $billingsItems =  array_map(function ($billing){
             $billing->calculTotalPrices();
