@@ -34,7 +34,7 @@ class BillingsFixtures extends Fixture implements DependentFixtureInterface
                     $billing = new Billing();
                     $billing->setStatus($faker->randomElement(['paid', 'unpaid']));
                     $billing->setType($faker->randomElement(['invoice', 'quote']));
-                    $billing->setEmitedAt(new \DateTime($faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s')));
+                    $billing->setEmitedAt(new \DateTimeImmutable($faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s')));
                     $billing->setPaymentMethod($faker->randomElement(['credit card', 'bank transfer', 'cash']));
                     $billing->setDiscount($faker->randomFloat(2, 0, 100));
                     $billing->setCompany($company);

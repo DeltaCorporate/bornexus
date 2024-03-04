@@ -23,14 +23,18 @@ return [
         "subMenu" => [
             [
                 "route" => "commercial_company_app_billing_index",
-                "route_args" => [],
+                "route_args" => [
+                    'type' => 'quote'
+                ],
                 "title" => "Devis",
                 "icon" => "fa fa-file-invoice",
                 "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
             ],
             [
-                "route" => "",
-                "route_args" => [],
+                "route" => "commercial_company_app_billing_index",
+                "route_args" => [
+                    'type' => 'invoice'
+                ],
                 "title" => "Factures",
                 "icon" => "fa fa-file-invoice-dollar",
                 "role" => \App\Enum\RoleEnum::ROLE_COMMERCIAL_COMPANY,
