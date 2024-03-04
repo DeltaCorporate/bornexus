@@ -77,6 +77,7 @@ class BillingTable extends AbstractController
                 'priceTtcDiscounted' => $billing->getPriceTtcDiscounted(),
                 'statusLabel' => $billing->getStatusLabel(),
                 'clientFullName' => $billing->getUsers()->getFullName(),
+                'client_id' => $billing->getUsers()->getId(),
                 'status' => $billing->getStatus()
             ];
         },$billings->getItems());
