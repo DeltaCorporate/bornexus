@@ -1,6 +1,7 @@
 <section {{ attributes }}>
+    <div class="flex gap-5 py-6 flex-row">
+
     {% if billing.type == 'quote' and billing.id is not null%}
-        <div class="py-5">
             <twig:Button
                     text="Créer une facture a partir de ce devis"
                     type="button"
@@ -12,24 +13,39 @@
                     data-live-action-param="createInvoiceFromQuote"
             />
 
-        </div>
     {% else %}
-        {% if billing.checkoutSession is not null and billing.status == 'unpaid' %}
-            <twig:Button
-                    text="Voir le lien de paiement"
-                    balise="a"
-                    target="_blank"
-                    href="{{ path('app_payment_stripe_checkout',{
-                        'billing_token': billing.getBillingToken()
-                    }) }}"
-                    variant="outline"
-                    color="secondary"
-                    fontSize="sm"
-                    size="sm"
+            {% if billing.checkoutSession is not null and billing.status == 'unpaid' %}
+                <twig:Button
+                        text="Voir le lien de paiement"
+                        balise="a"
+                        target="_blank"
+                        href="{{ path('app_payment_stripe_checkout',{
+                            'billing_token': billing.getBillingToken()
+                        }) }}"
+                        variant="outline"
+                        color="secondary"
+                        fontSize="sm"
+                        size="sm" />
 
-            />
-        {% endif %}
+
+            {% endif %}
+
+
+
     {% endif %}
+        <twig:Button
+                text="Voir {{ billing.type == 'quote' ? 'le devis' : 'la facture' }}"
+                balise="a"
+                target="_blank"
+                href="{{ path('commercial_company_app_billing_pdf',{
+                    'id': billing.id
+                }) }}"
+                variant="outline"
+                color="secondary"
+                fontSize="sm"
+                size="sm"
+        />
+    </div>
 
     {{ form_start(form) }}
 
