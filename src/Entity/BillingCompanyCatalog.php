@@ -71,7 +71,7 @@ class BillingCompanyCatalog
 
     public function getPriceTtc(): ?float
     {
-        return ($this->getDiscountedPriceHt() + $this->getPriceVat());
+        return Billing::round($this->getDiscountedPriceHt() + $this->getPriceVat());
     }
     
     public function getPriceVat(): ?float
@@ -105,7 +105,7 @@ class BillingCompanyCatalog
 
     public function getPriceHt(): float
     {
-        return $this->price_ht * $this->getQuantity();
+        return Billing::round($this->price_ht * $this->getQuantity());
     }
     /**
      * Vérifie si le BillingForm a un CompanyCatalog qui contient un Product.
@@ -136,6 +136,11 @@ class BillingCompanyCatalog
         $this->discount = $discount;
 
         return $this;
+    }
+
+    public function getPriceTtcUnit(): ?float
+    {
+        return Billing::round($this->getPriceTtc()/$this->getQuantity());
     }
 
     public function getTva(): ?float

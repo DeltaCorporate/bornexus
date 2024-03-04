@@ -39,10 +39,8 @@ class BillingsRepository extends ServiceEntityRepository
             $priceTtcDiscounted = $billing->getPriceTtcDiscounted();
             $amountPaid = (float)$billing->getAmountPaid();
 
-            if ($amountPaid == 0)
+            if ($amountPaid < $priceTtcDiscounted)
                 $billing->setStatus('unpaid');
-            elseif ($amountPaid <= $priceTtcDiscounted)
-                $billing->setStatus('pending');
             else
                 $billing->setStatus('paid');
         }
@@ -59,6 +57,11 @@ class BillingsRepository extends ServiceEntityRepository
             ->setParameter('company', $this->security->getUser()->getCompany())
             ->orderBy('b.id', 'ASC')
             ->getQuery();
+    }
+
+    public function getBillingFromToken(string $billingToken): ?Billing{
+        $token = Billing::extractToken($billingToken);
+        return $this->findOneBy(['id' => $token['id'],'uuid' => $token['uuid']]);
     }
 
     /**

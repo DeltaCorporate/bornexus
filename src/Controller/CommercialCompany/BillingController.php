@@ -6,6 +6,7 @@ use App\Entity\Billing;
 use App\Entity\User;
 use App\Form\BillingType;
 use App\Repository\BillingsRepository;
+use App\Service\BillingStripeService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,6 +15,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/billing')]
 class BillingController extends AbstractController
@@ -64,7 +66,7 @@ class BillingController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_billing_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Billing $billing, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Billing $billing, EntityManagerInterface $entityManager,BillingsRepository $billingsRepository): Response
     {
         $company = $this->security->getUser()->getCompany();
 
@@ -74,8 +76,14 @@ class BillingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
+           if($billing->getPaymentMethod() == 'stripe'){
+               $stripe = new BillingStripeService($billing);
+               $session = $stripe->create(
+                   $this->generateUrl('app_payment_stripe_result',['type' => 'success'],UrlGeneratorInterface::ABSOLUTE_URL),
+                   $this->generateUrl('app_payment_stripe_result',['type' => 'error'],UrlGeneratorInterface::ABSOLUTE_URL)
+               );
+               $entityManager->flush();
+           }
             return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Billing;
 use App\Entity\BillingCompanyCatalog;
 use Doctrine\ORM\Query\Expr\Select;
 use http\Client\Curl\User;
