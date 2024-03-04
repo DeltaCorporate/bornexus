@@ -4,10 +4,8 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\Product;
-use App\Entity\Company;
 use App\Entity\Supplier;
 use App\Entity\Category;
-use App\DataFixtures\CompaniesFixtures;
 use App\DataFixtures\SuppliersFixtures;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\CategoriesFixtures;
@@ -20,11 +18,9 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR'); // Utilisez 'fr_FR' pour les données en français
 
-        $companies = $manager->getRepository(Company::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
         $suppliers = $manager->getRepository(Supplier::class)->findAll();
 
-        foreach ($companies as $company) {
             foreach ($categories as $category) {
                 foreach ($suppliers as $supplier) {
                     for ($i = 0; $i < 4; $i++) {
@@ -36,13 +32,12 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
                         $product->setStock($faker->randomNumber(2));
                         $product->setTva(['5', '10', '20'][rand(0, 2)]);
                         $product->setCategory($category);
-                        $product->setCompany($company);
                         $product->setSupplier($supplier);
+                        $product->setThumbnail("hero-65e37d4383e54444919534.png");
                         $manager->persist($product);
                     }
                 }
             }
-        }
 
         $manager->flush();
         $manager->clear();

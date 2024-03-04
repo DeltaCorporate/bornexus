@@ -45,4 +45,9 @@ class SuppliersRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function remove(Supplier $user): void
+    {
+        $this->_em->remove($user);
+        $this->_em->flush();
+    }
 }

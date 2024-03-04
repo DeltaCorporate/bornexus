@@ -22,14 +22,13 @@ class CompanyCatalogFixtures extends Fixture implements DependentFixtureInterfac
         $companies = $manager->getRepository(Company::class)->findAll();
 
         foreach ($companies as $company) {
-            // Récupérer tous les produits associés à l'entreprise
-            $products = $manager->getRepository(Product::class)->findBy(['company' => $company]);
-
+            $products = $manager->getRepository(Product::class)->findAll();
 
             for ($j = 0; $j < 4; $j++) {
                 $companyCatalog = new CompanyCatalog();
                 $companyCatalog->setMargin($faker->randomFloat(2, 0, 100));
                 $companyCatalog->setCompany($company);
+                $companyCatalog->setStatus([true, false][rand(0, 1)]);
                 $companyCatalog->setProduct($products[$j]);
 
                 $manager->persist($companyCatalog);

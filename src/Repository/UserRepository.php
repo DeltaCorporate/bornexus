@@ -2,15 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -63,7 +60,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return new ArrayCollection($qb->getQuery()->getResult());
     }
-
+    public function remove(User $user)
+    {
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
+    }
 //    /**
 //     * @return UserService[] Returns an array of UserService objects
 //     */
@@ -79,7 +80,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?UserService
+//    public function findOneBySomeField($value): ?User
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')
