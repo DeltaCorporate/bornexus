@@ -62,6 +62,7 @@ final class ProductList
             $companyCatalog->setCompany($user->getCompany());
             $companyCatalog->setProduct($productInDb);
             $companyCatalog->setStatus(true);
+            $companyCatalog->setMargin("0.3");
             $this->entityManager->persist($companyCatalog);
             $this->entityManager->flush();
         }

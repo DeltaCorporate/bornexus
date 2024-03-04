@@ -37,7 +37,7 @@ class BillingsFixtures extends Fixture implements DependentFixtureInterface
                     $billing->setEmitedAt(new \DateTimeImmutable($faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s')));
                     $billing->setPaymentMethod($faker->randomElement(['stripe', 'deposit']));
                     $billing->setDiscount($faker->randomFloat(2, 0, 100));
-
+                    $billing->setCreatedAt(new \DateTime());
                     $billing->setCompany($company);
                     $billing->setUsers($users[$i]);
                     $manager->persist($billing);

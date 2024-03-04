@@ -30,7 +30,7 @@ class CompanyCatalogFixtures extends Fixture implements DependentFixtureInterfac
                 $companyCatalog->setCompany($company);
                 $companyCatalog->setStatus([true, false][rand(0, 1)]);
                 $companyCatalog->setProduct($products[$j]);
-
+                $companyCatalog->setCreatedAt(new \DateTime());
                 $manager->persist($companyCatalog);
             }
            
