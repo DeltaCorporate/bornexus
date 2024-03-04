@@ -71,7 +71,7 @@ class BillingPdf
         $invoice->addParagraph($company->getTvaReason());
         $invoice->setFooternote($billing->getCompany()->getName());
 
-        $invoice->render('example1.pdf','I');
+        $invoice->render('facture.pdf','I');
         /* I => Display on browser, D => Force Download, F => local path save, S => return document as string */
 
     }
