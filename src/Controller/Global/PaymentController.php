@@ -15,10 +15,35 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 #[Route('/payment')]
 class PaymentController extends AbstractController
 {
-    #[Route('/stripe/webhook', name: 'app_payment_stripe',methods: ['GET'])]
-    public function stripeWebHook(): Response {
+    #[Route('/stripe/webhook', name: 'app_payment_stripe',methods: ['POST'])]
+    public function stripeWebHook(BillingsRepository $billingsRepository,EntityManagerInterface $entityManager): JsonResponse {
+        $payload = @file_get_contents('php://input');
+        $event = null;
 
-        return new Response();
+        try {
+            $event = \Stripe\Event::constructFrom(
+                json_decode($payload, true)
+            );
+        } catch(\UnexpectedValueException $e) {
+            // Invalid payload
+            http_response_code(400);
+            exit();
+        }
+
+        if($event->type === 'checkout.session.completed'){
+            $session = $event->data->object;
+            $billing = $billingsRepository->find($session->metadata->billing_id);
+            if($session->payment_status === 'paid'){
+                $billing->setAmountPaid($session->amount_total/100);
+                $billing->setStatus('paid');
+            }else{
+                $billing->setAmountPaid(0);
+                $billing->setStatus('unpaid');
+            }
+            $entityManager->flush();
+        }
+
+        return new JsonResponse([]);
     }
 
     #[Route('/stripe/checkout_redirect/{billing_token}', name: 'app_payment_stripe_checkout', methods: ['GET'])]

@@ -15,7 +15,7 @@ class StripeService
         $this->stripeClient = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
     }
 
-    public function createCheckoutSession(array $lineItems,string $successUrl = '',string $errorUrl = ''): CheckoutSession
+    public function createCheckoutSession(array $lineItems,string $successUrl = '',string $errorUrl = '',array $metadata = []): CheckoutSession
     {
         return $this->stripeClient->checkout->sessions->create([
             'payment_method_types' => ['card'],
@@ -23,6 +23,7 @@ class StripeService
             'mode' => 'payment',
             'success_url' => $successUrl,
             'cancel_url' => $errorUrl,
+            'metadata' => $metadata
         ]);
     }
 

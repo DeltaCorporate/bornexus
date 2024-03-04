@@ -2,6 +2,7 @@
     {% set badgeColor = 'success' %}
 {% elseif billing.status == 'unpaid' %}
     {% set badgeColor = 'error' %}
+
 {% endif %}
 
 {% if billing.status is not empty %}

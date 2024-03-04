@@ -25,13 +25,10 @@ class BillingStripeService extends StripeService
 
     }
 
-    private function router(#[Autowire] RouterInterface $router)
-    {
-        return $router;
-    }
 
     public function create(string $successUrl = '',string $errorUrl = ''): \Stripe\Checkout\Session{
-
+        if($this->billing->getStatus() === 'paid')
+            return $this->retrieve();
         $billingCompanyCatalogs = $this->billing->getBillingsCompanyCatalogs();
         foreach($billingCompanyCatalogs as $billingCompanyCatalog){
             $this->addItem([
@@ -45,10 +42,12 @@ class BillingStripeService extends StripeService
                 'quantity' => $billingCompanyCatalog->getQuantity()
             ]);
         }
+
         $session = $this->createCheckoutSession(
-            $this->items,
-            $successUrl,
-            $errorUrl
+            lineItems: $this->items,
+            successUrl: $successUrl,
+            errorUrl: $errorUrl,
+            metadata: ['billing_id' => $this->billing->getId()]
         );
         $this->billing->setCheckoutSession($session->id);
 

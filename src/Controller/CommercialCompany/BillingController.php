@@ -76,7 +76,7 @@ class BillingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           if($billing->getPaymentMethod() == 'stripe'){
+           if($billing->getPaymentMethod() == 'stripe' && $billing->getType() != 'quote'){
                $stripe = new BillingStripeService($billing);
                $session = $stripe->create(
                    $this->generateUrl('app_payment_stripe_result',['type' => 'success'],UrlGeneratorInterface::ABSOLUTE_URL),
@@ -84,6 +84,9 @@ class BillingController extends AbstractController
                );
                $entityManager->flush();
            }
+           if($billing->getPaymentMethod() != 'stripe' && $billing->getType() != 'quote')
+               $billingsRepository->updatePriceStatus($billing);
+
             return $this->redirectToRoute('commercial_company_app_billing_index', [], Response::HTTP_SEE_OTHER);
         }
 
