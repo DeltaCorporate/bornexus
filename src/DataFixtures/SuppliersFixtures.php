@@ -23,11 +23,12 @@ class SuppliersFixtures extends Fixture implements DependentFixtureInterface
                 $supplier->setName($faker->company);
                 $supplier->setWebsite($faker->url);
                 $supplier->setCompany($company);
-
+                $supplier->setCreatedAt(new \DateTime());
                 $manager->persist($supplier);
             }
         }
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

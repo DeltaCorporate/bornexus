@@ -1,13 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/dashboard.html.twig' %}
 
-{% block title %}Edit Billing{% endblock %}
+  {% if billing.type == 'quote'  %}
+      {% set title  = 'Éditer le devis' %}
+  {% else %}
+      {% set title  = 'Éditer la facture' %}
+  {% endif %}
+
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Billing</h1>
 
-    {{ include('billing/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_billing_index') }}">back to list</a>
+    <twig:Card>
+        <h1 class="font-semibold text-2xl">{{ title }}</h1>
 
-    {{ include('billing/_delete_form.html.twig') }}
+        {{ component('Billing:BillingForm',{
+            'form': form,
+            'billing': billing
+        }) }}
+
+
+
+    </twig:Card>
+    <a href="{{ path('commercial_company_app_billing_index',{
+        'type': billing.type
+    }) }}"><i class="fa fa-arrow-left"></i> Retour</a>
+
 {% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block title %}Product{% endblock %}
+
+{% block body %}
+    <div class="mb-4">
+        <a  href="{{ path('commercial_company_app_product_index') }}" class="px-4 py-2 bg-darkgrey rounded-lg">
+            <i class="fas fa-arrow-left"></i> Retour à la liste</a>
+        <h1 class="block font-bold text-3xl mt-4">Détails du produit</h1>
+    </div>
+
+    <div class="w-2/3 p-4 bg-neutral rounded-lg">
+        <div class="flex items-center">
+            <img class="w-1/2 mt-6 mb-4" src="{{ vich_uploader_asset(product,'thumbnailFile') }}" alt="productThumbnail">
+            <div>
+                <!-- Name and Price -->
+                <div class="flex items-center mb-2 ml-4">
+                    <h2 class="text-xl font-semibold">{{ product.name }}</h2>
+                    <span class="text-lg font-bold ml-4">{{ product.price }}€</span>
+                </div>
+                <!-- Supplier -->
+                <p class="text-gray-600 mb-2 ml-4">{{ product.supplier.getName() }}</p>
+
+                <!-- Description -->
+                <p class="text-gray-800 ml-4">{{ product.description }}</p>
+            </div>
+        </div>
+
+    <table class="table w-2/3 mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+        <tbody>
+        <tr>
+            <th class="py-2 px-4 border-b border-gray-200">Id</th>
+            <td class="py-2 px-4 border-b border-gray-200">{{ product.id }}</td>
+        </tr>
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200">Published</th>
+                <td class="py-2 px-4 border-b border-gray-200">{{ product.published ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200">Stock</th>
+                <td class="py-2 px-4 border-b border-gray-200">{{ product.stock }}</td>
+            </tr>
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200">Tva</th>
+                <td class="py-2 px-4 border-b border-gray-200">{{ product.tva }}</td>
+            </tr>
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200">Created_at</th>
+                <td class="py-2 px-4 border-b border-gray-200">{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200">Updated_at</th>
+                <td class="py-2 px-4 border-b border-gray-200">{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="flex mt-6 ml-4">
+        <a href="{{ path('commercial_company_app_product_edit', {'id': product.id}) }}">
+            <button type="submit" class="px-4 py-2 mt-2 bg-success rounded-full">Modifier</button>
+        </a>
+        <div>
+            <form method="post" action="{{ path('commercial_company_app_product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                <button type="submit" class="px-4 py-2 mt-2 ml-4 bg-red-500 rounded-full">Supprimer</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

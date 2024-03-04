@@ -1,4 +1,4 @@
-{% use 'form_div_layout.html.twig' %}
+{% use 'tailwind_2_layout.html.twig' %}
 
 
 {%- block form_widget_compound -%}
@@ -18,7 +18,7 @@
 
 
 {%- block widget_attributes -%}
-    {%- set attr = attr|merge({ class: attr.class|default(widget_class|default('bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg')) ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
+    {%- set attr = attr|merge({ class: attr.class|default(widget_class|default('block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg')) ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
     {{- parent() -}}
 {%- endblock widget_attributes -%}
 
@@ -28,6 +28,15 @@
     {{ block('form_widget_simple') }}
     <span class="absolute right-2 top-1/2 text-md">%</span>
 {%- endblock percent_widget -%}
+
+{%- block checkbox_widget -%}
+    {%- set attr = attr|merge({ class: attr.class|default(widget_class|default('block bg-base border-0 placeholder:text-accent focus:border-0 focus:ring-0 outline-none text-text rounded-lg')) ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
+    {{- parent() -}}
+    <label for="{{ id }}" class="text-text text-sm ml-4">{{ label }}</label>
+{%-  endblock checkbox_widget -%}
+
+
+
 
 {%- block form_label -%}
     {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default('block text-text')) }) -%}
@@ -46,6 +55,8 @@
 {%- endblock form_errors -%}
 
 
+
+
 {%- block widget_container_attributes -%}
     {%- if id is not empty %} class="flex flex-row items-center gap-2" id="{{ id }}"{% endif -%}
     {{ block('attributes') }}
@@ -54,9 +65,8 @@
 
 
 
-     
+
         {% block submit_widget %}
-        
             <twig:Button
                     type="submit"
                     color="primary"
@@ -72,6 +82,5 @@
 
 {% block password_widget %}
     {%- set type = type|default('password') -%}
-    {{ block('form_widget_simple') }}
     <i onclick="togglePassword(this)" class="absolute right-2 top-1/2 cursor-pointer fa fa-eye text-lg"></i>
 {% endblock password_widget %}

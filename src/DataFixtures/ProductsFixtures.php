@@ -4,10 +4,8 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\Product;
-use App\Entity\Company;
 use App\Entity\Supplier;
 use App\Entity\Category;
-use App\DataFixtures\CompaniesFixtures;
 use App\DataFixtures\SuppliersFixtures;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\CategoriesFixtures;
@@ -20,33 +18,30 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR'); // Utilisez 'fr_FR' pour les données en français
 
-        $companies = $manager->getRepository(Company::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
         $suppliers = $manager->getRepository(Supplier::class)->findAll();
 
-        foreach ($companies as $company) {
             foreach ($categories as $category) {
                 foreach ($suppliers as $supplier) {
-                    for ($i = 0; $i < 3; $i++) {
+                    for ($i = 0; $i < 4; $i++) {
                         $product = new Product();
                         $product->setName($faker->word);
                         $product->setDescription($faker->sentence);
                         $product->setPrice($faker->randomNumber(2));
                         $product->setPublished($faker->boolean);
                         $product->setStock($faker->randomNumber(2));
-                        $product->setTva($faker->randomFloat(2, 0, 1));
-                        $product->setCreatedAt(new \DateTimeImmutable());
-                        $product->setUpdatedAt(new \DateTimeImmutable());
+                        $product->setTva(['5', '10', '20'][rand(0, 2)]);
                         $product->setCategory($category);
-                        $product->setCompany($company);
                         $product->setSupplier($supplier);
+                        $product->setThumbnail("hero-65e37d4383e54444919534.png");
+                        $product->setCreatedAt(new \DateTime());
                         $manager->persist($product);
                     }
                 }
             }
-        }
 
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

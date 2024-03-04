@@ -1,0 +1,31 @@
+<twig:Card>
+<section>
+        <div class="flex justify-between">
+        <div>
+                <p class="font-semibold text-2xl">{{ title }}</p>
+                <p class="text-sm">{{ description }}</p>
+        </div>
+
+            <div class="flex gap-x-5">
+                <twig:Button
+                        balise='a'
+                        href="{{ routeAction.new.link }}"
+                        color="primary"
+                        weight="font-bold"
+                        radius="rounded-xl"
+                        fontSize="sm"
+                        size="xs"
+                        text="{{ routeAction.new.text }}"
+                />
+
+
+            </div>
+
+
+
+        </div>
+    </section>
+    <section>
+        {{block(outerBlocks.content)}}
+    </section>
+</twig:Card>

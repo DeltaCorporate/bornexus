@@ -1,0 +1,18 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block title %}Ajouter un client{% endblock %}
+
+{% block body %}
+
+    <twig:Card>
+        <div class="mb-4">
+            <a  href="{{ path('commercial_company_app_client_index') }}" class="px-4 py-2 bg-darkgrey rounded-lg">
+                <i class="fas fa-arrow-left"></i> Back to list</a>
+            <h1 class="block font-bold text-3xl mt-4">Ajouter un client</h1>
+            <p class="text-dark text-xs mt-4">
+                Ajouter un client rapidement et facilement en remplissant le formulaire ci-dessous.
+            </p>
+        </div>
+        {{ form(form) }}
+    </twig:Card>
+{% endblock %}

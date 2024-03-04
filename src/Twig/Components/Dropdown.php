@@ -11,7 +11,7 @@ class Dropdown
         public string $text = '',
         public string $color = 'transparent',
         public string $size = 'base',
-        public string $textColor = 'text-text',
+        public string $textColor = 'text-dark',
         public string $fontSize = 'md',
         public string $weight = 'font-medium',
         public string $radius = 'rounded-md',

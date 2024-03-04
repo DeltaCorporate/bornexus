@@ -1,0 +1,10 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block title %}Fournisseurs - Bornenexus{% endblock %}
+
+{% block body %}
+
+    <twig:Card>
+        {{ component('SupplierDatatable') }}
+    </twig:Card>
+{% endblock %}

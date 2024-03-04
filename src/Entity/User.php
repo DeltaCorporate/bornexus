@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Timestampable;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use Timestampable;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
     #[ORM\Column(length: 45, nullable: true)]
@@ -40,7 +42,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 2)]
+    #[ORM\Column(length: 255)]
+    // @Assert\Country
     private ?string $country = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -53,18 +56,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $verified_at = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Company $company = null;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Billing::class)]
     private Collection $billings;
+
+    #[ORM\Column(length: 90, nullable: true)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 15, nullable: true)]
+    private ?string $phone = null;
 
     public function __construct()
     {
@@ -146,6 +149,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstname;
     }
 
+    public function getFullName(): string
+    {
+        return  strtoupper($this->lastname)  . ' ' . ucfirst(strtolower($this->firstname));
+    }
     public function setFirstname(?string $firstname): static
     {
         $this->firstname = $firstname;
@@ -225,45 +232,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-        /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtAuto(): void {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtAuto(): void {
-        $this->setUpdatedAt(new \DateTimeImmutable());
-    }
-
     public function getCompany(): ?Company
     {
         return $this->company;
@@ -272,7 +240,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
-
         return $this;
     }
 
@@ -302,6 +269,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $billing->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

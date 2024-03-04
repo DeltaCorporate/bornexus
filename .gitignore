@@ -1,3 +1,4 @@
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -7,7 +8,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-.vscode
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
@@ -17,41 +18,10 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-./public/tmp.css
-###> MacOs gitignore ###
-.DS_Store
-.AppleDouble
-.LSOverride
-###< MacOs gitignore ###
 
-###> Windows gitignore ###
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
-###< Windows gitignore ###
-
-###> IDE gitignore ###
-# VS CODE
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
-.history/
-*.vsix
-
-# PHPStorm
+.composer.lock
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###
 .idea/
-.idea_modules/
-###< IDE gitignore ###
-
-###> pentatrion/vite-bundle ###
-/node_modules/
-###< pentatrion/vite-bundle ###
-.htaccess
-public/.htaccess
-.env
-composer.lock
-package-lock.json

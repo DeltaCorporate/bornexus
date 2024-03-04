@@ -17,16 +17,21 @@
     </head>
     <body class="bg-base">
         <main class="flex flex-row max-w-full">
-          <twig:Sidebar 
-            title="BorneNexus"
-            textColor="text"
-            textColorDropdown="accent"
-            backgroundColor="neutral"
-            hoverColor="primary"
-            logoSizeRem="2.75"
-            logo="{{ asset('images/logo.png') }}"
-            companyName="BorneNexus Inc."
-          />
+            {{
+            component(
+                'Sidebar',
+                {
+                    title: 'BorneNexus',
+                    textColor: 'text',
+                    textColorDropdown: 'accent',
+                    backgroundColor: 'neutral',
+                    hoverColor: 'primary',
+                    logoSizeRem: '2.75',
+                    logo: asset('images/logo.png'),
+                    companyName: 'BorneNexus Inc.'
+                }
+            )
+            }}
             <section class="block w-full p-3 h-screen overflow-auto">
                 {% block body %}
                 
@@ -40,7 +45,7 @@
             <h1 class="text-lg font-semibold">Titre de niveau 4</h1>
             <h1 class="text-md font-bold">Titre de niveau 5</h1>
             <h1 class="text-sm font-bold">Titre de niveau 6</h1>
-            <p class="text-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+            <p class="text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
             <small class="text-sm">Petit texte</small>
           </section>
           

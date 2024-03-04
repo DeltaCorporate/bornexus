@@ -1,0 +1,51 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+<main class="flex flex-row max-w-full">
+    {{
+        component(
+            'Sidebar',
+            {
+                title: 'BorneNexus',
+                textColor: 'text',
+                textColorDropdown: 'accent',
+                backgroundColor: 'neutral',
+                hoverColor: 'primary',
+                logoSizeRem: '2.75',
+                logo: asset('images/logo.png'),
+                companyName: 'BorneNexus Inc.'
+            }
+        )
+    }}
+    <section class="block w-full h-screen overflow-auto p-3">
+
+        <section>
+            <header class="p-3 bg-neutral min-h-[70px] py-4 shadow-lg rounded-2xl flex items-center justify-end">
+                <div class="relative inline-block text-left">
+                    <div>
+                        <button type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                            <i class="fa fa-gear"></i>
+                        </button>
+                    </div>
+
+                    <div id="menu" class="absolute hidden z-[9999] bg-neutral right-0 z-10 mt-2 w-56 origin-top-right rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div class="py-1" role="none">
+                            <form method="POST" action="{{ path('app_logout') }}" role="none">
+                                <button type="submit" class="text-gray-700 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+        </section>
+        <main class="mt-4">
+
+            {% block body %}
+
+            {% endblock %}
+        </main>
+
+    </section>
+</main>
+{% endblock %}

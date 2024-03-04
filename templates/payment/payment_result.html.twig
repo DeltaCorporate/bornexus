@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html.twig' %}
+
+
+{% block title %}Paiement résultat{% endblock %}
+
+
+{% block content %}
+    <div class="flex justify-center items-center mt-6">
+        {% if(type == 'success') %}
+            <twig:Alert text="Bravo paiement réussi !"/>
+        {% else %}
+            <twig:Alert text="Désolé paiement échoué !" color="error" textColor="text-base"/>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block title %}Clients - Bornenexus{% endblock %}
+
+{% block body %}
+
+    <twig:Card>
+        {{ component('ClientDatatable') }}
+    </twig:Card>
+{% endblock %}

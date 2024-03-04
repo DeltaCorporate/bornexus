@@ -1,47 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/dashboard.html.twig' %}
 
 {% block title %}Billing index{% endblock %}
 
 {% block body %}
-    <h1>Billing index</h1>
+    <div class="flex justify-center p-5">
+            <twig:Tab:TabGroup>
+                {% for type,text in typeList %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Status</th>
-                <th>Type</th>
-                <th>Emited_at</th>
-                <th>Payment_method</th>
-                <th>Discount</th>
-                <th>Updated_at</th>
-                <th>Created_at</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for billing in billings %}
-            <tr>
-                <td>{{ billing.id }}</td>
-                <td>{{ billing.status }}</td>
-                <td>{{ billing.type }}</td>
-                <td>{{ billing.emitedAt ? billing.emitedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ billing.paymentMethod }}</td>
-                <td>{{ billing.discount }}</td>
-                <td>{{ billing.updatedAt ? billing.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ billing.createdAt ? billing.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_billing_show', {'id': billing.id}) }}">show</a>
-                    <a href="{{ path('app_billing_edit', {'id': billing.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                <twig:Tab:Tab
+                    text="{{ text}}"
+                    href="{{ path('commercial_company_app_billing_index',{
+                        'type': type
+                    }) }}"
+                    active="{{ type == typeSelected }}"
+                />
+                {% endfor %}
 
-    <a href="{{ path('app_billing_new') }}">Create new</a>
+            </twig:Tab:TabGroup>
+    </div>
+    <twig:Billing:BillingCard
+        title="Billing card"
+        description="Billing card description"
+        :routeAction="{
+            'new': {
+              'link': path('commercial_company_app_billing_new'),
+              'text': 'Créer une Facturation'
+            }
+        }"
+    >
+
+
+        {{ component('Billing:BillingTable') }}
+
+ 
+
+    </twig:Billing:BillingCard>
+
 {% endblock %}
