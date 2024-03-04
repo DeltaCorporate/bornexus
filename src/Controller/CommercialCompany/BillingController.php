@@ -5,6 +5,7 @@ namespace App\Controller\CommercialCompany;
 use App\Entity\Billing;
 use App\Entity\User;
 use App\Form\BillingType;
+use App\Pdf\BillingPdf;
 use App\Repository\BillingsRepository;
 use App\Service\BillingStripeService;
 use App\Service\UserService;
@@ -99,6 +100,16 @@ class BillingController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}/pdf', name: 'app_billing_pdf', )]
+    public function showPdf(Request $request, Billing $billing, EntityManagerInterface $entityManager)
+    {
+
+        $pdf = new BillingPdf($billing);
+        $pdf->generate();
+
+    }
+
 
     #[Route('/{id}/delete', name: 'app_billing_delete', methods: ['DELETE'])]
     public function delete(Request $request, Billing $billing, EntityManagerInterface $entityManager): Response
