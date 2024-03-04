@@ -32,6 +32,7 @@ final class ClientDatatable
 
     public function __construct(private readonly Security $security, private readonly UserRepository $userRepository)
     {
+
         $this->total = $this->userRepository->findByCompanyAndRole($this->security->getUser()->getCompany(), 'ROLE_USER')->count();
         $this->totalPages = ceil($this->total / $this->itemsPerPage);
         $this->data = $this->getData();

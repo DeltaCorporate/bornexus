@@ -45,7 +45,7 @@ class BillingType extends AbstractType
             ])
         ;
 
-        if($options['data']->getType() === 'invoice'){
+        if($options['data']->getType() === 'invoice' && $options['data']->getPaymentMethod() != 'stripe'){
             $builder->add('amount_paid',NumberType::class,[
                 'label' => 'Montant payé en €',
                 'html5' => true,

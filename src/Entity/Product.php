@@ -47,20 +47,8 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category = null;
-
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Supplier $supplier = null;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
-    private Collection $companyCatalogs;
-
-    #[ORM\Column(length: 6, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: '2')]
     private ?string $tva = null;
-
 
     #[UploadableField(mapping: 'product_thumbnails', fileNameProperty: 'thumbnail')]
     #[Assert\Image(maxSize:10e6, mimeTypes: ['image/jpeg', 'image/png'], mimeTypesMessage: 'Please upload a valid image file')]
@@ -68,6 +56,19 @@ class Product
 
     #[ORM\Column()]
     private ?string $thumbnail = null;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
+
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Supplier $supplier = null;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: CompanyCatalog::class)]
+    private Collection $companyCatalogs;
 
     public function __construct()
     {
@@ -139,6 +140,18 @@ class Product
         return $this;
     }
 
+    public function getTva(): ?string
+    {
+        return $this->tva;
+    }
+
+    public function setTva(string $tva): static
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -189,18 +202,6 @@ class Product
                 $companyCatalog->setProduct(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getTva(): ?float
-    {
-        return (float)$this->tva;
-    }
-
-    public function setTva(?string $tva): static
-    {
-        $this->tva = $tva;
 
         return $this;
     }

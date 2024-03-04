@@ -11,13 +11,29 @@
                     data-action="click->live#action"
                     data-live-action-param="createInvoiceFromQuote"
             />
-        </div>
 
+        </div>
+    {% else %}
+        {% if billing.checkoutSession is not null and billing.status == 'unpaid' %}
+            <twig:Button
+                    text="Voir le lien de paiement"
+                    balise="a"
+                    target="_blank"
+                    href="{{ path('app_payment_stripe_checkout',{
+                        'billing_token': billing.getBillingToken()
+                    }) }}"
+                    variant="outline"
+                    color="secondary"
+                    fontSize="sm"
+                    size="sm"
+
+            />
+        {% endif %}
     {% endif %}
 
     {{ form_start(form) }}
 
-    {% if form.amount_paid is defined %}
+    {% if form.amount_paid is defined and billing.paymentMethod != 'stripe'%}
 
         <div class="flex justify-center py-2">
                 {{ form_row(form.amount_paid) }}

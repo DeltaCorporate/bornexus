@@ -22,6 +22,8 @@
 
 
     </twig:Card>
-    <a href="{{ path('commercial_company_app_billing_index') }}"><i class="fa fa-arrow-left"></i> Retour</a>
+    <a href="{{ path('commercial_company_app_billing_index',{
+        'type': billing.type
+    }) }}"><i class="fa fa-arrow-left"></i> Retour</a>
 
 {% endblock %}

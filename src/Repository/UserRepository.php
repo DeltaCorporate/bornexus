@@ -5,13 +5,11 @@ namespace App\Repository;
 use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use Doctrine\Common\Collections\Criteria;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @extends ServiceEntityRepository<User>
  *
@@ -43,7 +41,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function findByCompanyAndRole(Company $company, array|string $roles,int $limit = null, int $offset = null): ArrayCollection
+    public function findByCompanyAndRole(Company $company, array|string $roles): ArrayCollection
     {
         if (is_string($roles))
             $roles = [$roles];
@@ -60,10 +58,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 $qb->setParameter($paramName, '%"'.$role.'"%');
         }
         $qb->andWhere($orX);
-        if ($limit)
-            $qb->setMaxResults($limit);
-        if ($offset)
-            $qb->setFirstResult($offset);
 
         return new ArrayCollection($qb->getQuery()->getResult());
     }
@@ -72,4 +66,28 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->remove($user);
         $this->getEntityManager()->flush();
     }
+//    /**
+//     * @return UserService[] Returns an array of UserService objects
+//     */
+//    public function findByExampleField($value): array
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->andWhere('u.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('u.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
+
+//    public function findOneBySomeField($value): ?User
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->andWhere('u.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }

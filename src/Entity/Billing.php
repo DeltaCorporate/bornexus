@@ -7,15 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Traits\Timestampable;
+use Gedmo\Timestampable\Traits\Timestampable;
+use Symfony\Component\Uid\Uuid;
 
-
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BillingsRepository::class)]
 class Billing
 {
-
     use Timestampable;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,7 +27,7 @@ class Billing
     private ?string $type = null;
 
     #[ORM\Column]
-    private ?\DateTime $emited_at = null;
+    private ?\DateTimeImmutable $emited_at = null;
 
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $payment_method = null;
@@ -56,18 +55,22 @@ class Billing
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3, nullable: true)]
     private ?string $amount_paid = null;
+
+    #[ORM\Column(length: 400, nullable: true)]
+    private ?string $checkout_session = null;
+
+    #[ORM\Column(type: Types::GUID)]
+    private ?string $uuid = null;
     
      const STATUS_LABEL = [
         'paid' => 'Payée',
         'unpaid' => 'Non payée',
-        'pending' => 'En cours',
          '' => ''
     ];
 
     const PAYMENT_METHOD = [
         'stripe' => 'Stripe',
-        'credit_card' => 'Carte de crédit',
-        'paypal' => 'Paypal'
+        'deposit' => 'Virement'
     ];
     const TYPE = [
         'quote' => 'Devis',
@@ -75,7 +78,7 @@ class Billing
     ];
     public function __construct()
     {
-
+        $this->setUuid(Uuid::v4());
         $this->billingsCompanyCatalogs = new ArrayCollection();
     }
 
@@ -108,12 +111,12 @@ class Billing
         return $this;
     }
 
-    public function getEmitedAt(): ?\DateTime
+    public function getEmitedAt(): ?\DateTimeImmutable
     {
         return $this->emited_at;
     }
 
-    public function setEmitedAt(\DateTime $emited_at): static
+    public function setEmitedAt(\DateTimeImmutable $emited_at): static
     {
         $this->emited_at = $emited_at;
 
@@ -127,7 +130,10 @@ class Billing
 
     public function setPaymentMethod(?string $payment_method): static
     {
+
         $this->payment_method = $payment_method;
+        if($payment_method != 'stripe')
+            $this->setCheckoutSession(null);
 
         return $this;
     }
@@ -215,10 +221,9 @@ class Billing
     /**
      * Set the value of priceVat
      *
-     * @param $priceVat
      * @return  self
-     */
-    public function setPriceVat($priceVat): static
+     */ 
+    public function setPriceVat($priceVat)
     {
         $this->priceVat = $priceVat;
 
@@ -236,10 +241,9 @@ class Billing
     /**
      * Set the value of priceDiscount
      *
-     * @param float $priceDiscountOfLines
      * @return  self
-     */
-    public function setPriceDiscount(float $priceDiscountOfLines): static
+     */ 
+    public function setPriceDiscount(float $priceDiscountOfLines)
     {
         $this->priceDiscountOfLines = $priceDiscountOfLines;
 
@@ -251,7 +255,7 @@ class Billing
      */ 
     public function getPriceTtc(): float
     {   
-        return $this->priceTtc;
+        return static::round($this->priceTtc);
     }
 
 
@@ -259,14 +263,12 @@ class Billing
     {
         return $this->getPriceTtc() - $this->getDiscountPrice();
     }
-
     /**
      * Set the value of priceTtc
      *
-     * @param $priceTtc
      * @return  self
-     */
-    public function setPriceTtc($priceTtc): static
+     */ 
+    public function setPriceTtc($priceTtc)
     {
         $this->priceTtc = $priceTtc;
 
@@ -278,21 +280,19 @@ class Billing
      */ 
     public function getPriceHt(): float
     {
-        return $this->priceHt;
+        return static::round($this->priceHt);
     }
 
     public function getDiscountPrice(): float
     {
-        return $this->getDiscount()/100 * $this->getPriceTtc();
+        return static::round($this->getDiscount()/100 * $this->getPriceTtc());
     }
-
     /**
      * Set the value of priceTtc
      *
-     * @param $priceHt
      * @return  self
-     */
-    public function setPriceHt($priceHt): static
+     */ 
+    public function setPriceHt($priceHt)
     {
         $this->priceHt = $priceHt;
 
@@ -344,6 +344,45 @@ class Billing
     public function setAmountPaid(?string $amount_paid): static
     {
         $this->amount_paid = $amount_paid;
+        return $this;
+    }
+
+
+    public function getCheckoutSession(): ?string
+    {
+        return $this->checkout_session;
+    }
+
+    public function setCheckoutSession(?string $checkout_session): static
+    {
+        $this->checkout_session = $checkout_session;
+
+        return $this;
+    }
+
+    public static function round($price){
+        return round($price,2);
+    }
+
+    public function getBillingToken(): string{
+        return $this->getUuid() ."_". $this->getId();
+    }
+    public static function extractToken(string $token): array{
+        $token = explode("_",$token);
+        return [
+            'id' => $token[1] ?? null,
+            'uuid' => $token[0] ?? null
+        ];
+    }
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): static
+    {
+        $this->uuid = $uuid;
+
         return $this;
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\BillingType;
 use App\Form\ClientReadOnlyType;
 use App\Repository\BillingsRepository;
+use App\Service\BillingStripeService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -40,7 +42,8 @@ class BillingForm extends AbstractController
 
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private LiveResponder $responder
+        private LiveResponder $responder,
+private BillingsRepository $billingsRepository
        ){
         $this->entityManager = $entityManager;
         $this->responder = $responder;
@@ -77,7 +80,20 @@ class BillingForm extends AbstractController
     #[LiveListener('line_item:doRefresh')]
     public function refreshBilling(): void
     {
-        $this->billing = $this->entityManager->getRepository(Billing::class)->find($this->billing->getId());
+        $billingRepo = $this->entityManager->getRepository(Billing::class);
+        $this->billing = $billingRepo->find($this->billing->getId());
+        if($this->billing->getPaymentMethod() == 'stripe' && $this->billing->getType() != 'quote'){
+            $stripe = new BillingStripeService($this->billing);
+            $session = $stripe->create(
+                $this->generateUrl('app_payment_stripe_result',['type' => 'success'],UrlGeneratorInterface::ABSOLUTE_URL),
+                $this->generateUrl('app_payment_stripe_result',['type' => 'error'],UrlGeneratorInterface::ABSOLUTE_URL)
+            );
+            $this->entityManager->flush();
+        }
+
+        if($this->billing->getPaymentMethod() != 'stripe' && $this->billing->getType() != 'quote')
+            $this->billingsRepository->updatePriceStatus($this->billing);
+
         $this->billing->calculTotalPrices();
     }
     #[LiveAction]
@@ -106,10 +122,13 @@ class BillingForm extends AbstractController
         $entityManager = $this->entityManager;
         $billingRepository = $entityManager->getRepository(Billing::class);
         $billing = $billingRepository->find($this->billing->getId());
+        $type = $billing->getType();
         $billingRepository->delete($billing);
         $entityManager->flush();
 
-        return $this->redirectToRoute('commercial_company_app_billing_index');
+        return $this->redirectToRoute('commercial_company_app_billing_index',[
+            'type' => $type
+        ]);
     }
 
     private function getDataModelValue(): ?string

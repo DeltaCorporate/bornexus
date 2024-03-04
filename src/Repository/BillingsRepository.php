@@ -39,10 +39,8 @@ class BillingsRepository extends ServiceEntityRepository
             $priceTtcDiscounted = $billing->getPriceTtcDiscounted();
             $amountPaid = (float)$billing->getAmountPaid();
 
-            if ($amountPaid == 0)
+            if ($amountPaid < $priceTtcDiscounted)
                 $billing->setStatus('unpaid');
-            elseif ($amountPaid <= $priceTtcDiscounted)
-                $billing->setStatus('pending');
             else
                 $billing->setStatus('paid');
         }
@@ -53,12 +51,21 @@ class BillingsRepository extends ServiceEntityRepository
         return $billing;
     }
 
-    public function listPaginationQuery(){
+    public function getBillingsByType(string $type = 'quote'){
         return $this->createQueryBuilder('b')
             ->where('b.company = :company')
-            ->setParameter('company', $this->security->getUser()->getCompany())
+            ->andWhere('b.type = :type')
+            ->setParameters([
+                'company' => $this->security->getUser()->getCompany(),
+                'type' => $type
+            ])
             ->orderBy('b.id', 'ASC')
             ->getQuery();
+    }
+
+    public function getBillingFromToken(string $billingToken): ?Billing{
+        $token = Billing::extractToken($billingToken);
+        return $this->findOneBy(['id' => $token['id'],'uuid' => $token['uuid']]);
     }
 
     /**
@@ -77,6 +84,10 @@ class BillingsRepository extends ServiceEntityRepository
 
         $clonedBilling = clone $billing;
         $clonedBilling->setType($type);
+        if($type == 'invoice') {
+            $clonedBilling->setStatus('unpaid');
+            $clonedBilling->setAmountPaid(0);
+        }
         $this->entityManager->persist($clonedBilling);
         $this->entityManager->flush();
 

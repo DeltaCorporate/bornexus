@@ -39,8 +39,8 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $superAdmin->setZip(rand(10000, 99999));
         $superAdmin->setVerificationToken($faker->md5);
         $superAdmin->setVerifiedAt(new \DateTimeImmutable());
-        $superAdmin->setCreatedAt(new \DateTimeImmutable());
-        $superAdmin->setUpdatedAt(new \DateTimeImmutable());
+        $superAdmin->setCreatedAt(new \DateTime());
+        $superAdmin->setUpdatedAt(new \DateTime());
         $superAdmin->setCompany($companies[0]);
         $manager->persist($superAdmin);
         foreach ($companies as $company) {
@@ -59,8 +59,8 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
                 $user->setZip(rand(10000, 99999));
                 $user->setVerificationToken($faker->md5);
                 $user->setVerifiedAt(new \DateTimeImmutable());
-                $user->setCreatedAt(new \DateTimeImmutable());
-                $user->setUpdatedAt(new \DateTimeImmutable());
+                $user->setCreatedAt(new \DateTime());
+                $user->setUpdatedAt(new \DateTime());
                 $user->setCompany($company);
 
                 $manager->persist($user);
