@@ -106,7 +106,7 @@ class BillingController extends AbstractController
     {
 
         $pdf = new BillingPdf($billing);
-        return $pdf->generate();
+        return new Response($pdf->generate());
 
     }
 
