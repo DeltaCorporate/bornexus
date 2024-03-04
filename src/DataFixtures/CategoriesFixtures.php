@@ -22,7 +22,7 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
                 $category->setName($faker->word);
                 $category->setDescription($faker->sentence);
                 $category->setCompany($company);
-
+                $category->setCreatedAt(new \DateTime());
                 $manager->persist($category);
             }
         }

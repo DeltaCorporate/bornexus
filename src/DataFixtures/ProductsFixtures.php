@@ -34,6 +34,7 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
                         $product->setCategory($category);
                         $product->setSupplier($supplier);
                         $product->setThumbnail("hero-65e37d4383e54444919534.png");
+                        $product->setCreatedAt(new \DateTime());
                         $manager->persist($product);
                     }
                 }
